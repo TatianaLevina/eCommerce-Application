@@ -5,3 +5,4 @@
 
 echo pre-commit hook is started...
 npx lint-staged
+npm run coverage
