@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1714495086927" clover="3.2.0">
-  <project timestamp="1714495086927" name="All files">
-    <metrics statements="36" coveredstatements="3" conditionals="3" coveredconditionals="1" methods="3" coveredmethods="1" elements="42" coveredelements="5" complexity="0" loc="36" ncloc="36" packages="1" files="3" classes="3"/>
+<coverage generated="1714501384380" clover="3.2.0">
+  <project timestamp="1714501384380" name="All files">
+    <metrics statements="40" coveredstatements="12" conditionals="4" coveredconditionals="3" methods="4" coveredmethods="3" elements="48" coveredelements="18" complexity="0" loc="40" ncloc="40" packages="1" files="3" classes="3"/>
     <file name="counter.ts" path="D:\проекты\eCommerce-Application\src\counter.ts">
-      <metrics statements="9" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
-      <line num="2" count="0" type="stmt"/>
-      <line num="3" count="0" type="stmt"/>
-      <line num="4" count="0" type="stmt"/>
-      <line num="5" count="0" type="stmt"/>
-      <line num="6" count="0" type="stmt"/>
-      <line num="7" count="0" type="stmt"/>
-      <line num="8" count="0" type="stmt"/>
-      <line num="9" count="0" type="stmt"/>
+      <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="8" count="1" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
     </file>
     <file name="main.ts" path="D:\проекты\eCommerce-Application\src\main.ts">
-      <metrics statements="24" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <metrics statements="28" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
       <line num="2" count="0" type="stmt"/>
       <line num="3" count="0" type="stmt"/>
@@ -40,6 +40,10 @@
       <line num="22" count="0" type="stmt"/>
       <line num="23" count="0" type="stmt"/>
       <line num="24" count="0" type="stmt"/>
+      <line num="25" count="0" type="stmt"/>
+      <line num="26" count="0" type="stmt"/>
+      <line num="27" count="0" type="stmt"/>
+      <line num="28" count="0" type="stmt"/>
     </file>
     <file name="sum.ts" path="D:\проекты\eCommerce-Application\src\sum.ts">
       <metrics statements="3" coveredstatements="3" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
