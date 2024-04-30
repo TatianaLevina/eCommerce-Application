@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1714495002944" clover="3.2.0">
-  <project timestamp="1714495002944" name="All files">
+<coverage generated="1714495086927" clover="3.2.0">
+  <project timestamp="1714495086927" name="All files">
     <metrics statements="36" coveredstatements="3" conditionals="3" coveredconditionals="1" methods="3" coveredmethods="1" elements="42" coveredelements="5" complexity="0" loc="36" ncloc="36" packages="1" files="3" classes="3"/>
     <file name="counter.ts" path="D:\проекты\eCommerce-Application\src\counter.ts">
       <metrics statements="9" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
