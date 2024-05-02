@@ -1,5 +1,5 @@
 module.exports = {
-  // pattern: /(feat|fix|refactor)\/FC-\d{2}_[a-z-]+/,
+  // pattern: /^dev\/[a-z0-9]+\/RSS-ECOMM-\d{1,2}_\d{2}(-\d{1,2}_\d{2})?-[a-z-]+/,
   pattern: /.+/,
   errorMsg: 'Branch name is wrong format.',
 };
