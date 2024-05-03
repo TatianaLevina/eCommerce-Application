@@ -23,6 +23,7 @@ module.exports = {
           },
         ],
         '@typescript-eslint/consistent-type-imports': 'error',
+        'no-console': 'off',
       },
       noInlineConfig: true,
     },
