@@ -1,5 +1,25 @@
 # eCommerce-Application
 
+## <a id="description">Project description</a>
+
+#### Using technologies:
+
+We use <img src="https://vitejs.dev/logo.svg" alt="" style="width: 16px; height: 16px;"> [Vite](https://vitejs.dev/) to set up and build the project, it is a modern, fast and efficient tool.
+
+We use <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" alt="" style="width: 16px; height: 16px;"> [TypeScript](https://www.typescriptlang.org/) to write code because it is exceptionally good for projects and eliminates a whole category of errors at the coding stage. This saves the team time and resources.
+
+We use the <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sass_Logo_Color.svg/1280px-Sass_Logo_Color.svg.png" alt="" style="width: 16px; height: 16px;"> [SASS](https://sass-lang.com/) preprocessor because it allows us to extend the capabilities of CSS.
+
+We use <img src="https://vitest.dev/logo-shadow.svg" alt="" style="width: 16px; height: 16px;"> [Vitest](https://vitest.dev/) to test the code base. It's easily compatible with the Vite builder, quick to set up, and has excellent documentation.
+
+We use the <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/ESLint_logo.svg/1200px-ESLint_logo.svg.png" alt="" style="width: 16px; height: 16px;"> [ESLint](https://eslint.org/) linter to check the code. It is effective and simple.
+
+For formatting together with ESLint we use <img src="https://prettier.io/icon.png" alt="" style="width: 16px; height: 16px;"> [Prettier](https://prettier.io/). This gives an excellent effect. All code looks readable and uniform.
+
+We use 🐶 [Husky](https://typicode.github.io/husky/) to run scripts before adding code to the repository. This ensures that the code in the repository is clean.
+
+---
+
 ## <a id="instructions">Setup instructions</a>
 
 1. To install the project, use one of two methods: 
