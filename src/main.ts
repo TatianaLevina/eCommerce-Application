@@ -1,4 +1,4 @@
-import './style.css';
+import './app/_default.scss';
 
 export function main() {
   const appEl = document.createElement('div');
