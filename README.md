@@ -4,6 +4,10 @@
 
 #### Using technologies:
 
+We are using the <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" alt="" style="width: 20px; height: 16px;"> [React](https://react.dev/) to set up and build the project, it is a modern, fast and efficient tool.
+
+For routing we use the library <img src="https://cdn.freebiesupply.com/logos/large/2x/react-router-logo-png-transparent.png" alt="" style="width: 24px; height: 16px;"> [React Router](https://reactrouter.com/en/main). It complements React perfectly and works great for small projects.
+
 We use <img src="https://vitejs.dev/logo.svg" alt="" style="width: 16px; height: 16px;"> [Vite](https://vitejs.dev/) to set up and build the project, it is a modern, fast and efficient tool.
 
 We use <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" alt="" style="width: 16px; height: 16px;"> [TypeScript](https://www.typescriptlang.org/) to write code because it is exceptionally good for projects and eliminates a whole category of errors at the coding stage. This saves the team time and resources.
