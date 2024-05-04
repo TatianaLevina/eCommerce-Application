@@ -2,6 +2,12 @@
 
 ## <a id="description">Project description</a>
 
+### Description 
+
+eCommerce-App is an application for shopping and spending your free time. With our application, you can immerse yourself in the world of your desires and make purchases comfortably. Polite couriers will be happy to deliver.
+The application allows you to make purchases without authorization. However, a cozy user account will give you the greatest pleasure from shopping literally in one click.
+The main goal of our project is to introduce customers to goods from all over the world and make purchasing goods an interesting and exciting experience.
+
 #### Using technologies:
 
 We use <img src="https://e7.pngegg.com/pngimages/993/887/png-clipart-commercetools-gmbh-application-programming-interface-e-commerce-business-marketing-commercetools-gmbh-application-programming-interface.png" alt="" style="width: 20px; height: 16px;"> [CommerceTools](https://commercetools.com/) as a backend. It is the leading composable commerce platform for speed, simplicity and scalability.
