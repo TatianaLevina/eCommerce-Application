@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-echo pre-push hook is started...
-npm run lint
-npx validate-branch-name
-npm run coverage

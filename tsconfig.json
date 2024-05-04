@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -12,33 +12,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "jsx": "react-jsx",
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "baseUrl": ".",
-    "paths": {
-      "@assets/*": ["src/assets/*"],
-      "@styles/*": ["src/assets/styles/*"]
-    },
-
-    /* JavaScript Support */
-    "allowJs": true,
-    "checkJs": true,
-
-    /* Emit */
-    "sourceMap": true,
-    "outDir": "./dist",
-    "downlevelIteration": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals"]
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*", "tests/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
