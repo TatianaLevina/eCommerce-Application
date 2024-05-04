@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Home from '../src/Pages/Home';
+import Home from './Home';
 
 describe('Home', () => {
   test('should render Heading', () => {
