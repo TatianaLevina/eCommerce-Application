@@ -26,7 +26,12 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+
+    "paths": {
+      "@/*": ["./src/*"],
+      "@pages/*": ["./src/pages/*"]
+    }
   },
   "include": ["src/**/*", ".eslintrc.cjs", "tests/**/*"],
   "exclude": ["node_modules"],
