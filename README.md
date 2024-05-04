@@ -4,6 +4,8 @@
 
 #### Using technologies:
 
+We use <img src="https://e7.pngegg.com/pngimages/993/887/png-clipart-commercetools-gmbh-application-programming-interface-e-commerce-business-marketing-commercetools-gmbh-application-programming-interface.png" alt="" style="width: 20px; height: 16px;"> [CommerceTools](https://commercetools.com/) as a backend. It is the leading composable commerce platform for speed, simplicity and scalability.
+
 We are using the <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" alt="" style="width: 20px; height: 16px;"> [React](https://react.dev/) to set up and build the project, it is a modern, fast and efficient tool.
 
 For routing we use the library <img src="https://cdn.freebiesupply.com/logos/large/2x/react-router-logo-png-transparent.png" alt="" style="width: 24px; height: 16px;"> [React Router](https://reactrouter.com/en/main). It complements React perfectly and works great for small projects.
