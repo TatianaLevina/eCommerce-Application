@@ -1,8 +1,8 @@
 import './App.scss';
 import { BrowserRouter, Link, Routes, Route } from 'react-router-dom';
-import Home from '@/pages/Home';
-import About from '@/pages/About';
-import Users from '@/pages/Users';
+import Home from '@/pages/Home/Home';
+import About from '@/pages/About/About';
+import Users from '@/pages/Users/Users';
 
 function App() {
   return (
