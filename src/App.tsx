@@ -31,7 +31,16 @@ function App() {
         <Routes>
           <Route path="/about" element={<About />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <Login
+                onLogin={(value) => {
+                  console.log('Success', value);
+                }}
+              />
+            }
+          />
           <Route path="/" element={<Home />} />
         </Routes>
       </main>

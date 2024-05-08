@@ -1,14 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import Login from '@pages/Login/Login';
-import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('Login tests', () => {
-  const formTestId = 'qwueyque8723hq8w';
-  let root: ReactDOM.Root | null;
-  let container: HTMLElement | null = null;
-
-  beforeEach(() => {
+  beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: vitest.fn().mockImplementation((query) => ({
@@ -22,31 +17,60 @@ describe('Login tests', () => {
         dispatchEvent: vitest.fn(),
       })),
     });
-    container = document.createElement('div');
-    container.id = 'div_root';
-    document.body.append(container);
-    root = ReactDOM.createRoot(container);
-    document.body.appendChild(container);
-    render(<Login data-testid={formTestId} />, { wrapper: BrowserRouter });
   });
 
-  afterEach(() => {
-    root?.unmount();
-    container?.remove();
-    container = null;
-  });
+  describe('Render element', () => {
+    const formTestId = 'qwueyque8723hq8w';
+    let container: HTMLElement | null = null;
 
-  test('should render Login', () => {
-    // Arrange
-    const el = screen.findByTestId(formTestId);
-    // Act
-    // Assert
-    expect(el).toBeDefined();
-  });
+    beforeEach(() => {
+      container = document.createElement('div');
+      container.id = 'div_root';
+      document.body.append(container);
+    });
 
-  test('should be HTMLFormElement', () => {
-    const el = screen.findByTestId(formTestId);
+    afterEach(() => {
+      container?.remove();
+      container = null;
+    });
 
-    expect(el).toBeInstanceOf(Promise<HTMLInputElement>);
+    test('should render Login', () => {
+      act(() => {
+        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
+          wrapper: BrowserRouter,
+          container: container!,
+        });
+      });
+
+      const el = container?.getElementsByTagName('form');
+
+      expect(el).toBeDefined();
+    });
+
+    test('contains HTMLFormElement', () => {
+      act(() => {
+        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
+          wrapper: BrowserRouter,
+          container: container!,
+        });
+      });
+
+      const el = container?.querySelector('form');
+
+      expect(el).toBeInstanceOf(HTMLElement);
+    });
+
+    test('contains inputs', () => {
+      act(() => {
+        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
+          wrapper: BrowserRouter,
+          container: container!,
+        });
+      });
+
+      const els = container?.querySelectorAll('input');
+
+      expect(els?.length).toBe(2);
+    });
   });
 });
