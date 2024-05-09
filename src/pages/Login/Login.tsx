@@ -55,7 +55,7 @@ export default function Login(props: LoginProps) {
             {
               pattern: /^(?!\s+)(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}(?!\s+)$/,
               message:
-                'Password is too easy. The password must be at least 8 characters. Password must contain at least one uppercase and at least one lowercase letters. Password must contain at least one digit. Password must contain at least one special character. Password must not contain leading or trailing whitespace.',
+                'Password is too easy. It must contain at least one uppercase, lowercase letters, digit and special character. Password must NOT contain leading or trailing whitespace.',
             },
           ]}
         >
