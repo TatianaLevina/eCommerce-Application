@@ -10,9 +10,25 @@ type FieldType = {
   birdth?: dayjs.Dayjs;
 };
 
+type Addresses = {
+  adresses: BaseAddress[];
+  defaultShippingAddress: number | null;
+  shippingAddresses: number[];
+  defaultBillingAddress: number | null;
+  billingAddresses: number[];
+};
+
+const addr: Addresses = {
+  adresses: [],
+  defaultShippingAddress: null,
+  defaultBillingAddress: null,
+  shippingAddresses: [],
+  billingAddresses: [],
+};
+
 type RequiredMark = 'shipping' | 'billing';
 
-type AddressType = {
+type BaseAddress = {
   street?: string;
   city?: string;
   country?: string;
@@ -21,15 +37,36 @@ type AddressType = {
   isdefault?: boolean;
 };
 
+export type UserInfo = {
+  street?: string;
+  city?: string;
+  country?: string;
+  postalcode?: string;
+  type?: RequiredMark;
+  isdefault?: boolean;
+  addresses?: Addresses;
+};
+
 export type LoginProps = {
-  onLogin: (values: FieldType) => void;
+  onLogin: (values: UserInfo) => void;
 };
 
-const onFinish = (values: FieldType, callbackfn: (values: FieldType) => void) => {
-  callbackfn(values);
+const onFinish = (values: FieldType, callbackfn: (values: UserInfo) => void) => {
+  const userInfo = { ...values, addresses: { ...addr } };
+  callbackfn(userInfo);
 };
 
-const addAddress = (value: AddressType) => {
+const addAddress = (value: BaseAddress) => {
+  addr.defaultBillingAddress =
+    value.type === 'billing' && value.isdefault ? addr.adresses.length : addr.defaultBillingAddress;
+  addr.defaultShippingAddress =
+    value.type === 'shipping' && value.isdefault ? addr.adresses.length : addr.defaultShippingAddress;
+  if (value.type === 'billing') {
+    addr.billingAddresses.push(addr.adresses.length);
+  } else {
+    addr.shippingAddresses.push(addr.adresses.length);
+  }
+  addr.adresses.push(value);
   console.log(value);
 };
 
@@ -113,18 +150,18 @@ export default function Register(props: LoginProps) {
         onFinish={(val) => addAddress(val)}
         autoComplete="off"
       >
-        <Form.Item<AddressType> name="type">
+        <Form.Item<BaseAddress> name="type">
           <Radio.Group>
             <Radio.Button value="shipping">Shipping</Radio.Button>
             <Radio.Button value="billing">Billing</Radio.Button>
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item<AddressType> label="Set default" name="isdefault">
+        <Form.Item<BaseAddress> label="Set default" name="isdefault">
           <Switch />
         </Form.Item>
 
-        <Form.Item<AddressType>
+        <Form.Item<BaseAddress>
           label="Street"
           name="street"
           rules={[{ pattern: /^(?!\s+).+(?!\s+)$/, message: 'Must contain at least one character.' }]}
@@ -132,7 +169,7 @@ export default function Register(props: LoginProps) {
           <Input />
         </Form.Item>
 
-        <Form.Item<AddressType>
+        <Form.Item<BaseAddress>
           label="City"
           name="city"
           rules={[
@@ -145,11 +182,11 @@ export default function Register(props: LoginProps) {
           <Input />
         </Form.Item>
 
-        <Form.Item<AddressType> label="Country" name="country" rules={[]}>
+        <Form.Item<BaseAddress> label="Country" name="country" rules={[]}>
           <Input />
         </Form.Item>
 
-        <Form.Item<AddressType>
+        <Form.Item<BaseAddress>
           label="Postal Code"
           name="postalcode"
           rules={[
