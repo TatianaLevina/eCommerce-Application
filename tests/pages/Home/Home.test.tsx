@@ -1,13 +1,13 @@
 import { screen, render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Home from '@pages/Home/Home';
+import HomePage from '@pages/HomePage/HomePage.tsx';
 
 describe('Home', () => {
   test('should render Heading', () => {
     // Arrange
-    const text = 'Home';
+    const text = 'Home Page';
     // Act
-    render(<Home />, { wrapper: BrowserRouter });
+    render(<HomePage />, { wrapper: BrowserRouter });
     // Expect
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(text);
   });

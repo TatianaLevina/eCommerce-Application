@@ -79,10 +79,10 @@ This naming convention helps us quickly identify the purpose of each branch and 
 			└── /Button.tsx
 		└── /Input
 	├── /pages
-		├── /Home
-			└── /Home.tsx
-		└── /About
-			└── /About.tsx
+		├── /HomePage
+			└── /HomePage.tsx
+		└── /AboutPage
+			└── /AboutPage.tsx
 	├── /utils
 	├── /hooks
 		├── /useFetch.ts
@@ -95,10 +95,10 @@ This naming convention helps us quickly identify the purpose of each branch and 
 			└── /Button.test.ts
 		└── /Input
 	├── /pages
-		├── /Home
-			└── /Home.test.ts
-		└── /About
-			└── /About.test.ts
+		├── /HomePage
+			└── /HomePage.test.ts
+		└── /AboutPage
+			└── /AboutPage.test.ts
 		├── /useFetch.test.ts
 		└── /useLocalStorage.test.ts
 	├── /App.test.tsx
