@@ -1,0 +1,12 @@
+@import 'node_modules/normalize-scss/sass/normalize/import-now';
+
+.custom-color {
+  background-color: #fff !important;
+  color: #376a4f !important;
+  border: 1px solid #376a4f !important;
+}
+.custom-color:hover {
+  background-color: #376a4f !important;
+  color: #fff !important;
+  border: 1px solid #376a4f !important;
+}
