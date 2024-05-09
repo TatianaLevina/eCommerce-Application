@@ -1,4 +1,3 @@
-// import type { FormProps } from 'antd';
 import type { BaseAddress } from '@/components/AddressForm/AddressForm';
 import AddressForm from '@/components/AddressForm/AddressForm';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
