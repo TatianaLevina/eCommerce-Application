@@ -1,4 +1,5 @@
-import { Button, Form, Input, Radio, Switch } from 'antd';
+import { Button, Cascader, Form, Input, Radio, Switch } from 'antd';
+import countries from '@data/flat-ui__data-Thu May 09 2024.json';
 
 export type RequiredMark = 'shipping' | 'billing';
 
@@ -11,39 +12,75 @@ export type BaseAddress = {
   isdefault?: boolean;
 };
 
+type Address = {
+  street?: string;
+  city?: string;
+  country?: string[];
+  postalcode?: string;
+  type?: RequiredMark;
+  isdefault?: boolean;
+};
+
 export type AddressFormProps = {
   callbackFn: (values: BaseAddress) => void;
 };
 
-const addAddress = (value: BaseAddress, callbackFn: (values: BaseAddress) => void) => {
+interface Option {
+  value: string;
+  label: string;
+}
+
+const options: Option[] = countries.map((c) => {
+  return { value: c.Code, label: c.Name };
+});
+
+const addAddress = (value: Address, callbackFn: (values: BaseAddress) => void) => {
   if (value.city || value.country || value.street || value.postalcode) {
-    callbackFn(value);
+    const addr: BaseAddress = {
+      street: value.street,
+      city: value.city,
+      country: value.country ? value.country[0] : undefined,
+      postalcode: value.postalcode,
+      type: value.type,
+      isdefault: value.isdefault,
+    };
+    callbackFn(addr);
+
+    // useEffect(() => {
+    //   form.resetFields();
+    // });
   }
 };
 
 export default function AddressForm(props: AddressFormProps): JSX.Element {
+  const [form] = Form.useForm();
+
   return (
     <Form
+      form={form}
       name="address"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       initialValues={{ remember: true, type: 'shipping' }}
       style={{ maxWidth: 600 }}
-      onFinish={(val) => addAddress(val, props.callbackFn)}
+      onFinish={(val) => {
+        addAddress(val, props.callbackFn);
+        form.resetFields();
+      }}
       autoComplete="off"
     >
-      <Form.Item<BaseAddress> name="type">
+      <Form.Item<Address> name="type">
         <Radio.Group>
           <Radio.Button value="shipping">Shipping</Radio.Button>
           <Radio.Button value="billing">Billing</Radio.Button>
         </Radio.Group>
       </Form.Item>
 
-      <Form.Item<BaseAddress> label="Set default" name="isdefault">
+      <Form.Item<Address> label="Set default" name="isdefault">
         <Switch />
       </Form.Item>
 
-      <Form.Item<BaseAddress>
+      <Form.Item<Address>
         label="Street"
         name="street"
         rules={[{ pattern: /^(?!\s+).+(?!\s+)$/, message: 'Must contain at least one character.' }]}
@@ -51,7 +88,7 @@ export default function AddressForm(props: AddressFormProps): JSX.Element {
         <Input />
       </Form.Item>
 
-      <Form.Item<BaseAddress>
+      <Form.Item<Address>
         label="City"
         name="city"
         rules={[
@@ -64,11 +101,11 @@ export default function AddressForm(props: AddressFormProps): JSX.Element {
         <Input />
       </Form.Item>
 
-      <Form.Item<BaseAddress> label="Country" name="country" rules={[]}>
-        <Input />
+      <Form.Item<Address> label="Country" name="country" rules={[]}>
+        <Cascader options={options} placeholder="Select country" />
       </Form.Item>
 
-      <Form.Item<BaseAddress>
+      <Form.Item<Address>
         label="Postal Code"
         name="postalcode"
         rules={[

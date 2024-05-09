@@ -35,16 +35,6 @@ export type UserInfo = {
   addresses?: Addresses;
 };
 
-// export type RegisterProps = {
-//   onLogin: (values: UserInfo) => void;
-// };
-
-// const onFinish = (values: FieldType, callbackfn: (values: UserInfo) => void) => {
-//   const userInfo = { ...values, addresses: { ...addr } };
-//   callbackfn(userInfo);
-//   console.log(userInfo);
-// };
-
 const onFinish = (values: FieldType) => {
   const userInfo = {
     username: values.username,
