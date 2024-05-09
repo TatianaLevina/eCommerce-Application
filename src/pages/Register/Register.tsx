@@ -1,6 +1,6 @@
 // import type { FormProps } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Form, Flex, Input, Divider } from 'antd';
+import { Button, DatePicker, Form, Flex, Input, Divider, Radio, Switch } from 'antd';
 import type dayjs from 'dayjs';
 
 type FieldType = {
@@ -8,12 +8,17 @@ type FieldType = {
   email?: string;
   password?: string;
   birdth?: dayjs.Dayjs;
-  shipping: string;
 };
+
+type RequiredMark = 'shipping' | 'billing';
 
 type AddressType = {
   street?: string;
   city?: string;
+  country?: string;
+  postalcode?: string;
+  type?: RequiredMark;
+  isdefault?: boolean;
 };
 
 export type LoginProps = {
@@ -87,7 +92,7 @@ export default function Register(props: LoginProps) {
           />
         </Form.Item>
 
-        <Form.Item<FieldType> label="DatePicker" name="birdth">
+        <Form.Item<FieldType> label="Date of birth" name="birdth">
           <DatePicker />
         </Form.Item>
 
@@ -97,35 +102,68 @@ export default function Register(props: LoginProps) {
           </Button>
         </Form.Item>
       </Form>
-      <Divider>Addresses</Divider>
+      <Divider>Address</Divider>
 
       <Form
         name="address"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
+        initialValues={{ remember: true, type: 'shipping' }}
         style={{ maxWidth: 600 }}
         onFinish={(val) => addAddress(val)}
         autoComplete="off"
       >
-        <Form.Item<AddressType> label="City" name="city" rules={[]}>
+        <Form.Item<AddressType> name="type">
+          <Radio.Group>
+            <Radio.Button value="shipping">Shipping</Radio.Button>
+            <Radio.Button value="billing">Billing</Radio.Button>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item<AddressType> label="Set default" name="isdefault">
+          <Switch />
+        </Form.Item>
+
+        <Form.Item<AddressType>
+          label="Street"
+          name="street"
+          rules={[{ pattern: /^(?!\s+).+(?!\s+)$/, message: 'Must contain at least one character.' }]}
+        >
           <Input />
         </Form.Item>
 
-        <Form.Item<AddressType> label="City" name="city" rules={[]}>
+        <Form.Item<AddressType>
+          label="City"
+          name="city"
+          rules={[
+            {
+              pattern: /^(?!\s+)[[A-Za-z\s]+(?!\s+)$/,
+              message: 'Must contain at least one character and no special characters or numbers',
+            },
+          ]}
+        >
           <Input />
         </Form.Item>
 
-        <Form.Item<AddressType> label="City" name="city" rules={[]}>
+        <Form.Item<AddressType> label="Country" name="country" rules={[]}>
           <Input />
         </Form.Item>
 
-        <Form.Item<AddressType> label="City" name="city" rules={[]}>
+        <Form.Item<AddressType>
+          label="Postal Code"
+          name="postalcode"
+          rules={[
+            {
+              pattern: /^(?!\s+)([A-Z0-9]{5}-[A-Z0-9]{4})|([A-Z0-9]{4}\s[A-Z0-9]{3})|([0-9]{6})(?!\s+)$/,
+              message: 'Must follow the format for the country (000000 or XXXXX-YYYY or XXXX YYY)',
+            },
+          ]}
+        >
           <Input />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button htmlType="submit">Add</Button>
+          <Button htmlType="submit">Add to address list</Button>
         </Form.Item>
       </Form>
     </Flex>

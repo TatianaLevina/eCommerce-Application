@@ -1,0 +1,15 @@
+
+#VITE_CTP_PROJECT_KEY=rss2024
+#VITE_CTP_CLIENT_SECRET=PQXWQduHSy3P94dUUremvDIzQUZSD3N1
+#VITE_CTP_CLIENT_ID=J4s4omqzmoDzp3ckWja2-6SV
+#VITE_CTP_AUTH_URL=https://auth.europe-west1.gcp.commercetools.com
+#VITE_CTP_API_URL=https://api.europe-west1.gcp.commercetools.com
+#VITE_CTP_SCOPES=view_categories:rss2024 manage_my_orders:rss2024 manage_my_business_units:rss2024 view_published_products:rss2024 manage_my_payments:rss2024 view_products:rss2024 create_anonymous_token:rss2024 manage_my_profile:rss2024 manage_my_shopping_lists:rss2024 manage_my_quote_requests:rss2024 manage_my_quotes:rss2024
+
+VITE_CTP_PROJECT_KEY=rss2024
+VITE_CTP_CLIENT_SECRET=fiSjyGHZXec7FPBG9n3CJ7VFy2N-8zdO
+VITE_CTP_CLIENT_ID=CIViqmzAYx1cCRL586Ylcx6Z
+VITE_CTP_AUTH_URL=https://auth.europe-west1.gcp.commercetools.com
+VITE_CTP_API_URL=https://api.europe-west1.gcp.commercetools.com
+VITE_CTP_SCOPES='view_categories:rss2024 manage_my_orders:rss2024 manage_my_business_units:rss2024 view_published_products:rss2024 manage_my_payments:rss2024 view_products:rss2024 create_anonymous_token:rss2024 manage_my_profile:rss2024 manage_my_shopping_lists:rss2024 manage_my_quote_requests:rss2024 manage_my_quotes:rss2024 manage_customers:rss2024'
+
