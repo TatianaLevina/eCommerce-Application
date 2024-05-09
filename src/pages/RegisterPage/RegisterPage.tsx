@@ -70,7 +70,7 @@ const addAddress = (value: BaseAddress) => {
   console.log(value);
 };
 
-export default function Register(props: LoginProps) {
+export default function RegisterPage(props: LoginProps) {
   return (
     <Flex justify="center" vertical align="center" className="register_wrapper" style={{ width: '100vw' }}>
       <Form

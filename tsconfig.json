@@ -37,7 +37,7 @@
       "@utils/*": ["./src/utils/*"]
     }
   },
-  "include": ["src/**/*", ".eslintrc.cjs", "tests/**/*"],
+  "include": ["src/**/*", ".eslintrc.cjs", "tests/**/*", "vite.config.ts"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
