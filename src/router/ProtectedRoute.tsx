@@ -13,7 +13,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element: Component, pro
   if (protectionType === 'auth' && !user) {
     return <Navigate to="/login" replace />;
   } else if (protectionType === 'guest' && user) {
-    return <Navigate to="/profile" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <Component />;
