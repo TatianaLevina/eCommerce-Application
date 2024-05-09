@@ -1,22 +1,9 @@
 // import type { FormProps } from 'antd';
+import type { BaseAddress } from '@/components/AddressForm/AddressForm';
+import AddressForm from '@/components/AddressForm/AddressForm';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Form, Flex, Input, Divider, Radio, Switch } from 'antd';
-import type dayjs from 'dayjs';
-
-type FieldType = {
-  username?: string;
-  email?: string;
-  password?: string;
-  birdth?: dayjs.Dayjs;
-};
-
-type Addresses = {
-  adresses: BaseAddress[];
-  defaultShippingAddress: number | null;
-  shippingAddresses: number[];
-  defaultBillingAddress: number | null;
-  billingAddresses: number[];
-};
+import { Button, DatePicker, Form, Flex, Input, Divider } from 'antd';
+import dayjs from 'dayjs';
 
 const addr: Addresses = {
   adresses: [],
@@ -26,34 +13,48 @@ const addr: Addresses = {
   billingAddresses: [],
 };
 
-type RequiredMark = 'shipping' | 'billing';
+export type Addresses = {
+  adresses: BaseAddress[];
+  defaultShippingAddress: number | null;
+  shippingAddresses: number[];
+  defaultBillingAddress: number | null;
+  billingAddresses: number[];
+};
 
-type BaseAddress = {
-  street?: string;
-  city?: string;
-  country?: string;
-  postalcode?: string;
-  type?: RequiredMark;
-  isdefault?: boolean;
+type FieldType = {
+  username?: string;
+  email?: string;
+  password?: string;
+  birdth?: dayjs.Dayjs;
 };
 
 export type UserInfo = {
-  street?: string;
-  city?: string;
-  country?: string;
-  postalcode?: string;
-  type?: RequiredMark;
-  isdefault?: boolean;
+  username: string;
+  email: string;
+  password: string;
+  birdth?: Date;
   addresses?: Addresses;
 };
 
-export type LoginProps = {
-  onLogin: (values: UserInfo) => void;
-};
+// export type RegisterProps = {
+//   onLogin: (values: UserInfo) => void;
+// };
 
-const onFinish = (values: FieldType, callbackfn: (values: UserInfo) => void) => {
-  const userInfo = { ...values, addresses: { ...addr } };
-  callbackfn(userInfo);
+// const onFinish = (values: FieldType, callbackfn: (values: UserInfo) => void) => {
+//   const userInfo = { ...values, addresses: { ...addr } };
+//   callbackfn(userInfo);
+//   console.log(userInfo);
+// };
+
+const onFinish = (values: FieldType) => {
+  const userInfo = {
+    username: values.username,
+    email: values.email,
+    password: values.password,
+    birdth: dayjs(values.birdth).toDate(),
+    addresses: { ...addr },
+  };
+  console.log(userInfo);
 };
 
 const addAddress = (value: BaseAddress) => {
@@ -67,10 +68,9 @@ const addAddress = (value: BaseAddress) => {
     addr.shippingAddresses.push(addr.adresses.length);
   }
   addr.adresses.push(value);
-  console.log(value);
 };
 
-export default function RegisterPage(props: LoginProps) {
+export default function RegisterPage() {
   return (
     <Flex justify="center" vertical align="center" className="register_wrapper" style={{ width: '100vw' }}>
       <Form
@@ -79,7 +79,7 @@ export default function RegisterPage(props: LoginProps) {
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
         initialValues={{ remember: true }}
-        onFinish={(val) => onFinish(val, props.onLogin)}
+        onFinish={(val) => onFinish(val)}
         autoComplete="off"
       >
         <Form.Item<FieldType>
@@ -140,69 +140,7 @@ export default function RegisterPage(props: LoginProps) {
         </Form.Item>
       </Form>
       <Divider>Address</Divider>
-
-      <Form
-        name="address"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true, type: 'shipping' }}
-        style={{ maxWidth: 600 }}
-        onFinish={(val) => addAddress(val)}
-        autoComplete="off"
-      >
-        <Form.Item<BaseAddress> name="type">
-          <Radio.Group>
-            <Radio.Button value="shipping">Shipping</Radio.Button>
-            <Radio.Button value="billing">Billing</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-
-        <Form.Item<BaseAddress> label="Set default" name="isdefault">
-          <Switch />
-        </Form.Item>
-
-        <Form.Item<BaseAddress>
-          label="Street"
-          name="street"
-          rules={[{ pattern: /^(?!\s+).+(?!\s+)$/, message: 'Must contain at least one character.' }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item<BaseAddress>
-          label="City"
-          name="city"
-          rules={[
-            {
-              pattern: /^(?!\s+)[[A-Za-z\s]+(?!\s+)$/,
-              message: 'Must contain at least one character and no special characters or numbers',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item<BaseAddress> label="Country" name="country" rules={[]}>
-          <Input />
-        </Form.Item>
-
-        <Form.Item<BaseAddress>
-          label="Postal Code"
-          name="postalcode"
-          rules={[
-            {
-              pattern: /^(?!\s+)([A-Z0-9]{5}-[A-Z0-9]{4})|([A-Z0-9]{4}\s[A-Z0-9]{3})|([0-9]{6})(?!\s+)$/,
-              message: 'Must follow the format for the country (000000 or XXXXX-YYYY or XXXX YYY)',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button htmlType="submit">Add to address list</Button>
-        </Form.Item>
-      </Form>
+      <AddressForm callbackFn={addAddress} />
     </Flex>
   );
 }
