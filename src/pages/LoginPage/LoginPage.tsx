@@ -57,7 +57,7 @@ const LoginPage: React.FC = () => {
           rules={[
             { required: true, message: 'Please input your password!' },
             {
-              pattern: /^(?!\s+)(?=.*[0-9])(?=.*[!@#$%^&*.@])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*.@]{8,}(?!\s+)$/,
+              pattern: /^(?!\s+)(?=.*[0-9])(?=.*[!@#$%^&*.])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*.]{8,}(?!\s+)$/,
               message: 'Ensure password meets complexity requirements.',
             },
           ]}
