@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext.tsx';
 import type { BaseAddress } from '@commercetools/platform-sdk';
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import countries from '../../data/countries.json';
+import countries from '@data/countries.json';
+import validateConstant from '@/data/validateConstants';
 
 const { Title } = Typography;
 
@@ -35,7 +36,7 @@ interface FormValues {
   lastName: string;
   email: string;
   password: string;
-  birthdate?: string;
+  birthdate?: dayjs.Dayjs;
   billingStreet: string;
   billingCity: string;
   billingPostalCode: string;
@@ -72,7 +73,16 @@ export const RegisterPage: React.FC = () => {
     });
   }
 
+  const validateAge = (val: dayjs.Dayjs | undefined): boolean => {
+    return +new Date(Date.now() - dayjs(val).toDate().getTime()).getFullYear() - 1970 >= validateConstant.AgeLimit;
+  };
+
   const onFinish = (values: FormValues): void => {
+    if (values.birthdate && !validateAge(values.birthdate)) {
+      showError('You must be over 13 years old.');
+      return;
+    }
+
     const billingAddress: Address = {
       streetName: values.billingStreet,
       city: values.billingCity,
@@ -99,7 +109,7 @@ export const RegisterPage: React.FC = () => {
       lastName: values.lastName,
       email: values.email,
       password: values.password,
-      dateOfBirth: values.birthdate ? dayjs(values.birthdate).format('YYYY-MM-DD') : undefined,
+      dateOfBirth: values.birthdate ? dayjs(values.birthdate).format(validateConstant.dateFormat) : undefined,
       addresses: addresses,
       billingAddresses: [0],
       shippingAddresses: [shareAddress ? 0 : 1],
@@ -109,17 +119,19 @@ export const RegisterPage: React.FC = () => {
 
     console.log(values.billingCountry);
 
-    // try {
-    //   // setTimeout(() => {
-    //   //   setSpinning(true);
-    //   //   console.error('Sign up failed:');
-    //   //   //TODO: Handle errors;
-    //   //   setSpinning(false);
-    //   //   showError('Something wrong. User is not registered.');
-    //   // }, 2000);
-    //   // setSpinning(true);
-    //   // console.log(userInfo);
+    //  //! for dev
+    // setTimeout(() => {
+    //   setSpinning(true);
+    //   console.error('Sign up failed:');
+    //   //TODO: Handle errors;
+    //   setSpinning(false);
+    //   showError('Something wrong. User is not registered.');
+    // }, 2000);
+    // setSpinning(true);
+    // console.log(userInfo);
 
+    //  //! async-await style
+    // try {
     //   setSpinning(true);
     //   await signUp(userInfo);
     //   setSpinning(false);
@@ -129,6 +141,8 @@ export const RegisterPage: React.FC = () => {
     //   showError('Something wrong. User is not registered.');
     //   //TODO: Handle errors
     // }
+
+    setSpinning(true);
 
     signUp(userInfo)
       .then(() => {
@@ -156,7 +170,7 @@ export const RegisterPage: React.FC = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           layout="vertical"
-          style={{ maxWidth: 600 }}
+          style={{ width: 360 }}
           autoComplete="on"
         >
           <Title level={3}>Register</Title>
@@ -170,8 +184,11 @@ export const RegisterPage: React.FC = () => {
             }}
             rules={[
               {
+                required: false,
                 message: 'The First Name must contain at least one character and must not contain special characters.',
-                pattern: /(?!\s+)$/,
+                pattern: validateConstant.namePattern,
+                max: 50,
+                min: 1,
               },
             ]}
           >
@@ -187,7 +204,7 @@ export const RegisterPage: React.FC = () => {
             rules={[
               {
                 message: 'The First Name must contain at least one character and must not contain special characters.',
-                pattern: /(?!\s+)$/,
+                pattern: validateConstant.namePattern,
               },
             ]}
           >
@@ -201,7 +218,7 @@ export const RegisterPage: React.FC = () => {
               { message: 'Please input your email!' },
               {
                 required: true,
-                pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                pattern: validateConstant.emailPattern,
                 message: 'Email format is wrong. Example: test@mail.com',
               },
             ]}
@@ -221,7 +238,7 @@ export const RegisterPage: React.FC = () => {
               { message: 'Please input your password!' },
               {
                 required: true,
-                pattern: /^(?!\s+)(?=.*[0-9])(?=.*[!@#$%^&*.])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*.]{8,}(?!\s+)$/,
+                pattern: validateConstant.passwordPattern,
                 message:
                   'The password must be at least 8 characters and contain at least one uppercase and one lowercase letters, one digit, one special character. No leading or trailing whitespaces are allowed.',
               },
@@ -242,7 +259,14 @@ export const RegisterPage: React.FC = () => {
               icon: <InfoCircleOutlined />,
             }}
           >
-            <DatePicker format="YYYY-MM-DD" />
+            <DatePicker
+              onChange={(val) => {
+                if (val && !validateAge(val)) {
+                  showError('You must be over 13 years old.');
+                }
+              }}
+              format={validateConstant.dateFormat}
+            />
           </Form.Item>
 
           <Checkbox checked={shareAddress} onChange={(e) => setShareAddress(e.target.checked)}>
@@ -259,7 +283,7 @@ export const RegisterPage: React.FC = () => {
                 title: `Enter street. Must contain at least one character`,
                 icon: <InfoCircleOutlined />,
               }}
-              rules={[{ pattern: /^(?!\s+).+(?!\s+)$/, message: 'Must contain at least one character.' }]}
+              rules={[{ pattern: validateConstant.streetPattern, message: 'Must contain at least one character.' }]}
             >
               <Input />
             </Form.Item>
@@ -272,7 +296,7 @@ export const RegisterPage: React.FC = () => {
               }}
               rules={[
                 {
-                  pattern: /^(?!\s+)[[A-Za-z\s]+(?!\s+)$/,
+                  pattern: validateConstant.cityPattern,
                   message: 'Must contain at least one character and no special characters or numbers',
                 },
               ]}
@@ -296,7 +320,7 @@ export const RegisterPage: React.FC = () => {
               }}
               rules={[
                 {
-                  pattern: /^(?!\s+)([A-Z0-9]{5}-[A-Z0-9]{4})|([A-Z0-9]{4}\s[A-Z0-9]{3})|([0-9]{6})(?!\s+)$/,
+                  pattern: validateConstant.postalCodePattern,
                   message: 'Must follow the format for the country (000000 or XXXXX-YYYY or XXXX YYY)',
                 },
               ]}
@@ -320,7 +344,7 @@ export const RegisterPage: React.FC = () => {
                   title: `Enter street. Must contain at least one character`,
                   icon: <InfoCircleOutlined />,
                 }}
-                rules={[{ pattern: /^(?!\s+).+(?!\s+)$/, message: 'Must contain at least one character.' }]}
+                rules={[{ pattern: validateConstant.streetPattern, message: 'Must contain at least one character.' }]}
               >
                 <Input />
               </Form.Item>
@@ -333,7 +357,7 @@ export const RegisterPage: React.FC = () => {
                 }}
                 rules={[
                   {
-                    pattern: /^(?!\s+)[[A-Za-z\s]+(?!\s+)$/,
+                    pattern: validateConstant.cityPattern,
                     message: 'Must contain at least one character and no special characters or numbers',
                   },
                 ]}
@@ -359,7 +383,7 @@ export const RegisterPage: React.FC = () => {
                 }}
                 rules={[
                   {
-                    pattern: /^(?!\s+)([A-Z0-9]{5}-[A-Z0-9]{4})|([A-Z0-9]{4}\s[A-Z0-9]{3})|([0-9]{6})(?!\s+)$/,
+                    pattern: validateConstant.postalCodePattern,
                     message: 'Must follow the format for the country (000000 or XXXXX-YYYY or XXXX YYY)',
                   },
                 ]}
