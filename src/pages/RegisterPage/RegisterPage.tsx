@@ -149,9 +149,9 @@ export const RegisterPage: React.FC = () => {
         setSpinning(false);
         navigate('/');
       })
-      .catch(() => {
+      .catch((error) => {
         setSpinning(false);
-        showError('Something wrong. User is not registered.');
+        showError(error.message);
       });
   };
 
@@ -179,7 +179,7 @@ export const RegisterPage: React.FC = () => {
             name="firstName"
             label="First Name"
             tooltip={{
-              title: `Please input your First Name. The First Name must contain at least one character and must not contain special characters.`,
+              title: `Please input your First Name. Use only English letters. Must contain at least one character and must not contain special characters.`,
               icon: <InfoCircleOutlined />,
             }}
             rules={[
@@ -198,7 +198,7 @@ export const RegisterPage: React.FC = () => {
             name="lastName"
             label="Last Name"
             tooltip={{
-              title: `Please input your Last Name. The First Name must contain at least one character and must not contain special characters.`,
+              title: `Please input your First Name. Use only English letters. Must contain at least one character and must not contain special characters.`,
               icon: <InfoCircleOutlined />,
             }}
             rules={[
@@ -215,9 +215,8 @@ export const RegisterPage: React.FC = () => {
             label="Email"
             tooltip="This is a required field. The email must contain the characters '@' and '.', for example test@mail.com"
             rules={[
-              { message: 'Please input your email!' },
+              { required: true, message: 'Please input your email!' },
               {
-                required: true,
                 pattern: validateConstant.emailPattern,
                 message: 'Email format is wrong. Example: test@mail.com',
               },
@@ -235,12 +234,12 @@ export const RegisterPage: React.FC = () => {
             label="Password"
             tooltip="This is a required field. Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)"
             rules={[
-              { message: 'Please input your password!' },
+              { required: true, message: 'Please input your password!' },
+              { min: 8, message: 'The password must be minimum 8 characters' },
               {
-                required: true,
                 pattern: validateConstant.passwordPattern,
                 message:
-                  'The password must be at least 8 characters and contain at least one uppercase and one lowercase letters, one digit, one special character. No leading or trailing whitespaces are allowed.',
+                  'Must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)',
               },
             ]}
           >
@@ -307,7 +306,7 @@ export const RegisterPage: React.FC = () => {
               label="Country"
               name="billingCountry"
               tooltip="This is a required field. Select a country from the list"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: 'Please select a country from the list.' }]}
             >
               <Select options={options} placeholder="Select country" />
             </Form.Item>
