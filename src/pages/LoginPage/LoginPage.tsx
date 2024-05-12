@@ -5,7 +5,6 @@ import { Button, Flex, Form, Input, Modal, Spin, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import validateConstant from '@/data/validateConstants';
-import Title from 'antd/es/typography/Title';
 
 export type FieldType = {
   email?: string;

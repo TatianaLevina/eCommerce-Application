@@ -32,23 +32,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const signUp = async (customerData: CustomerDraft): Promise<void> => {
-    try {
-      const result = await signUpCustomer(customerData);
-      console.log('result', result);
-      if (result.body.customer) {
-        setUser(result.body.customer);
-        await createPasswordAuthFlow({ username: customerData.email, password: customerData.password! })
-          .me()
-          .get()
-          .execute();
-        localStorage.setItem('user', JSON.stringify(result.body.customer));
-      }
-    } catch (error) {
-      console.error('Failed to sign up:', error);
-      throw error;
-    }
-  };
+  // const signUp = async (customerData: CustomerDraft): Promise<void> => {
+  //   try {
+  //     const result = await signUpCustomer(customerData);
+  //     console.log('result', result);
+  //     if (result.body.customer) {
+  //       setUser(result.body.customer);
+  //       await createPasswordAuthFlow({ username: customerData.email, password: customerData.password! })
+  //         .me()
+  //         .get()
+  //         .execute();
+  //       localStorage.setItem('user', JSON.stringify(result.body.customer));
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to sign up:', error);
+  //   }
+  // };
 
   const signUp = async (customerData: CustomerDraft): Promise<void> => {
     try {
