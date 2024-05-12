@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Flex, Form, Input, Modal, Spin } from 'antd';
+import { Button, Flex, Form, Input, Modal, Spin, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import validateConstant from '@/data/validateConstants';
@@ -31,6 +31,7 @@ const LoginPage: React.FC = () => {
         });
     }
   };
+  const { Title } = Typography;
 
   const showError = (msg: string): void => {
     Modal.error({
@@ -44,7 +45,17 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <Spin spinning={spinning} fullscreen />
-      <Flex justify="center" align="center" className="login_wrapper" style={{ width: '100vw' }}>
+      <Flex justify="center" vertical align="center" className="login_wrapper">
+        <Title // Form's Title
+          level={3}
+          style={{
+            paddingBottom: 15,
+            color: '#376a4f',
+          }}
+        >
+          Sign In
+        </Title>
+
         <Form
           name="normal_login"
           className="login-form"
@@ -57,9 +68,6 @@ const LoginPage: React.FC = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Title style={{ textAlign: 'center' }} level={3}>
-            Sign in
-          </Title>
           <Form.Item
             label="E-mail"
             name="email"

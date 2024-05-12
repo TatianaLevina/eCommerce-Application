@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext.tsx';
 import type { BaseAddress } from '@commercetools/platform-sdk';
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import countries from '@data/countries.json';
-import validateConstant from '@/data/validateConstants';
+import validateConstant from '@data/validateConstants';
 
 const { Title } = Typography;
 
@@ -173,8 +173,15 @@ export const RegisterPage: React.FC = () => {
           style={{ width: 360 }}
           autoComplete="on"
         >
-          <Title style={{ textAlign: 'center' }} level={3}>
-            Register
+          <Title // Form's Title
+            level={3}
+            style={{
+              color: '#376a4f',
+              textAlign: 'center',
+              marginTop: 10,
+            }}
+          >
+            Sign Up
           </Title>
           {/* Registration fields */}
           <Form.Item
