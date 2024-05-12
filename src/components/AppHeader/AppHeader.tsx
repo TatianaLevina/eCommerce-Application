@@ -13,7 +13,7 @@ import { Avatar, Badge, Space } from 'antd';
 // import { Input } from 'antd';
 // import type { SearchProps } from 'antd/es/input/Search';
 import LOGO from '../../images/logo.svg';
-import useMobile from '@/utils/useMobile';
+import useMobile from '@/hooks/useMobile';
 import { useSidebarMenuState } from '@/contexts/SidebarMenuStateContext';
 
 const { Header } = Layout;
@@ -63,12 +63,12 @@ const AppHeader = () => {
                   About us
                 </Button>
               </Link>
-              <Link to="/cart">
+              <Link to="/">
                 <Button className={'custom-color'} ghost>
                   <UnorderedListOutlined /> Products
                 </Button>
               </Link>
-              <Link to="/">
+              <Link to="/cart">
                 <Space size="middle">
                   <Badge count={5}>
                     <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />

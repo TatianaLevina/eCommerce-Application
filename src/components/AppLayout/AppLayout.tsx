@@ -1,6 +1,6 @@
 import type React from 'react';
-import AppHeader from '../Header/Header';
-import AppFooter from '../Footer/Footer';
+import AppHeader from '../AppHeader/AppHeader';
+import AppFooter from '../AppFooter/AppFooter';
 import { Layout } from 'antd';
 import { SidebarMenuStateProvider } from '@/contexts/SidebarMenuStateContext';
 import SidebarMenu from '../Sidebar/Sidebar';
