@@ -1,8 +1,9 @@
 import { render, act } from '@testing-library/react';
-import Login from '@pages/Login/Login';
+import Login from '@pages/LoginPage/LoginPage';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from '@/contexts/AuthContext';
 
-describe('Login tests', () => {
+describe('LoginPage tests', () => {
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -20,7 +21,7 @@ describe('Login tests', () => {
   });
 
   describe('Render element', () => {
-    const formTestId = 'qwueyque8723hq8w';
+    // const formTestId = 'qwueyque8723hq8w';
     let container: HTMLElement | null = null;
 
     beforeEach(() => {
@@ -34,42 +35,51 @@ describe('Login tests', () => {
       container = null;
     });
 
-    test('should render Login', () => {
+    test('Should be defined', () => {
       act(() => {
-        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
-          wrapper: BrowserRouter,
-          container: container!,
-        });
+        render(
+          <AuthProvider>
+            <Login />
+          </AuthProvider>,
+          {
+            wrapper: BrowserRouter,
+            container: container!,
+          },
+        );
       });
-
-      const el = container?.getElementsByTagName('form');
-
+      const el = container?.querySelector('form');
       expect(el).toBeDefined();
     });
 
     test('contains HTMLFormElement', () => {
       act(() => {
-        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
-          wrapper: BrowserRouter,
-          container: container!,
-        });
+        render(
+          <AuthProvider>
+            <Login />
+          </AuthProvider>,
+          {
+            wrapper: BrowserRouter,
+            container: container!,
+          },
+        );
       });
-
       const el = container?.querySelector('form');
-
       expect(el).toBeInstanceOf(HTMLElement);
     });
 
     test('contains inputs', () => {
       act(() => {
-        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
-          wrapper: BrowserRouter,
-          container: container!,
-        });
+        render(
+          <AuthProvider>
+            <Login />
+          </AuthProvider>,
+          {
+            wrapper: BrowserRouter,
+            container: container!,
+          },
+        );
       });
-
       const els = container?.querySelectorAll('input');
-
       expect(els?.length).toBe(2);
     });
   });
