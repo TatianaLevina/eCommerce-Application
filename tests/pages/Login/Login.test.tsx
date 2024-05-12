@@ -1,5 +1,5 @@
 import { render, act } from '@testing-library/react';
-import Login from '@pages/Login/Login';
+import Login from '@pages/LoginPage/LoginPage';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('Login tests', () => {
@@ -36,7 +36,7 @@ describe('Login tests', () => {
 
     test('should render Login', () => {
       act(() => {
-        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
+        render(<Login data-testid={formTestId} />, {
           wrapper: BrowserRouter,
           container: container!,
         });
@@ -49,7 +49,7 @@ describe('Login tests', () => {
 
     test('contains HTMLFormElement', () => {
       act(() => {
-        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
+        render(<Login data-testid={formTestId} />, {
           wrapper: BrowserRouter,
           container: container!,
         });
@@ -62,7 +62,7 @@ describe('Login tests', () => {
 
     test('contains inputs', () => {
       act(() => {
-        render(<Login data-testid={formTestId} onLogin={() => {}} />, {
+        render(<Login data-testid={formTestId} />, {
           wrapper: BrowserRouter,
           container: container!,
         });

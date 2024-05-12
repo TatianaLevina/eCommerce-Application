@@ -90,9 +90,11 @@ const LoginPage: React.FC = () => {
             tooltip="Enter password. Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)"
             rules={[
               { required: true, message: 'Please input your password!' },
+              { min: 8, message: 'Password length must be minimum 8 characters.' },
               {
                 pattern: validateConstant.passwordPattern,
-                message: 'Ensure password meets complexity requirements.',
+                message:
+                  'Must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)',
               },
             ]}
           >
