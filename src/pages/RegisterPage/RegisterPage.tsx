@@ -150,6 +150,7 @@ export const RegisterPage: React.FC = () => {
         >
           <Title
             level={3}
+            color="#376a4f"
             style={{
               color: '#376a4f',
               textAlign: 'center',
