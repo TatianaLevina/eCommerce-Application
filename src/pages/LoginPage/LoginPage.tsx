@@ -5,6 +5,7 @@ import { Button, Flex, Form, Input, Modal, Spin } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import validateConstant from '@/data/validateConstants';
+import Title from 'antd/es/typography/Title';
 
 export type FieldType = {
   email?: string;
@@ -15,18 +16,6 @@ const LoginPage: React.FC = () => {
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const [spinning, setSpinning] = useState(false);
-
-  // const onFinish = async (values: FieldType): void => {
-  //   if (values.email && values.password) {
-  //     try {
-  //       await signIn(values.email, values.password);
-  //       navigate('/');
-  //     } catch (error) {
-  //       console.error('Login failed:', error);
-  //       // TODO: Handle login failure (e.g., display an error message)
-  //     }
-  //   }
-  // };
 
   const onFinish = (values: FieldType): void => {
     if (values.email && values.password) {
@@ -39,17 +28,16 @@ const LoginPage: React.FC = () => {
         .catch((error) => {
           setSpinning(false);
           showError(error.message);
-          // TODO: Handle login failure (e.g., display an error message)
         });
     }
   };
 
-  function showError(msg: string): void {
+  const showError = (msg: string): void => {
     Modal.error({
       title: 'Error!',
       content: msg,
     });
-  }
+  };
 
   const onFinishFailed = (): void => {};
 
@@ -69,6 +57,9 @@ const LoginPage: React.FC = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
+          <Title style={{ textAlign: 'center' }} level={3}>
+            Sign in
+          </Title>
           <Form.Item
             label="E-mail"
             name="email"
@@ -108,7 +99,7 @@ const LoginPage: React.FC = () => {
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Flex gap="small">
               <Button type="primary" htmlType="submit" className="login-form-button">
-                Log in
+                Sign in
               </Button>
               <span>Or</span>
               <Link to="/register">register now!</Link>

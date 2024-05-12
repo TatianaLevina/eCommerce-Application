@@ -173,7 +173,9 @@ export const RegisterPage: React.FC = () => {
           style={{ width: 360 }}
           autoComplete="on"
         >
-          <Title level={3}>Register</Title>
+          <Title style={{ textAlign: 'center' }} level={3}>
+            Register
+          </Title>
           {/* Registration fields */}
           <Form.Item
             name="firstName"
