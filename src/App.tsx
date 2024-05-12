@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout/Layout.tsx';
+import AppLayout from './components/AppLayout/AppLayout.tsx';
 import { AuthProvider } from './contexts/AuthContext';
 import routes from './router/routerConfig';
 import ProtectedRoute from './router/ProtectedRoute';
@@ -14,9 +14,9 @@ function App() {
               key={path}
               path={path}
               element={
-                <Layout>
+                <AppLayout>
                   <ProtectedRoute element={Element} protected={protectionType as 'auth' | 'guest' | undefined} />
-                </Layout>
+                </AppLayout>
               }
             />
           ))}

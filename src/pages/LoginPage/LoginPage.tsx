@@ -1,6 +1,6 @@
 import type React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Flex, Form, Input } from 'antd';
+import { Button, Flex, Form, Input, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -24,9 +24,19 @@ const LoginPage: React.FC = () => {
       }
     }
   };
+  const { Title } = Typography;
 
   return (
-    <Flex justify="center" align="center" className="login_wrapper" style={{ width: '100vw' }}>
+    <Flex justify="center" vertical align="center" className="login_wrapper">
+      <Title // Form's Title
+        level={3}
+        style={{
+          paddingBottom: 15,
+          color: '#376a4f',
+        }}
+      >
+        Sign In
+      </Title>
       <Form
         name="normal_login"
         className="login-form"
