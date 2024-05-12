@@ -1,13 +1,14 @@
 import type { ReactNode } from 'react';
 import type React from 'react';
 import { createContext, useContext, useState } from 'react';
-import { signInCustomer } from '@/services/CustomerService';
+import { signInCustomer, signUpCustomer } from '@/services/CustomerService';
 import type { CustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
 import { createPasswordAuthFlow } from '@/services/ClientBuilder.ts';
 
 interface AuthContextType {
   user: CustomerDraft | null;
   signIn: (email: string, password: string) => Promise<void>;
+  signUp: (customerData: CustomerDraft) => Promise<void>;
   signOut: () => void;
 }
 
@@ -25,8 +26,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         await createPasswordAuthFlow({ username: email, password: password }).me().get().execute();
         localStorage.setItem('user', JSON.stringify(result.body.customer));
       }
+    } catch (error: unknown) {
+      console.error((error as Error).message);
+      throw error;
+    }
+  };
+
+  const signUp = async (customerData: CustomerDraft): Promise<void> => {
+    try {
+      const result = await signUpCustomer(customerData);
+      console.log('result', result);
+      if (result.body.customer) {
+        setUser(result.body.customer);
+        await createPasswordAuthFlow({ username: customerData.email, password: customerData.password! })
+          .me()
+          .get()
+          .execute();
+        localStorage.setItem('user', JSON.stringify(result.body.customer));
+      }
     } catch (error) {
-      console.error('Failed to sign in:', error);
+      console.error('Failed to sign up:', error);
+      throw error;
     }
   };
 
@@ -35,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('user');
   };
 
-  return <AuthContext.Provider value={{ user, signIn, signOut }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, signIn, signUp, signOut }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {
