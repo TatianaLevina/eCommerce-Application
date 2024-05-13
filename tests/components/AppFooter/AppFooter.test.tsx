@@ -2,22 +2,6 @@ import AppFooter from '@components/AppFooter/AppFooter';
 import { render, act } from '@testing-library/react';
 
 describe('AppFooter tests', () => {
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vitest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vitest.fn(),
-        removeListener: vitest.fn(),
-        addEventListener: vitest.fn(),
-        removeEventListener: vitest.fn(),
-        dispatchEvent: vitest.fn(),
-      })),
-    });
-  });
-
   describe('Render element', () => {
     let container: HTMLElement | null = null;
 
