@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext.tsx';
 import type { BaseAddress } from '@commercetools/platform-sdk';
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import countries from '@/data/countries.json';
-import validateConstant from '@/data/validateConstants';
+import countries from '@data/countries.json';
+import validateConstant from '@data/validateConstants';
 
 const { Title } = Typography;
 
@@ -137,7 +137,7 @@ export const RegisterPage: React.FC = () => {
   return (
     <>
       <Spin spinning={spinning} fullscreen />
-      <Flex justify="center" align="center" className="register_wrapper">
+      <Flex justify="center" align="center" className="register_wrapper" style={{ width: '100vw' }}>
         <Form
           form={form}
           initialValues={{ remember: true }}
