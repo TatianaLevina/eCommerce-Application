@@ -1,11 +1,10 @@
 import { Avatar, Button, Drawer } from 'antd';
 import type React from 'react';
-
-import { SidebarMenuStateContext } from '@/contexts/SidebarMenuStateContext';
+import { SidebarMenuStateContext } from '@contexts/SidebarMenuStateContext';
 import { UserOutlined } from '@ant-design/icons';
-import useMobile from '@/hooks/useMobile';
+import useMobile from '@hooks/useMobile';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@contexts/AuthContext';
 
 const SidebarMenu: React.FC = () => {
   const { user, signOut } = useAuth();

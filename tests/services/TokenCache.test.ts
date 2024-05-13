@@ -1,4 +1,4 @@
-import { getExistingToken, tokenCache } from '@/services/TokenCache';
+import { getExistingToken, tokenCache } from '@services/TokenCache';
 import type { TokenStore } from '@commercetools/sdk-client-v2';
 
 describe('TokenCache tests', () => {

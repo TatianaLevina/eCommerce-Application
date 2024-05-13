@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import type React from 'react';
 import { createContext, useContext, useState } from 'react';
-import { signInCustomer, signUpCustomer } from '@/services/CustomerService';
+import { signInCustomer, signUpCustomer } from '@services/CustomerService';
 import type { CustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
-import { createPasswordAuthFlow } from '@/services/ClientBuilder.ts';
+import { createPasswordAuthFlow } from '@services/ClientBuilder.ts';
 
 interface AuthContextType {
   user: CustomerDraft | null;

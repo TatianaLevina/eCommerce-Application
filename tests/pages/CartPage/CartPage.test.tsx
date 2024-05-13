@@ -1,5 +1,5 @@
-import { AuthProvider } from '@/contexts/AuthContext';
-import CartPage from '@/pages/CartPage/CartPage';
+import { AuthProvider } from '@contexts/AuthContext';
+import CartPage from '@pages/CartPage/CartPage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 

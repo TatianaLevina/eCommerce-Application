@@ -1,5 +1,5 @@
-import { AuthProvider } from '@/contexts/AuthContext';
-import ProfilePage from '@/pages/ProfilePage/ProfilePage';
+import { AuthProvider } from '@contexts/AuthContext';
+import ProfilePage from '@pages/ProfilePage/ProfilePage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 

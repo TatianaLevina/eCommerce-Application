@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@contexts/AuthContext';
 import { Layout } from 'antd';
 import { Button, Flex } from 'antd';
 import {

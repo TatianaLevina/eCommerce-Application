@@ -33,9 +33,12 @@
       "@pages/*": ["./src/pages/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
+      "@services/*": ["./src/services/*"],
       "@contexts/*": ["./src/contexts/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
+      "@router/*": ["./src/router/*"],
+      "@images/*": ["./src/images/*"],
       "@data/*": ["./src/data/*"]
     }
   },
