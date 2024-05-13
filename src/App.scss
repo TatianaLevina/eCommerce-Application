@@ -6,11 +6,21 @@ html {
 
 .custom-color {
   background-color: #fff !important;
-  color: #376a4f !important;
-  border: 1px solid #376a4f !important;
+  color: #2f7c69 !important;
+  border: 1px solid #2f7c69 !important;
 }
 .custom-color:hover {
-  background-color: #376a4f !important;
+  background-color: #2f7c69 !important;
   color: #fff !important;
-  border: 1px solid #376a4f !important;
+  border: 1px solid #2f7c69 !important;
+}
+
+.custom-color_invert {
+  background-color: #2f7c69 !important;
+  color: #fff !important;
+}
+.custom-color_invert:hover {
+  background-color: #fff !important;
+  color: #2f7c69 !important;
+  border: 1px solid #2f7c69 !important;
 }

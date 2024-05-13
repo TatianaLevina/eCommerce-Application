@@ -2,12 +2,12 @@ import type React from 'react';
 import { useState } from 'react';
 import { Form, Button, Input, DatePicker, Checkbox, Typography, Flex, Select, Spin, Modal } from 'antd';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext.tsx';
 import type { BaseAddress } from '@commercetools/platform-sdk';
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import countries from '@/data/countries.json';
-import validateConstant from '@/data/validateConstants';
+import countries from '@data/countries.json';
+import validateConstant from '@data/validateConstants';
 
 const { Title } = Typography;
 
@@ -117,31 +117,6 @@ export const RegisterPage: React.FC = () => {
       defaultBillingAddress: values.billingAsDefault ? 0 : undefined,
     };
 
-    console.log(values.billingCountry);
-
-    //  //! for dev
-    // setTimeout(() => {
-    //   setSpinning(true);
-    //   console.error('Sign up failed:');
-    //   //TODO: Handle errors;
-    //   setSpinning(false);
-    //   showError('Something wrong. User is not registered.');
-    // }, 2000);
-    // setSpinning(true);
-    // console.log(userInfo);
-
-    //  //! async-await style
-    // try {
-    //   setSpinning(true);
-    //   await signUp(userInfo);
-    //   setSpinning(false);
-    //   navigate('/');
-    // } catch (error) {
-    //   setSpinning(false);
-    //   showError('Something wrong. User is not registered.');
-    //   //TODO: Handle errors
-    // }
-
     setSpinning(true);
 
     signUp(userInfo)
@@ -162,7 +137,7 @@ export const RegisterPage: React.FC = () => {
   return (
     <>
       <Spin spinning={spinning} fullscreen />
-      <Flex justify="center" align="center" className="register_wrapper">
+      <Flex justify="center" align="center" className="register_wrapper" style={{ width: '100vw' }}>
         <Form
           form={form}
           initialValues={{ remember: true }}
@@ -173,8 +148,9 @@ export const RegisterPage: React.FC = () => {
           style={{ width: 360 }}
           autoComplete="on"
         >
-          <Title // Form's Title
+          <Title
             level={3}
+            color="#376a4f"
             style={{
               color: '#376a4f',
               textAlign: 'center',
@@ -183,6 +159,7 @@ export const RegisterPage: React.FC = () => {
           >
             Sign Up
           </Title>
+
           {/* Registration fields */}
           <Form.Item
             name="firstName"
@@ -277,7 +254,6 @@ export const RegisterPage: React.FC = () => {
               format={validateConstant.dateFormat}
             />
           </Form.Item>
-
           <Checkbox checked={shareAddress} onChange={(e) => setShareAddress(e.target.checked)}>
             Billing and Shipping addresses are the same
           </Checkbox>
@@ -342,6 +318,7 @@ export const RegisterPage: React.FC = () => {
               </Checkbox>
             </Form.Item>
           </>
+
           {/* Conditional Shipping Address */}
           {!shareAddress && (
             <>
@@ -373,7 +350,6 @@ export const RegisterPage: React.FC = () => {
               >
                 <Input />
               </Form.Item>
-
               <Form.Item
                 label="Country"
                 name="shippingCountry"
@@ -382,7 +358,6 @@ export const RegisterPage: React.FC = () => {
               >
                 <Select options={options} placeholder="Select country" />
               </Form.Item>
-
               <Form.Item
                 name="shippingPostalCode"
                 label="Postal Code"
@@ -405,9 +380,13 @@ export const RegisterPage: React.FC = () => {
             </>
           )}
           <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Register
-            </Button>
+            <Flex gap="small">
+              <Button type="primary" htmlType="submit">
+                Sign up
+              </Button>
+              <span>Or</span>
+              <Link to="/login">Sign in now!</Link>
+            </Flex>
           </Form.Item>
         </Form>
       </Flex>

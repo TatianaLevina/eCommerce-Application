@@ -4,6 +4,7 @@ import RegisterPage from '@pages/RegisterPage/RegisterPage.tsx';
 import ProfilePage from '@pages/ProfilePage/ProfilePage.tsx';
 import CartPage from '@pages/CartPage/CartPage.tsx';
 import LoginPage from '@pages/LoginPage/LoginPage.tsx';
+import ErrorPage from '@/pages/ErrorPage/ErrorPage';
 
 const routes = [
   {
@@ -35,6 +36,11 @@ const routes = [
     path: '/profile',
     element: ProfilePage,
     protected: 'auth',
+  },
+  {
+    path: '*',
+    element: ErrorPage,
+    protected: undefined,
   },
 ];
 
