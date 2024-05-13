@@ -1,11 +1,10 @@
-import { render, act } from '@testing-library/react';
-import Login from '@pages/LoginPage/LoginPage';
-import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
+import AppHeader from '@components/AppHeader/AppHeader';
+import { render, act } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 
-describe('LoginPage tests', () => {
+describe('AppHeader component tests', () => {
   describe('Render element', () => {
-    // const formTestId = 'qwueyque8723hq8w';
     let container: HTMLElement | null = null;
 
     beforeEach(() => {
@@ -23,7 +22,7 @@ describe('LoginPage tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <Login />
+            <AppHeader />
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -31,15 +30,16 @@ describe('LoginPage tests', () => {
           },
         );
       });
-      const el = container?.querySelector('form');
+
+      const el = container?.querySelector('header');
       expect(el).toBeDefined();
     });
 
-    test('contains HTMLFormElement', () => {
+    test('Contains HTMLElement header', () => {
       act(() => {
         render(
           <AuthProvider>
-            <Login />
+            <AppHeader />
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -47,15 +47,16 @@ describe('LoginPage tests', () => {
           },
         );
       });
-      const el = container?.querySelector('form');
+
+      const el = container?.querySelector('header');
       expect(el).toBeInstanceOf(HTMLElement);
     });
 
-    test('contains inputs', () => {
+    test('Contains anchor', () => {
       act(() => {
         render(
           <AuthProvider>
-            <Login />
+            <AppHeader />
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -63,8 +64,9 @@ describe('LoginPage tests', () => {
           },
         );
       });
-      const els = container?.querySelectorAll('input');
-      expect(els?.length).toBe(2);
+
+      const els = container?.querySelectorAll('a');
+      expect(els?.length).toBe(7);
     });
   });
 });

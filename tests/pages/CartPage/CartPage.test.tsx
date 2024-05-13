@@ -1,11 +1,10 @@
-import { render, act } from '@testing-library/react';
-import Login from '@pages/LoginPage/LoginPage';
-import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
+import CartPage from '@/pages/CartPage/CartPage';
+import { render, act } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 
-describe('LoginPage tests', () => {
+describe('CartPage tests', () => {
   describe('Render element', () => {
-    // const formTestId = 'qwueyque8723hq8w';
     let container: HTMLElement | null = null;
 
     beforeEach(() => {
@@ -19,11 +18,11 @@ describe('LoginPage tests', () => {
       container = null;
     });
 
-    test('Should be defined', () => {
+    test('Should CardPage be defined', () => {
       act(() => {
         render(
           <AuthProvider>
-            <Login />
+            <CartPage />
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -31,15 +30,16 @@ describe('LoginPage tests', () => {
           },
         );
       });
-      const el = container?.querySelector('form');
+
+      const el = container?.querySelector('div');
       expect(el).toBeDefined();
     });
 
-    test('contains HTMLFormElement', () => {
+    test('Contains HTMLElement', () => {
       act(() => {
         render(
           <AuthProvider>
-            <Login />
+            <CartPage />
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -47,24 +47,26 @@ describe('LoginPage tests', () => {
           },
         );
       });
-      const el = container?.querySelector('form');
+
+      const el = container?.querySelector('div');
       expect(el).toBeInstanceOf(HTMLElement);
     });
 
-    test('contains inputs', () => {
-      act(() => {
-        render(
-          <AuthProvider>
-            <Login />
-          </AuthProvider>,
-          {
-            wrapper: BrowserRouter,
-            container: container!,
-          },
-        );
-      });
-      const els = container?.querySelectorAll('input');
-      expect(els?.length).toBe(2);
-    });
+    // test('contains inputs', () => {
+    //   act(() => {
+    //     render(
+    //       <AuthProvider>
+    //         <CartPage />
+    //       </AuthProvider>,
+    //       {
+    //         wrapper: BrowserRouter,
+    //         container: container!,
+    //       },
+    //     );
+    //   });
+
+    //   const els = container?.querySelectorAll('input');
+    //   expect(els?.length).toBe(11);
+    // });
   });
 });

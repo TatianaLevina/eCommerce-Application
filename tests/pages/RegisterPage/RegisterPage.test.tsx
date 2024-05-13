@@ -3,23 +3,7 @@ import RegisterPage from '@/pages/RegisterPage/RegisterPage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
-describe('Login tests', () => {
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vitest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vitest.fn(),
-        removeListener: vitest.fn(),
-        addEventListener: vitest.fn(),
-        removeEventListener: vitest.fn(),
-        dispatchEvent: vitest.fn(),
-      })),
-    });
-  });
-
+describe('RegisterPage tests', () => {
   describe('Render element', () => {
     let container: HTMLElement | null = null;
 
@@ -34,7 +18,7 @@ describe('Login tests', () => {
       container = null;
     });
 
-    test('should render Login', () => {
+    test('Should be defined', () => {
       act(() => {
         render(
           <AuthProvider>
@@ -47,11 +31,11 @@ describe('Login tests', () => {
         );
       });
 
-      const el = container?.getElementsByTagName('form');
+      const el = container?.querySelector('form');
       expect(el).toBeDefined();
     });
 
-    test('contains HTMLFormElement', () => {
+    test('Contains HTMLFormElement', () => {
       act(() => {
         render(
           <AuthProvider>
@@ -68,7 +52,7 @@ describe('Login tests', () => {
       expect(el).toBeInstanceOf(HTMLFormElement);
     });
 
-    test('contains inputs', () => {
+    test('Contains inputs', () => {
       act(() => {
         render(
           <AuthProvider>
