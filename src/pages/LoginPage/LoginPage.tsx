@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Flex, Form, Input, Modal, Spin, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { SignUpError, useAuth } from '@/contexts/AuthContext';
 import validateConstant from '@/data/validateConstants';
 
 export type FieldType = {
@@ -25,8 +25,13 @@ const LoginPage: React.FC = () => {
           navigate('/');
         })
         .catch((error) => {
-          setSpinning(false);
-          showError(error.message);
+          if (error instanceof SignUpError) {
+            setSpinning(false);
+            showError(error.message);
+          } else {
+            console.error(error);
+            throw error;
+          }
         });
     }
   };

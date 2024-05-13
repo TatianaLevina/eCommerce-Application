@@ -14,6 +14,16 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+export class SignUpError extends Error {
+  public cause: Error;
+  constructor(message: string, cause: Error) {
+    super(message);
+    this.stack = cause.stack;
+    this.name = 'SignUpError';
+    this.cause = cause;
+  }
+}
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<CustomerDraft | null>(null);
 
@@ -26,33 +36,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         await createPasswordAuthFlow({ username: email, password: password }).me().get().execute();
         localStorage.setItem('user', JSON.stringify(result.body.customer));
       }
-    } catch (error: unknown) {
-      console.error((error as Error).message);
-      throw error;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new SignUpError(error.message, error);
+      }
     }
   };
-
-  // const signUp = async (customerData: CustomerDraft): Promise<void> => {
-  //   try {
-  //     const result = await signUpCustomer(customerData);
-  //     console.log('result', result);
-  //     if (result.body.customer) {
-  //       setUser(result.body.customer);
-  //       await createPasswordAuthFlow({ username: customerData.email, password: customerData.password! })
-  //         .me()
-  //         .get()
-  //         .execute();
-  //       localStorage.setItem('user', JSON.stringify(result.body.customer));
-  //     }
-  //   } catch (error) {
-  //     console.error('Failed to sign up:', error);
-  //   }
-  // };
 
   const signUp = async (customerData: CustomerDraft): Promise<void> => {
     try {
       const result = await signUpCustomer(customerData);
-      console.log('result', result);
       if (result.body.customer) {
         setUser(result.body.customer);
         await createPasswordAuthFlow({ username: customerData.email, password: customerData.password! })
@@ -62,8 +55,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         localStorage.setItem('user', JSON.stringify(result.body.customer));
       }
     } catch (error) {
-      console.error('Failed to sign up:', error);
-      throw error;
+      if (error instanceof Error) {
+        throw new SignUpError(error.message, error);
+      }
     }
   };
 
