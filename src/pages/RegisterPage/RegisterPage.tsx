@@ -379,7 +379,7 @@ export const RegisterPage: React.FC = () => {
           )}
           <Form.Item>
             <Flex gap="small">
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" className={'login-form-button primary-custom-color'} htmlType="submit">
                 Sign up
               </Button>
               <span>Or</span>

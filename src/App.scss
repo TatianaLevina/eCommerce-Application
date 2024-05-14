@@ -24,3 +24,33 @@ html {
   color: #2f7c69 !important;
   border: 1px solid #2f7c69 !important;
 }
+
+.primary-custom-color {
+  background-color: #2f7c69 !important;
+  color: #fff !important;
+}
+.primary-custom-color:hover {
+  background-color: #3ca087 !important;
+  color: #fff !important;
+}
+.primary-custom-color:active {
+  background-color: #2d7966 !important;
+  color: #fff !important;
+}
+.primary-custom-color:focus-visible {
+  outline: 4px solid #91ffe7;
+  outline-offset: 1px;
+  transition:
+    outline-offset 0s,
+    outline 0s;
+}
+
+.custom-link {
+  color: #2f7c69 !important;
+}
+.custom-link:hover {
+  color: #3ca087 !important;
+}
+.custom-link:active {
+  color: #2d7966 !important;
+}

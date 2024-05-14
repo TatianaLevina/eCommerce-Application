@@ -104,11 +104,13 @@ const LoginPage: React.FC = () => {
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Flex gap="small">
-              <Button type="primary" htmlType="submit" className="login-form-button">
+              <Button type="primary" className={'login-form-button primary-custom-color'} htmlType="submit">
                 Sign in
               </Button>
               <span>Or</span>
-              <Link to="/register">register now!</Link>
+              <Link className={'custom-link'} to="/register">
+                register now!
+              </Link>
             </Flex>
           </Form.Item>
         </Form>
