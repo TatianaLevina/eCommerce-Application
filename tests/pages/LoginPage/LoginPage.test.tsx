@@ -1,7 +1,7 @@
 import { render, act } from '@testing-library/react';
 import Login from '@pages/LoginPage/LoginPage';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider } from '@contexts/AuthContext';
 
 describe('LoginPage tests', () => {
   describe('Render element', () => {

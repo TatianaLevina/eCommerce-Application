@@ -1,5 +1,5 @@
-import { AuthProvider } from '@/contexts/AuthContext';
-import AboutPage from '@/pages/AboutPage/AboutPage';
+import { AuthProvider } from '@contexts/AuthContext';
+import AboutPage from '@pages/AboutPage/AboutPage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 

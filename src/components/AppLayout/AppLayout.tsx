@@ -1,9 +1,9 @@
 import type React from 'react';
-import AppHeader from '../AppHeader/AppHeader';
-import AppFooter from '../AppFooter/AppFooter';
+import AppHeader from '@components/AppHeader/AppHeader';
+import AppFooter from '@components/AppFooter/AppFooter';
 import { Layout } from 'antd';
-import { SidebarMenuStateProvider } from '@/contexts/SidebarMenuStateContext';
-import SidebarMenu from '../Sidebar/Sidebar';
+import { SidebarMenuStateProvider } from '@contexts/SidebarMenuStateContext';
+import SidebarMenu from '@components/Sidebar/Sidebar';
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Form, Button, Input, DatePicker, Checkbox, Typography, Flex, Select, Spin, Modal } from 'antd';
 import dayjs from 'dayjs';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext.tsx';
+import { SignUpError, useAuth } from '@contexts/AuthContext.tsx';
 import type { BaseAddress } from '@commercetools/platform-sdk';
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import countries from '@data/countries.json';
@@ -124,9 +124,14 @@ export const RegisterPage: React.FC = () => {
         setSpinning(false);
         navigate('/');
       })
-      .catch(() => {
-        setSpinning(false);
-        showError('Something wrong. User is not registered.');
+      .catch((error) => {
+        if (error instanceof SignUpError) {
+          setSpinning(false);
+          showError(error.message);
+        } else {
+          console.error(error);
+          throw error;
+        }
       });
   };
 

@@ -1,5 +1,5 @@
-import AppLayout from '@/components/AppLayout/AppLayout';
-import { AuthProvider } from '@/contexts/AuthContext';
+import AppLayout from '@components/AppLayout/AppLayout';
+import { AuthProvider } from '@contexts/AuthContext';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 

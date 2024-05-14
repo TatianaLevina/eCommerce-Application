@@ -1,5 +1,5 @@
-import { AuthProvider } from '@/contexts/AuthContext';
-import HomePage from '@/pages/HomePage/HomePage';
+import { AuthProvider } from '@contexts/AuthContext';
+import HomePage from '@pages/HomePage/HomePage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
-import { AuthProvider } from '@/contexts/AuthContext';
-import RegisterPage from '@/pages/RegisterPage/RegisterPage';
+import { AuthProvider } from '@contexts/AuthContext';
+import RegisterPage from '@pages/RegisterPage/RegisterPage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 

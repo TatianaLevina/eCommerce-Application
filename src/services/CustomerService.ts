@@ -1,4 +1,4 @@
-import { createAuthFlow } from '@/services/ClientBuilder.ts';
+import { createAuthFlow } from '@services/ClientBuilder.ts';
 import type { CustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
 
 export const signUpCustomer = ({
