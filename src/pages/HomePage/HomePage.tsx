@@ -15,16 +15,16 @@ const HomePage: React.FC = () => {
       </Flex>
       <Carousel autoplay afterChange={onChange}>
         <div>
-          <img src={IMAGES.image1} className="carousel__img" alt="Sweet Home" />
+          <img src={IMAGES.image1} className="custom-img" alt="Sweet Home" />
         </div>
         <div>
-          <img src={IMAGES.image2} className="carousel__img" alt="Sweet Home" />
+          <img src={IMAGES.image2} className="custom-img" alt="Sweet Home" />
         </div>
         <div>
-          <img src={IMAGES.image3} className="carousel__img" alt="Sweet Home" />
+          <img src={IMAGES.image3} className="custom-img" alt="Sweet Home" />
         </div>
         <div>
-          <img src={IMAGES.image3} className="carousel__img" alt="Sweet Home" />
+          <img src={IMAGES.image3} className="custom-img" alt="Sweet Home" />
         </div>
       </Carousel>
     </>
