@@ -3,6 +3,7 @@ import AppLayout from '@components/AppLayout/AppLayout.tsx';
 import { AuthProvider } from '@contexts/AuthContext';
 import routes from '@router/routerConfig';
 import ProtectedRoute from '@router/ProtectedRoute';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
               }
             />
           ))}
+          <Route
+            path="*"
+            element={
+              <AppLayout>
+                <ErrorPage />
+              </AppLayout>
+            }
+          />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
