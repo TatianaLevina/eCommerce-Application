@@ -5,6 +5,7 @@ import ProfilePage from '@pages/ProfilePage/ProfilePage.tsx';
 import CartPage from '@pages/CartPage/CartPage.tsx';
 import LoginPage from '@pages/LoginPage/LoginPage.tsx';
 import ErrorPage from '@/pages/ErrorPage/ErrorPage';
+import CatalogPage from '@/pages/CatalogPage/CatalogPage';
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
   {
     path: '/about',
     element: AboutPage,
+    protected: undefined,
+  },
+  {
+    path: '/catalog',
+    element: CatalogPage,
     protected: undefined,
   },
   {

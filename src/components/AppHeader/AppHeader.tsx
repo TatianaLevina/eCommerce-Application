@@ -63,9 +63,9 @@ const AppHeader = () => {
                   About us
                 </Button>
               </Link>
-              <Link to="/">
+              <Link to="/catalog">
                 <Button className={'custom-color'} ghost>
-                  <UnorderedListOutlined /> Products
+                  <UnorderedListOutlined /> Catalog
                 </Button>
               </Link>
               <Link to="/cart">
