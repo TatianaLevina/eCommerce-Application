@@ -1,6 +1,6 @@
 import type React from 'react';
 // import { Typography } from 'antd';
-import { Carousel, Flex } from 'antd';
+import { Carousel } from 'antd';
 import IMAGES from '@/images/Images';
 
 const HomePage: React.FC = () => {
@@ -10,9 +10,7 @@ const HomePage: React.FC = () => {
   };
   return (
     <>
-      <Flex vertical align="center">
-        <h1 className="custom-title">Welcome to our Sweet Home</h1>
-      </Flex>
+      <h1 className="custom-title">Welcome to our Sweet Home</h1>
       <Carousel autoplay afterChange={onChange}>
         <div>
           <img src={IMAGES.image1} className="custom-img" alt="Sweet Home" />

@@ -35,7 +35,6 @@ const AppHeader = () => {
         <Link to="/" style={{ lineHeight: '0px' }}>
           <img src={LOGO} alt="Sweet Home" />
         </Link>
-        <Link to="/" style={{ lineHeight: '0px' }}></Link>
 
         {isMobile ? (
           <Flex gap="middle" style={{ width: '100%' }} justify={justifyOptions[2]} align={alignOptions[1]}>

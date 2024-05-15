@@ -66,7 +66,7 @@ describe('AppHeader component tests', () => {
       });
 
       const els = container?.querySelectorAll('a');
-      expect(els?.length).toBe(7);
+      expect(els?.length).toBe(6);
     });
   });
 });
