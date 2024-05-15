@@ -224,21 +224,14 @@ export const RegisterPage: React.FC = () => {
           <Form.Item
             name="password"
             label="Password"
-            tooltip="This is a required field. Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)"
-            rules={[
-              { message: 'Please input your password!' },
-              {
-                required: true,
-                pattern: validateConstant.passwordPattern,
-                message:
-                  'The password must be at least 8 characters and contain at least one uppercase and one lowercase letters, one digit, one special character. No leading or trailing whitespaces are allowed.',
-              },
-            ]}
+            tooltip="This is a required field. Enter password in English. Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)"
+            rules={validateConstant.passwordRules}
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
               placeholder="Password"
               className="login-password"
+              autoComplete="current-password"
               maxLength={50}
             />
           </Form.Item>
@@ -386,7 +379,7 @@ export const RegisterPage: React.FC = () => {
           )}
           <Form.Item>
             <Flex gap="small">
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" className={'login-form-button primary-custom-color'} htmlType="submit">
                 Sign up
               </Button>
               <span>Or</span>

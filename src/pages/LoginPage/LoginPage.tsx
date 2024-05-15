@@ -70,7 +70,7 @@ const LoginPage: React.FC = () => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
+          autoComplete="on"
         >
           <Form.Item
             label="E-mail"
@@ -90,31 +90,27 @@ const LoginPage: React.FC = () => {
           <Form.Item
             label="Password"
             name="password"
-            tooltip="Enter password. Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)"
-            rules={[
-              { required: true, message: 'Please input your password!' },
-              { min: 8, message: 'Password length must be minimum 8 characters.' },
-              {
-                pattern: validateConstant.passwordPattern,
-                message:
-                  'Must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)',
-              },
-            ]}
+            validateFirst="parallel"
+            tooltip="Enter password in English. Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (!@#$%^&*.)"
+            rules={validateConstant.passwordRules}
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
               placeholder="Password"
+              autoComplete="current-password"
               maxLength={50}
             />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Flex gap="small">
-              <Button type="primary" htmlType="submit" className="login-form-button">
+              <Button type="primary" className={'login-form-button primary-custom-color'} htmlType="submit">
                 Sign in
               </Button>
               <span>Or</span>
-              <Link to="/register">register now!</Link>
+              <Link className={'custom-link'} to="/register">
+                register now!
+              </Link>
             </Flex>
           </Form.Item>
         </Form>
