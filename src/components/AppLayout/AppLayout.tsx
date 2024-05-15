@@ -2,8 +2,8 @@ import type React from 'react';
 import AppHeader from '@components/AppHeader/AppHeader';
 import AppFooter from '@components/AppFooter/AppFooter';
 import { Layout } from 'antd';
-import { SidebarMenuStateProvider } from '@contexts/SidebarMenuStateContext';
-import SidebarMenu from '@components/Sidebar/Sidebar';
+import { DrawerStateProvider } from '@contexts/DrawerStateContext';
+import SidebarMenu from '@components/AppDrawer/AppDrawer';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,10 +11,12 @@ interface LayoutProps {
 const { Content } = Layout;
 
 const AppLayout: React.FC<LayoutProps> = ({ children }) => (
-  <SidebarMenuStateProvider>
+  <DrawerStateProvider>
     <Layout
       style={{
         background: 'none',
+        maxWidth: '1440px',
+        margin: '0 auto',
       }}
     >
       <AppHeader />
@@ -41,7 +43,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => (
       </main>
       <AppFooter />
     </Layout>
-  </SidebarMenuStateProvider>
+  </DrawerStateProvider>
 );
 
 export default AppLayout;

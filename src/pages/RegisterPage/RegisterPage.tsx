@@ -142,7 +142,7 @@ export const RegisterPage: React.FC = () => {
   return (
     <>
       <Spin spinning={spinning} fullscreen />
-      <Flex justify="center" align="center" className="register_wrapper" style={{ width: '100vw' }}>
+      <Flex justify="center" align="center" className="register_wrapper">
         <Form
           form={form}
           initialValues={{ remember: true }}

@@ -54,3 +54,20 @@ html {
 .custom-link:active {
   color: #2d7966 !important;
 }
+
+.box_primary {
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  color: #2f7c69;
+  border: 1px solid #2f7c69;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.box_primary:hover {
+  width: 32px;
+  height: 32px;
+  background-color: #2f7c69;
+  color: #fff;
+}
