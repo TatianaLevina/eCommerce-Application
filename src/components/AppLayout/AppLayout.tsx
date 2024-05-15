@@ -26,7 +26,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => (
             background: 'none',
           }}
         >
-          <Content style={{ padding: '0 48px', background: 'none', minHeight: 500 }}>
+          <Content style={{ padding: '0 48px', background: 'none', minHeight: '70vh' }}>
             <div
               style={{
                 background: 'rgba(0, 0, 0, 0.05)',

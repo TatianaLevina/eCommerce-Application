@@ -383,7 +383,9 @@ export const RegisterPage: React.FC = () => {
                 Sign up
               </Button>
               <span>Or</span>
-              <Link to="/login">Sign in now!</Link>
+              <Link className={'custom-link'} to="/login">
+                Sign in now!
+              </Link>
             </Flex>
           </Form.Item>
         </Form>

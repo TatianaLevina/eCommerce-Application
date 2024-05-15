@@ -49,6 +49,7 @@ const AppDrawer: React.FC = () => {
               ) : (
                 <Flex gap="small" justify={justifyOptions[1]} align={alignOptions[1]}>
                   <Link
+                    className={'custom-link'}
                     onClick={() => {
                       drawerState.setCollapsed(true);
                     }}
@@ -58,6 +59,7 @@ const AppDrawer: React.FC = () => {
                   </Link>
                   <p>OR</p>
                   <Link
+                    className={'custom-link'}
                     onClick={() => {
                       drawerState.setCollapsed(true);
                     }}
@@ -73,6 +75,7 @@ const AppDrawer: React.FC = () => {
               {user ? (
                 <>
                   <Link
+                    className={'custom-link'}
                     onClick={() => {
                       drawerState.setCollapsed(true);
                     }}
@@ -81,6 +84,7 @@ const AppDrawer: React.FC = () => {
                     Catalog
                   </Link>
                   <Link
+                    className={'custom-link'}
                     onClick={() => {
                       drawerState.setCollapsed(true);
                     }}
@@ -92,6 +96,7 @@ const AppDrawer: React.FC = () => {
               ) : (
                 <>
                   <Link
+                    className={'custom-link'}
                     onClick={() => {
                       drawerState.setCollapsed(true);
                     }}
@@ -100,6 +105,7 @@ const AppDrawer: React.FC = () => {
                     Catalog
                   </Link>
                   <Link
+                    className={'custom-link'}
                     onClick={() => {
                       drawerState.setCollapsed(true);
                     }}
