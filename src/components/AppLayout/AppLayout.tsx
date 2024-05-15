@@ -15,6 +15,8 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => (
     <Layout
       style={{
         background: 'none',
+        maxWidth: '1440px',
+        margin: '0 auto',
       }}
     >
       <AppHeader />
