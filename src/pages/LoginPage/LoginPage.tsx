@@ -64,9 +64,8 @@ const LoginPage: React.FC = () => {
           name="normal_login"
           className="login-form"
           requiredMark="optional"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ width: 350 }}
+          layout="vertical"
+          style={{ minWidth: '25vw' }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -102,14 +101,14 @@ const LoginPage: React.FC = () => {
             />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Flex gap="small">
+          <Form.Item>
+            <Flex gap="small" align="center">
               <Button type="primary" className={'login-form-button primary-custom-color'} htmlType="submit">
                 Sign in
               </Button>
-              <span>Or</span>
+              <span>or</span>
               <Link className={'custom-link'} to="/register">
-                register now!
+                Sign up now!
               </Link>
             </Flex>
           </Form.Item>

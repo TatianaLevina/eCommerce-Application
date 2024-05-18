@@ -10,7 +10,7 @@ const ErrorPage: React.FC = () => {
   return (
     <Flex gap="large" justify={justifyOptions[1]} vertical align={alignOptions[1]} style={{ paddingTop: 20 }}>
       <Link to="/" style={{ lineHeight: '0px' }}>
-        <img src={NOTFOUND} alt="404 You lost Sweet Home" />
+        <img src={NOTFOUND} className="custom-img" alt="404 You lost Sweet Home" />
       </Link>
       <Link to="/">
         <Button size="large" className={'custom-color_invert'} ghost>
