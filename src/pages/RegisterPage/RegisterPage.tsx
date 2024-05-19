@@ -218,6 +218,7 @@ export const RegisterPage: React.FC = () => {
               prefix={<UserOutlined className="site-form-item-icon" />}
               className="login-email"
               placeholder="Email"
+              autoComplete="email"
               maxLength={50}
             />
           </Form.Item>

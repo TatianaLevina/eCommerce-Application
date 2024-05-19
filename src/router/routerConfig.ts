@@ -36,7 +36,7 @@ const routes = [
   {
     path: '/cart',
     element: CartPage,
-    protected: 'guest',
+    protected: undefined,
   },
   {
     path: '/profile',

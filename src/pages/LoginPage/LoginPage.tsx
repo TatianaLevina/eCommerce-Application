@@ -83,7 +83,12 @@ const LoginPage: React.FC = () => {
               },
             ]}
           >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" maxLength={50} />
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Email"
+              autoComplete="email"
+              maxLength={50}
+            />
           </Form.Item>
 
           <Form.Item
