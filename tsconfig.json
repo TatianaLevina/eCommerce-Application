@@ -33,11 +33,16 @@
       "@pages/*": ["./src/pages/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
+      "@services/*": ["./src/services/*"],
+      "@contexts/*": ["./src/contexts/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@router/*": ["./src/router/*"],
+      "@images/*": ["./src/images/*"],
+      "@data/*": ["./src/data/*"]
     }
   },
-  "include": ["src/**/*", ".eslintrc.cjs", "tests/**/*"],
+  "include": ["src/**/*", ".eslintrc.cjs", "tests/**/*", "vite.config.ts"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

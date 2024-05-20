@@ -1,0 +1,89 @@
+@import 'node_modules/normalize-scss/sass/normalize/import-now';
+@import url('https://fonts.googleapis.com/css2?family=Inika:wght@400;700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+html {
+  background: url('/bg.png') no-repeat center center fixed;
+}
+
+.custom-color {
+  background-color: #fff !important;
+  color: #2f7c69 !important;
+  border: 1px solid #2f7c69 !important;
+}
+.custom-color:hover {
+  background-color: #2f7c69 !important;
+  color: #fff !important;
+  border: 1px solid #2f7c69 !important;
+}
+
+.custom-color_invert {
+  background-color: #2f7c69 !important;
+  color: #fff !important;
+}
+.custom-color_invert:hover {
+  background-color: #fff !important;
+  color: #2f7c69 !important;
+  border: 1px solid #2f7c69 !important;
+}
+
+.primary-custom-color {
+  background-color: #2f7c69 !important;
+  color: #fff !important;
+}
+.primary-custom-color:hover {
+  background-color: #3ca087 !important;
+  color: #fff !important;
+}
+.primary-custom-color:active {
+  background-color: #2d7966 !important;
+  color: #fff !important;
+}
+.primary-custom-color:focus-visible {
+  outline: 4px solid #91ffe7;
+  outline-offset: 1px;
+  transition:
+    outline-offset 0s,
+    outline 0s;
+}
+
+.custom-link {
+  color: #2f7c69 !important;
+}
+.custom-link:hover {
+  color: #3ca087 !important;
+}
+.custom-link:active {
+  color: #2d7966 !important;
+}
+
+.box_primary {
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  color: #2f7c69;
+  border: 1px solid #2f7c69;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.box_primary:hover {
+  width: 32px;
+  height: 32px;
+  background-color: #2f7c69;
+  color: #fff;
+}
+
+.custom-img {
+  border-radius: 10px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-title {
+  text-align: center;
+  font-family: 'Inika', serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #886b1c !important;
+}
