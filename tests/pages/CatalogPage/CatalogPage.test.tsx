@@ -3,6 +3,7 @@ import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@contexts/AuthContext';
 import CatalogPage from '@/pages/CatalogPage/CatalogPage';
+import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
 
 describe('CatalogPage tests', () => {
   describe('Render element', () => {
@@ -23,7 +24,9 @@ describe('CatalogPage tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CatalogPage />
+            <CategoryProvider>
+              <CatalogPage />
+            </CategoryProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -40,7 +43,9 @@ describe('CatalogPage tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CatalogPage />
+            <CategoryProvider>
+              <CatalogPage />
+            </CategoryProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
