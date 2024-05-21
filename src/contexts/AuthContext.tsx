@@ -25,7 +25,10 @@ export class SignUpError extends Error {
 }
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<CustomerDraft | null>(null);
+  const [user, setUser] = useState<CustomerDraft | null>(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
