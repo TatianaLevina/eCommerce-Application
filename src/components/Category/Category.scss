@@ -1,0 +1,31 @@
+.product-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &__custom-image img {
+    display: block;
+  }
+  &__custom-card {
+    padding: 10px 16px;
+  }
+  &__price {
+    color: #999;
+    &_discounted {
+      color: red;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+  }
+}
