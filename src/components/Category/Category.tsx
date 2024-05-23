@@ -1,4 +1,4 @@
-import { Card, Cascader, Flex, Input, Pagination, Typography } from 'antd';
+import { Card, Cascader, Flex, Input, Pagination, Select, Typography } from 'antd';
 import type { CascaderProps } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -13,40 +13,13 @@ interface Option {
   label: string;
 }
 
+// Server response type
 type Products = {
   limit: number;
   offset: number;
   count: number;
   total: number;
   results: Product[];
-};
-
-export type ImadeInfo = {
-  url: string;
-  dimensions: {
-    w: number;
-    h: number;
-  };
-};
-
-export type PriceValue = {
-  type: string;
-  currencyCode: string;
-  centAmount: number;
-  fractionDigits: number;
-};
-
-export type PriceInfo = {
-  id: string;
-  value: PriceValue;
-  country: string;
-  discounted?: {
-    value: PriceValue;
-    discount: {
-      typeId: string;
-      id: string;
-    };
-  };
 };
 
 export type Product = {
@@ -62,11 +35,40 @@ export type Product = {
     prices: PriceInfo[];
   };
 };
+export type ImadeInfo = {
+  url: string;
+  dimensions: {
+    w: number;
+    h: number;
+  };
+};
 
+export type PriceInfo = {
+  id: string;
+  value: PriceValue;
+  country: string;
+  discounted?: {
+    value: PriceValue;
+    discount: {
+      typeId: string;
+      id: string;
+    };
+  };
+};
+
+export type PriceValue = {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+};
+
+// object to request
 type RequestObject = {
-  sort: string | null;
-  filter: string[];
-  serch: string | null;
+  sortFieldName: string | null;
+  filterProductProperties: string[];
+  serchProduct: string | null;
+  sortDirection: 'asc' | 'desc';
 };
 
 //! FOR DEV MOCK OBJECT
@@ -294,9 +296,10 @@ const sortOptions: Option[] = [
 
 //! object with search, sort and filter keys
 const sortFilterSerchObject: RequestObject = {
-  sort: null,
-  filter: [],
-  serch: null,
+  sortFieldName: null,
+  filterProductProperties: [],
+  serchProduct: null,
+  sortDirection: 'asc',
 };
 
 const Category: React.FC = () => {
@@ -311,18 +314,25 @@ const Category: React.FC = () => {
   };
 
   const onChangeFilter: CascaderProps<Option, 'value', true>['onChange'] = (value) => {
-    sortFilterSerchObject.filter = value.flat();
+    sortFilterSerchObject.filterProductProperties = value.flat();
     sendRequestToServer(sortFilterSerchObject);
   };
 
   const onChangeSort: CascaderProps<Option>['onChange'] = (value) => {
-    sortFilterSerchObject.sort = value[0];
+    sortFilterSerchObject.sortFieldName = value[0];
     sendRequestToServer(sortFilterSerchObject);
   };
 
   const onSearch: SearchProps['onSearch'] = (value) => {
-    sortFilterSerchObject.serch = value ? value : null;
+    sortFilterSerchObject.serchProduct = value ? value : null;
     sendRequestToServer(sortFilterSerchObject);
+  };
+
+  const onChangeSortDirection = (value: string) => {
+    if (value === 'asc' || value === 'desc') {
+      sortFilterSerchObject.sortDirection = value;
+      sendRequestToServer(sortFilterSerchObject);
+    }
   };
 
   const sendRequestToServer = (requestObject: RequestObject) => {
@@ -348,7 +358,7 @@ const Category: React.FC = () => {
     <>
       <Flex vertical justify="center" align="center" gap={'large'}>
         <Title>{payload}</Title>
-        <Flex>
+        <Flex wrap>
           <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
           <Cascader
             className="filter"
@@ -358,13 +368,24 @@ const Category: React.FC = () => {
             multiple
             maxTagCount="responsive"
             showCheckedStrategy={'SHOW_CHILD'}
+            placeholder="Select filter parameter"
           />
           <Cascader
             className="sort"
             style={{ width: 200 }}
             options={sortOptions}
             onChange={onChangeSort}
-            placeholder="Please select"
+            placeholder="Select sort parameter"
+          />
+          <Select
+            className="sort-direction"
+            defaultValue="ASC"
+            style={{ width: 120 }}
+            onChange={onChangeSortDirection}
+            options={[
+              { value: 'asc', label: 'ASC' },
+              { value: 'desc', label: 'DESC' },
+            ]}
           />
         </Flex>
 
