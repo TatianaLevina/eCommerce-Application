@@ -2,11 +2,11 @@ import type { ReactNode } from 'react';
 import type React from 'react';
 import { createContext, useContext, useState } from 'react';
 import { signInCustomer, signUpCustomer } from '@services/CustomerService';
-import type { CustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
+import type { Customer, CustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
 import { createPasswordAuthFlow } from '@services/ClientBuilder.ts';
 
 interface AuthContextType {
-  user: CustomerDraft | null;
+  user: Customer | null;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (customerData: CustomerDraft) => Promise<void>;
   signOut: () => void;
@@ -25,7 +25,7 @@ export class SignUpError extends Error {
 }
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<CustomerDraft | null>(() => {
+  const [user, setUser] = useState<Customer | null>(() => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
