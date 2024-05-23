@@ -7,6 +7,7 @@ import '@components/Category/Category.scss';
 const { Search } = Input;
 
 const checkedCurrency: string = 'EUR';
+const productsOnPage: number = 4;
 
 interface Option {
   value: string;
@@ -33,6 +34,7 @@ export type Product = {
   masterVariant: {
     images: ImadeInfo[];
     prices: PriceInfo[];
+    attributes: AttributeType[];
   };
 };
 export type ImadeInfo = {
@@ -41,6 +43,11 @@ export type ImadeInfo = {
     w: number;
     h: number;
   };
+};
+
+export type AttributeType = {
+  name: string;
+  value: string;
 };
 
 export type PriceInfo = {
@@ -128,6 +135,7 @@ const products: Products = {
             },
           },
         ],
+        attributes: [{ name: 'material', value: 'stone' }],
       },
     },
     {
@@ -175,6 +183,7 @@ const products: Products = {
             country: 'string',
           },
         ],
+        attributes: [{ name: 'material', value: 'cloth' }],
       },
     },
     {
@@ -222,6 +231,7 @@ const products: Products = {
             country: 'string',
           },
         ],
+        attributes: [{ name: 'material', value: 'metal' }],
       },
     },
     {
@@ -269,21 +279,22 @@ const products: Products = {
             country: 'string',
           },
         ],
+        attributes: [{ name: 'material', value: 'wood' }],
       },
     },
   ],
 };
 
-//! temp options MOCK
-const filterOptions: Option[] = [
-  {
-    value: 'metal',
-    label: 'Metal',
-  },
-  { value: 'wood', label: 'Wood' },
-  { value: 'stone', label: 'Stone' },
-  { value: 'cloth', label: 'Cloth' },
-];
+// //! temp options MOCK
+// const filterOptions: Option[] = [
+//   {
+//     value: 'metal',
+//     label: 'Metal',
+//   },
+//   { value: 'wood', label: 'Wood' },
+//   { value: 'stone', label: 'Stone' },
+//   { value: 'cloth', label: 'Cloth' },
+// ];
 
 //! temp options MOCK
 const sortOptions: Option[] = [
@@ -293,6 +304,25 @@ const sortOptions: Option[] = [
   },
   { value: 'price', label: 'Price' },
 ];
+
+const getFilterOptions = (product: Product[]): Option[] => {
+  const attributes: (AttributeType | undefined)[] = product.map((prod) =>
+    prod.masterVariant.attributes.find((attr) => attr.name === 'material'),
+  );
+  return attributes
+    .map((attr) => {
+      if (attr) {
+        const opt: Option = {
+          value: attr.value,
+          label: attr.value,
+        };
+        return opt;
+      }
+
+      return null;
+    })
+    .filter((x) => x !== null) as Option[];
+};
 
 //! object with search, sort and filter keys
 const sortFilterSerchObject: RequestObject = {
@@ -310,7 +340,9 @@ const Category: React.FC = () => {
 
   const changePageHandler = (page: number) => {
     // TODO: Add change page logic by page number
-    console.log('I change page to ', page);
+    const offset: number = (page - 1) * productsOnPage;
+    const count: number = productsOnPage;
+    console.log('I change page to ', page, ' offset ', offset, ' count ', count);
   };
 
   const onChangeFilter: CascaderProps<Option, 'value', true>['onChange'] = (value) => {
@@ -319,7 +351,7 @@ const Category: React.FC = () => {
   };
 
   const onChangeSort: CascaderProps<Option>['onChange'] = (value) => {
-    sortFilterSerchObject.sortFieldName = value[0];
+    sortFilterSerchObject.sortFieldName = value ? value[0] : null;
     sendRequestToServer(sortFilterSerchObject);
   };
 
@@ -363,7 +395,7 @@ const Category: React.FC = () => {
           <Cascader
             className="filter"
             style={{ width: 200 }}
-            options={filterOptions}
+            options={getFilterOptions(products.results)}
             onChange={onChangeFilter}
             multiple
             maxTagCount="responsive"

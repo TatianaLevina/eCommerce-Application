@@ -45,22 +45,26 @@ const CatalogMain: React.FC = () => {
         <Title>Catalog</Title>
         <Text>Select product category</Text>
         <Flex onClick={(e) => clickCardHandler(e)} wrap justify="center" align="center" gap={'middle'}>
-          {categories.map((cat) => {
-            return (
-              <Card
-                style={{ width: 240 }}
-                title={cat.category}
-                id={cat.id}
-                key={cat.id}
-                bordered={false}
-                className="category-card"
-              >
-                <div className="category-card__custom-image">
-                  <img src={cat.url} alt="" />
-                </div>
-              </Card>
-            );
-          })}
+          {categories.length === 0 ? (
+            <Text>Product categories are not available on the server</Text>
+          ) : (
+            categories.map((cat) => {
+              return (
+                <Card
+                  style={{ width: 240 }}
+                  title={cat.category}
+                  id={cat.id}
+                  key={cat.id}
+                  bordered={false}
+                  className="category-card"
+                >
+                  <div className="category-card__custom-image">
+                    <img src={cat.url} alt="" />
+                  </div>
+                </Card>
+              );
+            })
+          )}
         </Flex>
       </Flex>
     </>
