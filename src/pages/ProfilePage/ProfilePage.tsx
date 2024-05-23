@@ -1,11 +1,24 @@
 import type React from 'react';
-import { Button, DatePicker, Flex, Form, Input, Typography } from 'antd';
+import { Button, DatePicker, Flex, Form, Input, Select, Typography } from 'antd';
 import { useAuth } from '@/contexts/AuthContext';
 import validateConstant from '@data/validateConstants';
 import moment from 'moment';
 import { useState } from 'react';
+import { options } from '../RegisterPage/RegisterPage';
 
 const { Title } = Typography;
+
+interface UserGeneralInfo {
+  firstName?: string;
+  lastName?: string;
+  birthDate?: string;
+}
+interface UserAddress {
+  country: string;
+  streetName?: string;
+  city?: string;
+  postalCode?: string;
+}
 
 const ProfilePage: React.FC = () => {
   const [form] = Form.useForm();
@@ -15,6 +28,57 @@ const ProfilePage: React.FC = () => {
   const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
     setEditMode(disabled);
   };
+
+  const initValuesGeneralInfo: UserGeneralInfo = {
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    birthDate: user?.dateOfBirth,
+  };
+  const initBillingAddress: UserAddress = {
+    country: '',
+    streetName: '',
+    city: '',
+    postalCode: '',
+  };
+  const initShippingAddress: UserAddress = {
+    country: '',
+    streetName: '',
+    city: '',
+    postalCode: '',
+  };
+
+  if (user?.addresses[0].streetName) {
+    initBillingAddress.streetName = user?.addresses[0].streetName;
+  }
+  if (user?.addresses[0].city) {
+    initBillingAddress.city = user?.addresses[0].city;
+  }
+  if (user?.addresses[0].country) {
+    initBillingAddress.country = user?.addresses[0].country;
+  }
+  if (user?.addresses[0].postalCode) {
+    initBillingAddress.postalCode = user?.addresses[0].postalCode;
+  }
+  if (user?.addresses.length === 1) {
+    initShippingAddress.streetName = initBillingAddress.streetName;
+    initShippingAddress.city = initBillingAddress.city;
+    initShippingAddress.country = initBillingAddress.country;
+    initShippingAddress.postalCode = initBillingAddress.postalCode;
+  } else {
+    if (user?.addresses[1].streetName) {
+      initShippingAddress.streetName = user?.addresses[1].streetName;
+    }
+    if (user?.addresses[1].city) {
+      initShippingAddress.city = user?.addresses[1].city;
+    }
+    if (user?.addresses[1].country) {
+      initShippingAddress.country = user?.addresses[1].country;
+    }
+    if (user?.addresses[1].postalCode) {
+      initShippingAddress.postalCode = user?.addresses[1].postalCode;
+    }
+  }
+
   return (
     <Flex vertical align="flex-start">
       {/* <h1 className="custom-title">Profile</h1> */}
@@ -48,38 +112,45 @@ const ProfilePage: React.FC = () => {
         name="profile"
         onFinish={onFinish}
         initialValues={{
-          firstName: user?.firstName,
-          lastName: user?.lastName,
+          firstName: initValuesGeneralInfo.firstName,
+          lastName: initValuesGeneralInfo.lastName,
+          billingStreet: initBillingAddress.streetName,
+          billingCity: initBillingAddress.city,
+          billingPostalCode: initBillingAddress.postalCode,
+          shippingStreet: initShippingAddress.streetName,
+          shippingCity: initShippingAddress.city,
+          shippingPostalCode: initShippingAddress.postalCode,
         }}
         onValuesChange={onFormLayoutChange}
         disabled={!editMode}
       >
+        <div className="profile__general-info">
+          <Title
+            level={4}
+            color="#376a4f"
+            style={{
+              color: '#376a4f',
+              textAlign: 'left',
+              marginTop: 10,
+            }}
+          >
+            General Information
+          </Title>
+          <Form.Item name="firstName" label="First Name">
+            <Input />
+          </Form.Item>
+          <Form.Item name="lastName" label="Last Name">
+            <Input />
+          </Form.Item>
+          <Form.Item name="birthDate" label="Birth date">
+            <DatePicker
+              defaultValue={moment(initValuesGeneralInfo.birthDate, validateConstant.dateFormat)}
+              format={validateConstant.dateFormat}
+            />
+          </Form.Item>
+        </div>
         <Title
           level={4}
-          color="#376a4f"
-          style={{
-            color: '#376a4f',
-            textAlign: 'left',
-            marginTop: 10,
-          }}
-        >
-          General Information
-        </Title>
-        <Form.Item name="firstName" label="First Name">
-          <Input />
-        </Form.Item>
-        <Form.Item name="lastName" label="Last Name">
-          <Input />
-        </Form.Item>
-        <Form.Item name="birthDate" label="Birth date">
-          <DatePicker
-            defaultValue={moment(user?.dateOfBirth, validateConstant.dateFormat)}
-            format={validateConstant.dateFormat}
-          />
-        </Form.Item>
-        <Title
-          level={4}
-          color="#376a4f"
           style={{
             color: '#376a4f',
             textAlign: 'left',
@@ -88,6 +159,56 @@ const ProfilePage: React.FC = () => {
         >
           Addresses
         </Title>
+        <Flex gap="large" justify="space-between" style={{ width: '100%' }}>
+          <div>
+            <Title
+              level={5}
+              style={{
+                color: '#376a4f',
+                textAlign: 'left',
+                marginTop: 10,
+              }}
+            >
+              Billing Address
+            </Title>
+            <Form.Item name="billingStreet" label="Street">
+              <Input />
+            </Form.Item>
+            <Form.Item name="billingCity" label="City">
+              <Input />
+            </Form.Item>
+            <Form.Item name="billingCountry" label="Country">
+              <Select defaultValue={initBillingAddress.country} options={options} placeholder="Select country" />
+            </Form.Item>
+            <Form.Item name="billingPostalCode" label="Postal Code">
+              <Input />
+            </Form.Item>
+          </div>
+          <div>
+            <Title
+              level={5}
+              style={{
+                color: '#376a4f',
+                textAlign: 'left',
+                marginTop: 10,
+              }}
+            >
+              Shipping Address
+            </Title>
+            <Form.Item name="shippingStreet" label="Street">
+              <Input />
+            </Form.Item>
+            <Form.Item name="shippingCity" label="City">
+              <Input />
+            </Form.Item>
+            <Form.Item name="shippingCountry" label="Country">
+              <Select defaultValue={initShippingAddress.country} options={options} placeholder="Select country" />
+            </Form.Item>
+            <Form.Item name="shippingPostalCode" label="Postal Code">
+              <Input />
+            </Form.Item>
+          </div>
+        </Flex>
         {editMode ? (
           <>
             <Button type="primary" className={'primary-custom-color'} htmlType="submit">
