@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useState } from 'react';
-import { Form, Button, Input, DatePicker, Checkbox, Typography, Flex, Select, Spin, Modal } from 'antd';
+import { Form, Button, Input, DatePicker, Checkbox, Flex, Select, Spin, Modal } from 'antd';
 import dayjs from 'dayjs';
 import { Link, useNavigate } from 'react-router-dom';
 import { SignUpError, useAuth } from '@contexts/AuthContext.tsx';
@@ -8,8 +8,6 @@ import type { BaseAddress } from '@commercetools/platform-sdk';
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import countries from '@data/countries.json';
 import validateConstant from '@data/validateConstants';
-
-const { Title } = Typography;
 
 interface Address {
   streetName: string;
@@ -153,17 +151,7 @@ export const RegisterPage: React.FC = () => {
           style={{ width: 360 }}
           autoComplete="on"
         >
-          <Title
-            level={3}
-            color="#376a4f"
-            style={{
-              color: '#376a4f',
-              textAlign: 'center',
-              marginTop: 10,
-            }}
-          >
-            Sign Up
-          </Title>
+          <h1 className="custom-title">Sign Up</h1>
 
           {/* Registration fields */}
           <Form.Item
@@ -259,7 +247,7 @@ export const RegisterPage: React.FC = () => {
 
           {/* Billing Address */}
           <>
-            <Title level={4}>Billing Address</Title>
+            <h2 className="custom-title">Billing Address</h2>
             <Form.Item
               name="billingStreet"
               label="Street"
@@ -321,7 +309,7 @@ export const RegisterPage: React.FC = () => {
           {/* Conditional Shipping Address */}
           {!shareAddress && (
             <>
-              <Title level={4}>Shipping Address</Title>
+              <h2 className="custom-title">Shipping Address</h2>
               <Form.Item
                 name="shippingStreet"
                 label="Street"

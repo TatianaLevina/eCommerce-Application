@@ -22,7 +22,7 @@ const categories: Category[] = [
 ];
 
 const CatalogMain: React.FC = () => {
-  const { Title, Text } = Typography;
+  const { Text } = Typography;
   const navigate = useNavigate();
 
   const clickCardHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -42,11 +42,11 @@ const CatalogMain: React.FC = () => {
   return (
     <>
       <Flex vertical justify="center" align="center" gap={'large'}>
-        <Title>Catalog</Title>
+        <h1 className="custom-title">Catalog</h1>
         <Text>Select product category</Text>
         <Flex onClick={(e) => clickCardHandler(e)} wrap justify="center" align="center" gap={'middle'}>
           {categories.length === 0 ? (
-            <Text>Product categories are not available on the server</Text>
+            <p>Product categories are not available on the server</p>
           ) : (
             categories.map((cat) => {
               return (

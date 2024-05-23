@@ -1,11 +1,10 @@
-import { Button, Carousel, Flex, Modal, Typography } from 'antd';
+import { Button, Carousel, Flex, Modal } from 'antd';
 import { useLocation } from 'react-router-dom';
 import '@components/Product/Product.scss';
-import type { Product } from '../Category/Category';
+import type { Product } from '@components/Category/prodyct.type';
 import { useState } from 'react';
 
 const ProductComponent: React.FC = () => {
-  const { Title, Text } = Typography;
   const { state } = useLocation();
   const { payload } = state;
   const product = payload as Product;
@@ -58,7 +57,7 @@ const ProductComponent: React.FC = () => {
         </Carousel>
       </Modal>
       <Flex vertical onClick={(e) => carouselClickHandler(e)} justify="center" align="center" gap={'large'}>
-        <Title>{name['en-us']}</Title>
+        <h1 className="custom-title">{name['en-us']}</h1>
         <div style={{ width: 320 }}>
           <Carousel autoplay className="product-carousel">
             {images.map((img, idx) => {
@@ -74,9 +73,9 @@ const ProductComponent: React.FC = () => {
             })}
           </Carousel>
         </div>
-        <Text>{description['en-us']}</Text>
-        <Text>Price: {prices.find((x) => x.value.currencyCode === 'EUR')?.value.centAmount}</Text>
-        <Text>{discounted ? `Discount price: ${discounted.value.centAmount}` : ''}</Text>
+        <p className="base-text">{description['en-us']}</p>
+        <p className="base-text">Price: {prices.find((x) => x.value.currencyCode === 'EUR')?.value.centAmount}</p>
+        <p className="base-text">{discounted ? `Discount price: ${discounted.value.centAmount}` : ''}</p>
         <Flex gap={20}>
           <Button className="custom-color" onClick={backClickHandler}>
             Back

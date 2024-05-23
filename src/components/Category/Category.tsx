@@ -1,8 +1,9 @@
-import { Card, Cascader, Flex, Input, Pagination, Select, Typography } from 'antd';
+import { Card, Cascader, Flex, Input, Pagination, Select } from 'antd';
 import type { CascaderProps } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '@components/Category/Category.scss';
+import type { AttributeType, Product, Products } from '@components/Category/prodyct.type';
 
 const { Search } = Input;
 
@@ -13,62 +14,6 @@ interface Option {
   value: string;
   label: string;
 }
-
-// Server response type
-type Products = {
-  limit: number;
-  offset: number;
-  count: number;
-  total: number;
-  results: Product[];
-};
-
-export type Product = {
-  id: string;
-  name: {
-    'en-us': string;
-  };
-  description: {
-    'en-us': string;
-  };
-  masterVariant: {
-    images: ImadeInfo[];
-    prices: PriceInfo[];
-    attributes: AttributeType[];
-  };
-};
-export type ImadeInfo = {
-  url: string;
-  dimensions: {
-    w: number;
-    h: number;
-  };
-};
-
-export type AttributeType = {
-  name: string;
-  value: string;
-};
-
-export type PriceInfo = {
-  id: string;
-  value: PriceValue;
-  country: string;
-  discounted?: {
-    value: PriceValue;
-    discount: {
-      typeId: string;
-      id: string;
-    };
-  };
-};
-
-export type PriceValue = {
-  type: string;
-  currencyCode: string;
-  centAmount: number;
-  fractionDigits: number;
-};
 
 // object to request
 type RequestObject = {
@@ -285,7 +230,7 @@ const products: Products = {
   ],
 };
 
-// //! temp options MOCK
+// //! temp filter options MOCK
 // const filterOptions: Option[] = [
 //   {
 //     value: 'metal',
@@ -296,7 +241,7 @@ const products: Products = {
 //   { value: 'cloth', label: 'Cloth' },
 // ];
 
-//! temp options MOCK
+//! temp sort options MOCK
 const sortOptions: Option[] = [
   {
     value: 'name',
@@ -333,7 +278,6 @@ const sortFilterSerchObject: RequestObject = {
 };
 
 const Category: React.FC = () => {
-  const { Title } = Typography;
   const { state } = useLocation();
   const { payload } = state;
   const navigate = useNavigate();
@@ -389,7 +333,7 @@ const Category: React.FC = () => {
   return (
     <>
       <Flex vertical justify="center" align="center" gap={'large'}>
-        <Title>{payload}</Title>
+        <h1 className="custom-title">{payload}</h1>
         <Flex wrap>
           <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
           <Cascader
@@ -426,27 +370,28 @@ const Category: React.FC = () => {
             const price = product.masterVariant.prices.find((x) => x.value.currencyCode === checkedCurrency);
             return (
               <Card
-                style={{ width: 240 }}
+                // style={{ width: 240 }}
                 styles={{ body: { padding: 0 } }}
                 key={product.id}
-                title={product.name['en-us']}
+                // title={product.name['en-us']}
                 id={product.id}
                 bordered={false}
                 className="product-card"
               >
+                <h4 className="product-card__title">{product.name['en-us']}</h4>
                 <div className="product-card__custom-image">
                   <img alt="example" width="100%" src={product.masterVariant.images[0].url} />
                 </div>
-                <div className="product-card__custom-card">
+                <Flex className="product-card__custom-card" vertical justify="flex-end" align="flex-end">
                   <p className="product-card__price">
                     Price: {price?.value.centAmount} {price?.value.currencyCode}
                   </p>
-                  <p className="product-card__price_discounted">
+                  <p className="product-card__price product-card__price_discounted">
                     {price?.discounted
                       ? `Discounted price: ${price?.discounted?.value.centAmount} ${price?.discounted?.value.currencyCode}`
                       : ''}
                   </p>
-                </div>
+                </Flex>
               </Card>
             );
           })}

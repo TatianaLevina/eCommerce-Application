@@ -1,15 +1,28 @@
 .product-card {
   cursor: pointer;
+  padding: 0px 4px;
+  width: 240px;
+  color: #2f7c69;
   transition: transform 0.3s ease;
+
+  &__title {
+    text-align: center;
+    padding: 10px 16px;
+    margin: 0;
+  }
 
   &__custom-image img {
     display: block;
   }
   &__custom-card {
+    height: 4rem;
     padding: 10px 16px;
   }
   &__price {
-    color: #999;
+    color: #2f7c69;
+
+    margin: 0;
+    padding: 0;
     &_discounted {
       color: red;
     }
