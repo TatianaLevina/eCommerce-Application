@@ -1,18 +1,48 @@
 import type React from 'react';
-import { DatePicker, Form, Input, Typography } from 'antd';
+import { Button, DatePicker, Flex, Form, Input, Typography } from 'antd';
 import { useAuth } from '@/contexts/AuthContext';
 import validateConstant from '@data/validateConstants';
 import moment from 'moment';
+import { useState } from 'react';
 
 const { Title } = Typography;
 
 const ProfilePage: React.FC = () => {
   const [form] = Form.useForm();
+  const [editMode, setEditMode] = useState(false);
   const { user } = useAuth();
   const onFinish = () => {};
+  const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
+    setEditMode(disabled);
+  };
   return (
-    <div>
+    <Flex vertical align="flex-start">
       {/* <h1 className="custom-title">Profile</h1> */}
+      {editMode ? (
+        <>
+          <Button
+            style={{ alignSelf: 'flex-end' }}
+            type="primary"
+            className={' primary-custom-color'}
+            onClick={() => setEditMode(!editMode)}
+          >
+            Cancel
+          </Button>
+        </>
+      ) : (
+        <>
+          {' '}
+          <Button
+            style={{ alignSelf: 'flex-end' }}
+            type="primary"
+            className={' primary-custom-color'}
+            onClick={() => setEditMode(!editMode)}
+          >
+            Edit
+          </Button>{' '}
+        </>
+      )}
+
       <Form
         form={form}
         name="profile"
@@ -20,8 +50,9 @@ const ProfilePage: React.FC = () => {
         initialValues={{
           firstName: user?.firstName,
           lastName: user?.lastName,
-          // birthDate: user?.dateOfBirth,
         }}
+        onValuesChange={onFormLayoutChange}
+        disabled={!editMode}
       >
         <Title
           level={4}
@@ -57,8 +88,17 @@ const ProfilePage: React.FC = () => {
         >
           Addresses
         </Title>
+        {editMode ? (
+          <>
+            <Button type="primary" className={'primary-custom-color'} htmlType="submit">
+              Update
+            </Button>{' '}
+          </>
+        ) : (
+          <> </>
+        )}
       </Form>
-    </div>
+    </Flex>
   );
 };
 export default ProfilePage;
