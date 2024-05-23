@@ -69,6 +69,7 @@ type RequestObject = {
   serch: string | null;
 };
 
+//! FOR DEV MOCK OBJECT
 const products: Products = {
   limit: 4,
   offset: 0,
@@ -87,7 +88,14 @@ const products: Products = {
       masterVariant: {
         images: [
           {
-            url: 'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Rumi_Chair-1.1.jpeg',
+            url: 'https://www.officewarehouse.com.ph/__resources/_web_data_/products/products/images/6299.jpg',
+            dimensions: {
+              w: 2400,
+              h: 3200,
+            },
+          },
+          {
+            url: 'https://www.flexlux.com/admin/public/getimage.ashx?Image=/Files/Images/mood/Design_Scopello_frontpage.jpg&Width=640&Height=480&Format=jpg&Quality=75&Crop=0',
             dimensions: {
               w: 2400,
               h: 3200,
@@ -132,7 +140,21 @@ const products: Products = {
       masterVariant: {
         images: [
           {
-            url: 'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Braided_Rug-1.1.jpeg',
+            url: 'https://i.pinimg.com/736x/dc/c9/82/dcc98280bb73470a5d536d5825e81c5e.jpg',
+            dimensions: {
+              w: 2400,
+              h: 3200,
+            },
+          },
+          {
+            url: 'https://i.etsystatic.com/5798104/r/il/3194c3/305063826/il_fullxfull.305063826.jpg',
+            dimensions: {
+              w: 2400,
+              h: 3200,
+            },
+          },
+          {
+            url: 'https://dreamnewengland.wordpress.com/wp-content/uploads/2016/08/img_8875.jpg?w=640',
             dimensions: {
               w: 2400,
               h: 3200,
@@ -165,7 +187,21 @@ const products: Products = {
       masterVariant: {
         images: [
           {
-            url: 'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Modern_Landscape_Painting-1.1.jpeg',
+            url: 'https://i.ytimg.com/vi/Kjmwng8bYrM/sddefault.jpg',
+            dimensions: {
+              w: 5313,
+              h: 5355,
+            },
+          },
+          {
+            url: 'https://static.wixstatic.com/media/bb7129_ef24642844574f19995a9d5c648f36ba~mv2.jpg/v1/fill/w_640,h_480,fp_0.32_0.31,q_80,usm_0.66_1.00_0.01,enc_auto/bb7129_ef24642844574f19995a9d5c648f36ba~mv2.jpg',
+            dimensions: {
+              w: 5313,
+              h: 5355,
+            },
+          },
+          {
+            url: 'https://i.pinimg.com/736x/68/05/f3/6805f3f5133ec8636003da27d2809c54.jpg',
             dimensions: {
               w: 5313,
               h: 5355,
@@ -198,7 +234,21 @@ const products: Products = {
       masterVariant: {
         images: [
           {
-            url: 'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Cocktail_Stirring_Spoon-1.1.jpeg',
+            url: 'https://static.baza.farpost.ru/v/1527487322960_bulletin',
+            dimensions: {
+              w: 5757,
+              h: 4555,
+            },
+          },
+          {
+            url: 'https://www.bartender.com.ua/wp-content/uploads/2015/11/barspoons.jpg',
+            dimensions: {
+              w: 5757,
+              h: 4555,
+            },
+          },
+          {
+            url: 'https://fhd.multiurok.ru/b/7/4/b74fdddf137f7f11789ad7febe558044f69591b7/img20.jpg',
             dimensions: {
               w: 5757,
               h: 4555,
@@ -222,7 +272,7 @@ const products: Products = {
   ],
 };
 
-//! temp options
+//! temp options MOCK
 const filterOptions: Option[] = [
   {
     value: 'metal',
@@ -233,7 +283,7 @@ const filterOptions: Option[] = [
   { value: 'cloth', label: 'Cloth' },
 ];
 
-//! temp options
+//! temp options MOCK
 const sortOptions: Option[] = [
   {
     value: 'name',
@@ -256,6 +306,7 @@ const Category: React.FC = () => {
   const navigate = useNavigate();
 
   const changePageHandler = (page: number) => {
+    // TODO: Add change page logic by page number
     console.log('I change page to ', page);
   };
 
@@ -275,6 +326,7 @@ const Category: React.FC = () => {
   };
 
   const sendRequestToServer = (requestObject: RequestObject) => {
+    // TODO: Send request to the server with sorting, searching and filtering parameters to obtain a list of products
     console.log(requestObject);
   };
 
@@ -285,7 +337,7 @@ const Category: React.FC = () => {
     if (target) {
       products.results.forEach((x) => {
         if (x.id === target.id) {
-          console.log(x.id);
+          //? Navigate to concrete product and send product model to component
           navigate(`/catalog/product/${x.id}`, { state: { payload: x } });
         }
       });
@@ -322,7 +374,7 @@ const Category: React.FC = () => {
             return (
               <Card
                 style={{ width: 240 }}
-                bodyStyle={{ padding: 0 }}
+                styles={{ body: { padding: 0 } }}
                 key={product.id}
                 title={product.name['en-us']}
                 id={product.id}
@@ -347,6 +399,7 @@ const Category: React.FC = () => {
           })}
         </Flex>
         <Pagination
+          className="pagination"
           onChange={(p) => changePageHandler(p)}
           total={products.total}
           showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}

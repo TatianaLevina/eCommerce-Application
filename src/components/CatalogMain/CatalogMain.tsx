@@ -32,6 +32,7 @@ const CatalogMain: React.FC = () => {
     if (target) {
       categories.forEach((x) => {
         if (x.id === target.id) {
+          //? Navigate to concrete category and send category name as payload
           navigate(`/catalog/${x.category.toLowerCase()}`, { state: { payload: x.category } });
         }
       });
