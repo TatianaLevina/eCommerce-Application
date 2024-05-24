@@ -19,7 +19,7 @@ const routes = [
     protected: undefined,
   },
   {
-    path: '/catalog/*',
+    path: '/catalog',
     element: CatalogPage,
     protected: undefined,
   },
