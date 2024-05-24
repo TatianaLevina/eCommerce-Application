@@ -11,7 +11,7 @@ function App() {
       <AuthProvider>
         <CategoryProvider>
           <Routes>
-            {routes.map(({ path, element: Element, protected: protectionType }) => (
+            {routes.map(({ path, element: Element, protected: protectionType, children }) => (
               <Route
                 key={path}
                 path={path}
@@ -20,7 +20,12 @@ function App() {
                     <ProtectedRoute element={Element} protected={protectionType as 'auth' | 'guest' | undefined} />
                   </AppLayout>
                 }
-              />
+              >
+                {children &&
+                  children.map(({ path: childPath, element: ChildElement }) => (
+                    <Route key={childPath} path={childPath} element={<ChildElement />} />
+                  ))}
+              </Route>
             ))}
           </Routes>
         </CategoryProvider>
