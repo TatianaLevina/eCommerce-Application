@@ -1,9 +1,10 @@
-import { Card, Cascader, Flex, Input, Pagination, Select } from 'antd';
+import { Breadcrumb, Card, Cascader, Flex, Input, Pagination, Select } from 'antd';
 import type { CascaderProps } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
 import type { SearchProps } from 'antd/es/input/Search';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '@components/Category/Category.scss';
-import type { AttributeType, Product, Products } from '@components/Category/prodyct.type';
+import type { AttributeType, Product, Products } from '@components/Category/product.type';
 
 const { Search } = Input;
 
@@ -324,7 +325,7 @@ const Category: React.FC = () => {
       products.results.forEach((x) => {
         if (x.id === target.id) {
           //? Navigate to concrete product and send product model to component
-          navigate(`/catalog/product/${x.id}`, { state: { payload: x } });
+          navigate(`/catalog/product/${x.id}`, { state: { payload: x, category: payload } });
         }
       });
     }
@@ -333,6 +334,25 @@ const Category: React.FC = () => {
   return (
     <>
       <Flex vertical justify="center" align="center" gap={'large'}>
+        <Breadcrumb
+          items={[
+            {
+              href: '/',
+              title: <HomeOutlined />,
+            },
+            {
+              href: '/catalog/',
+              title: (
+                <>
+                  <span>Catalog</span>
+                </>
+              ),
+            },
+            {
+              title: `${payload}`,
+            },
+          ]}
+        />
         <h1 className="custom-title">{payload}</h1>
         <Flex wrap>
           <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />

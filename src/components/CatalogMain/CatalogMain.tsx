@@ -1,4 +1,5 @@
-import { Card, Flex, Typography } from 'antd';
+import { Breadcrumb, Card, Flex, Typography } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import '@components/CatalogMain/CatalogMain.scss';
 
@@ -42,6 +43,17 @@ const CatalogMain: React.FC = () => {
   return (
     <>
       <Flex vertical justify="center" align="center" gap={'large'}>
+        <Breadcrumb
+          items={[
+            {
+              href: '/',
+              title: <HomeOutlined />,
+            },
+            {
+              title: 'Catalog',
+            },
+          ]}
+        />
         <h1 className="custom-title">Catalog</h1>
         <Text>Select product category</Text>
         <Flex onClick={(e) => clickCardHandler(e)} wrap justify="center" align="center" gap={'middle'}>

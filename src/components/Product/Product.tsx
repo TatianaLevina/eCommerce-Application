@@ -1,12 +1,14 @@
 import { Button, Carousel, Flex, Modal } from 'antd';
 import { useLocation } from 'react-router-dom';
 import '@components/Product/Product.scss';
-import type { Product } from '@components/Category/prodyct.type';
+import type { Product } from '@components/Category/product.type';
 import { useState } from 'react';
 
 const ProductComponent: React.FC = () => {
   const { state } = useLocation();
-  const { payload } = state;
+  const { payload, category } = state;
+  console.log(payload);
+  console.log(category);
   const product = payload as Product;
   const { name, description, masterVariant } = product;
   const { images, prices } = masterVariant;
