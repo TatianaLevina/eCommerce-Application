@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Spin, Typography, Breadcrumb, Dropdown } from 'antd';
+import { Spin, Breadcrumb, Dropdown } from 'antd';
 import { HomeOutlined, DownOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { ProductProjection } from '@commercetools/platform-sdk';
@@ -9,8 +9,6 @@ import { useCategory } from '@contexts/CategoriesContext.tsx';
 import Filters from '@components/Filters/Filters.tsx';
 import ProductCard from '@components/ProductCard/ProductCard.tsx';
 import '@pages/CategoryPage/CategoryPage.scss';
-
-const { Title } = Typography;
 
 const CategoryPage: React.FC = () => {
   const { categories, loading: categoryLoading } = useCategory();
@@ -113,7 +111,7 @@ const CategoryPage: React.FC = () => {
   return (
     <div className="category-page">
       <Breadcrumb items={breadcrumbItems} />
-      <Title className="custom-title">{categoryName ? categoryName : 'Category Page'}</Title>
+      <h1 className="custom-title">{categoryName ? categoryName : 'Category Page'}</h1>
       <Filters
         searchText={searchText}
         setSearchText={setSearchText}
