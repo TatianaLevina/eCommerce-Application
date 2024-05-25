@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Input, Select, Button, Drawer, Typography } from 'antd';
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
@@ -33,15 +33,29 @@ const Filters: React.FC<FiltersProps> = ({
   drawerOpen,
   toggleDrawer,
 }) => {
-  const debouncedSetPriceFrom = useCallback(
-    debounce((value: number | undefined) => setPriceFrom(value), 500),
-    [],
-  );
+  const [tempPriceFrom, setTempPriceFrom] = useState<number | undefined>(priceFrom);
+  const [tempPriceTo, setTempPriceTo] = useState<number | undefined>(priceTo);
 
-  const debouncedSetPriceTo = useCallback(
-    debounce((value: number | undefined) => setPriceTo(value), 500),
-    [],
-  );
+  useEffect(() => {
+    setTempPriceFrom(priceFrom);
+  }, [priceFrom]);
+
+  useEffect(() => {
+    setTempPriceTo(priceTo);
+  }, [priceTo]);
+
+  const debouncedSetPriceFrom = debounce((value: number | undefined) => setPriceFrom(value), 500);
+  const debouncedSetPriceTo = debounce((value: number | undefined) => setPriceTo(value), 500);
+
+  const handlePriceFromChange = (value: number | undefined) => {
+    setTempPriceFrom(value);
+    debouncedSetPriceFrom(value);
+  };
+
+  const handlePriceToChange = (value: number | undefined) => {
+    setTempPriceTo(value);
+    debouncedSetPriceTo(value);
+  };
 
   return (
     <>
@@ -83,16 +97,16 @@ const Filters: React.FC<FiltersProps> = ({
               placeholder="From"
               type="number"
               min={0}
-              value={priceFrom}
-              onChange={(e) => debouncedSetPriceFrom(parseFloat(e.target.value))}
+              value={tempPriceFrom}
+              onChange={(e) => handlePriceFromChange(parseFloat(e.target.value))}
               style={{ marginTop: 8, width: '50%' }}
             />
             <Input
               placeholder="To"
               type="number"
               min={0}
-              value={priceTo}
-              onChange={(e) => debouncedSetPriceTo(parseFloat(e.target.value))}
+              value={tempPriceTo}
+              onChange={(e) => handlePriceToChange(parseFloat(e.target.value))}
               style={{ marginTop: 8, width: '50%' }}
             />
           </div>
@@ -134,16 +148,16 @@ const Filters: React.FC<FiltersProps> = ({
               placeholder="From"
               type="number"
               min={0}
-              value={priceFrom}
-              onChange={(e) => debouncedSetPriceFrom(parseFloat(e.target.value))}
+              value={tempPriceFrom}
+              onChange={(e) => handlePriceFromChange(parseFloat(e.target.value))}
               style={{ width: '50%' }}
             />
             <Input
               placeholder="To"
               type="number"
               min={0}
-              value={priceTo}
-              onChange={(e) => debouncedSetPriceTo(parseFloat(e.target.value))}
+              value={tempPriceTo}
+              onChange={(e) => handlePriceToChange(parseFloat(e.target.value))}
               style={{ width: '50%' }}
             />
           </div>
