@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Spin, Breadcrumb, Dropdown } from 'antd';
+import { Spin, Typography, Breadcrumb, Dropdown } from 'antd';
 import { HomeOutlined, DownOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { ProductProjection } from '@commercetools/platform-sdk';
@@ -9,6 +9,8 @@ import { useCategory } from '@contexts/CategoriesContext.tsx';
 import Filters from '@components/Filters/Filters.tsx';
 import ProductCard from '@components/ProductCard/ProductCard.tsx';
 import '@pages/CategoryPage/CategoryPage.scss';
+
+const { Title } = Typography;
 
 const CategoryPage: React.FC = () => {
   const { categories, loading: categoryLoading } = useCategory();
@@ -22,7 +24,7 @@ const CategoryPage: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const categorySlug = location.pathname.split('/').pop();
+  const categorySlug = location.pathname.split('/').pop() || ''; // Ensure it's always a string
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -111,7 +113,7 @@ const CategoryPage: React.FC = () => {
   return (
     <div className="category-page">
       <Breadcrumb items={breadcrumbItems} />
-      <h1 className="custom-title">{categoryName ? categoryName : 'Category Page'}</h1>
+      <Title className="custom-title">{categoryName ? categoryName : 'Category Page'}</Title>
       <Filters
         searchText={searchText}
         setSearchText={setSearchText}
@@ -133,7 +135,14 @@ const CategoryPage: React.FC = () => {
       <div className="content">
         <div className="product-cards-container">
           {products.length > 0 ? (
-            products.map((product) => <ProductCard key={product.id} product={product} formatPrice={formatPrice} />)
+            products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                categorySlug={categorySlug} // Pass category slug to ProductCard
+                formatPrice={formatPrice}
+              />
+            ))
           ) : (
             <p>No products found for this category</p>
           )}
