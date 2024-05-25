@@ -49,14 +49,12 @@
 
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Card, Typography, Spin, Breadcrumb, Flex } from 'antd';
+import { Card, Spin, Breadcrumb, Flex } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import '@pages/CatalogPage/CatalogMainPage.scss';
 import { HomeOutlined } from '@ant-design/icons';
-
-const { Text } = Typography;
 
 interface CategoryWithImage {
   id: string;
@@ -122,20 +120,19 @@ const CatalogMainPage: React.FC = () => {
 
   return (
     <>
+      <Breadcrumb
+        items={[
+          {
+            href: '/',
+            title: <HomeOutlined />,
+          },
+          {
+            title: 'Catalog',
+          },
+        ]}
+      />
       <Flex vertical justify="center" align="center" gap={'large'}>
-        <Breadcrumb
-          items={[
-            {
-              href: '/',
-              title: <HomeOutlined />,
-            },
-            {
-              title: 'Catalog',
-            },
-          ]}
-        />
-        <h1 className="custom-title">Catalog</h1>
-        <Text className="custom-text">Product Categories</Text>
+        <h1 className="custom-title">Product Categories</h1>
         <div className="flex-container" onClick={(e) => clickCardHandler(e)}>
           {categoriesWithImages.length > 0 ? (
             categoriesWithImages.map((cat) => (
