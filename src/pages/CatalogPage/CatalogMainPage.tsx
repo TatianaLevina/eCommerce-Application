@@ -49,11 +49,12 @@
 
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Card, Typography, Spin } from 'antd';
+import { Card, Typography, Spin, Breadcrumb, Flex } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import '@pages/CatalogPage/CatalogMainPage.scss';
+import { HomeOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 
@@ -121,31 +122,42 @@ const CatalogMainPage: React.FC = () => {
 
   return (
     <>
-      <div className="catalog-header">
-        <Typography.Title className="custom-title">Catalog</Typography.Title>
-        <Text className="custom-text">Select product category</Text>
-      </div>
-      <div className="flex-container" onClick={(e) => clickCardHandler(e)}>
-        {categoriesWithImages.length > 0 ? (
-          categoriesWithImages.map((cat) => (
-            <Card
-              style={{ width: 240 }}
-              title={cat.name}
-              data-id={cat.id}
-              data-slug={cat.slug}
-              key={cat.id}
-              bordered={false}
-              className="category-card"
-            >
-              <div className="category-card__custom-image">
-                <img src={cat.imageUrl} alt={cat.name} />
-              </div>
-            </Card>
-          ))
-        ) : (
-          <p>Product categories are not available on the server</p>
-        )}
-      </div>
+      <Flex vertical justify="center" align="center" gap={'large'}>
+        <Breadcrumb
+          items={[
+            {
+              href: '/',
+              title: <HomeOutlined />,
+            },
+            {
+              title: 'Catalog',
+            },
+          ]}
+        />
+        <h1 className="custom-title">Catalog</h1>
+        <Text className="custom-text">Product Categories</Text>
+        <div className="flex-container" onClick={(e) => clickCardHandler(e)}>
+          {categoriesWithImages.length > 0 ? (
+            categoriesWithImages.map((cat) => (
+              <Card
+                style={{ width: 200 }}
+                title={cat.name}
+                data-id={cat.id}
+                data-slug={cat.slug}
+                key={cat.id}
+                bordered={false}
+                className="category-card"
+              >
+                <div className="category-card__custom-image">
+                  <img src={cat.imageUrl} alt={cat.name} />
+                </div>
+              </Card>
+            ))
+          ) : (
+            <p>Product categories are not available on the server</p>
+          )}
+        </div>
+      </Flex>
     </>
   );
 };
