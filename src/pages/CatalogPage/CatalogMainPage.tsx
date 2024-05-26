@@ -82,16 +82,15 @@ const CatalogMainPage: React.FC = () => {
           {categoriesWithImages.length > 0 ? (
             categoriesWithImages.map((cat) => (
               <Card
-                style={{ width: 200 }}
                 title={cat.name}
                 data-id={cat.id}
                 data-slug={cat.slug}
                 key={cat.id}
                 bordered={false}
-                className="category-card"
+                className="category-card zooming"
               >
                 <div className="category-card__custom-image">
-                  <img src={cat.imageUrl} alt={cat.name} />
+                  <img className="category-card__img" src={cat.imageUrl} alt={cat.name} />
                 </div>
               </Card>
             ))

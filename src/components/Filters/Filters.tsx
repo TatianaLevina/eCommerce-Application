@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Input, Select, Button, Drawer, Typography } from 'antd';
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
+import '@components/Filters/Filters.scss';
 
 const { Option } = Select;
 
@@ -164,6 +165,7 @@ const Filters: React.FC<FiltersProps> = ({
         </div>
         <Button
           type="primary"
+          className="primary-custom-color"
           onClick={resetFilters}
           style={{ marginTop: '16px', backgroundColor: '#2f7c69', width: '100px' }}
         >
