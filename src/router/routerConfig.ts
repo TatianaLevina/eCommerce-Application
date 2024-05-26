@@ -6,6 +6,9 @@ import CartPage from '@pages/CartPage/CartPage.tsx';
 import LoginPage from '@pages/LoginPage/LoginPage.tsx';
 import ErrorPage from '@/pages/ErrorPage/ErrorPage';
 import CatalogPage from '@/pages/CatalogPage/CatalogPage';
+import CatalogMainPage from '@/pages/CatalogPage/CatalogMainPage';
+import CategoryPage from '@/pages/CategoryPage/CategoryPage';
+import ProductPage from '@/pages/ProductPage/ProductPage'; // Ensure this page exists
 
 const routes = [
   {
@@ -19,9 +22,14 @@ const routes = [
     protected: undefined,
   },
   {
-    path: '/catalog/*',
+    path: '/catalog',
     element: CatalogPage,
     protected: undefined,
+    children: [
+      { path: '', element: CatalogMainPage },
+      { path: ':slug', element: CategoryPage },
+      { path: ':slug/product/:productId', element: ProductPage },
+    ],
   },
   {
     path: '/login',

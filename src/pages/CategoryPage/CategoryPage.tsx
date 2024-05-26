@@ -1,0 +1,129 @@
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { Spin } from 'antd';
+import { useLocation } from 'react-router-dom';
+import type { ProductProjection } from '@commercetools/platform-sdk';
+import { getProductsByParamsService } from '@services/ProductsService.ts';
+import { useCategory } from '@contexts/CategoriesContext.tsx';
+import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
+import Filters from '@components/Filters/Filters.tsx';
+import ProductCard from '@components/ProductCard/ProductCard.tsx';
+import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
+import '@pages/CategoryPage/CategoryPage.scss';
+import { HomeOutlined } from '@ant-design/icons';
+
+const CategoryPage: React.FC = () => {
+  const { categories, loading: categoryLoading } = useCategory();
+  const [products, setProducts] = useState<ProductProjection[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [categoryName, setCategoryName] = useState<string | null>(null);
+  const [searchText, setSearchText] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<string>('');
+  const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined);
+  const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const location = useLocation();
+  const categorySlug = location.pathname.split('/').pop() || ''; // Ensure it's always a string
+  const { setItems } = useBreadcrumbs();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (categories && categorySlug) {
+        const category = categories.find((cat) => cat.slug['en-US'] === categorySlug);
+        if (category) {
+          setCategoryName(category.name['en-US']);
+          setItems([
+            { href: '/', title: <HomeOutlined /> },
+            { href: '/catalog', title: 'Catalog' },
+            {
+              title: category.name['en-US'],
+              menu: true,
+            },
+          ]);
+
+          let priceFilter = '';
+          if (priceFrom !== undefined && priceTo !== undefined) {
+            priceFilter = `variants.price.centAmount:range (${priceFrom * 100} to ${priceTo * 100})`;
+          } else if (priceFrom !== undefined) {
+            priceFilter = `variants.price.centAmount:range (${priceFrom * 100} to *)`;
+          } else if (priceTo !== undefined) {
+            priceFilter = `variants.price.centAmount:range (* to ${priceTo * 100})`;
+          }
+
+          const filters = [`categories.id:"${category.id}"`];
+          if (priceFilter) {
+            filters.push(priceFilter);
+          }
+
+          const response = await getProductsByParamsService({
+            filter: filters,
+            limit: 12, // Adjust the limit as needed
+            offset: 0,
+            sort: sortOrder ? [sortOrder] : [],
+            fuzzy: !!searchText,
+            [`text.en-US`]: searchText,
+          });
+          if (response) {
+            setProducts(response.body.results);
+          }
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchProducts();
+  }, [categories, categorySlug, searchText, sortOrder, priceFrom, priceTo, setItems]);
+
+  const formatPrice = (centAmount: number) => (centAmount / 100).toFixed(2);
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  if (categoryLoading || loading) {
+    return <Spin spinning={categoryLoading || loading} />;
+  }
+
+  return (
+    <div className="category-page">
+      <Breadcrumbs />
+      <h1 className="custom-title">{categoryName ? categoryName : 'Category Page'}</h1>
+      <Filters
+        searchText={searchText}
+        setSearchText={setSearchText}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+        priceFrom={priceFrom}
+        setPriceFrom={setPriceFrom}
+        priceTo={priceTo}
+        setPriceTo={setPriceTo}
+        resetFilters={() => {
+          setSearchText('');
+          setSortOrder('');
+          setPriceFrom(undefined);
+          setPriceTo(undefined);
+        }}
+        drawerOpen={drawerOpen}
+        toggleDrawer={toggleDrawer}
+      />
+      <div className="content">
+        <div className="product-cards-container">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                categorySlug={categorySlug} // Pass category slug to ProductCard
+                formatPrice={formatPrice}
+              />
+            ))
+          ) : (
+            <p>No products found for this category</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CategoryPage;

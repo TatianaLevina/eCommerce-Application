@@ -30,7 +30,7 @@ export const getSingleProductService = async (id: string): Promise<Product | nul
 type queryArgs = {
   staged?: boolean;
   fuzzy?: boolean; //if we search
-  'text.en'?: string; //search
+  'text.en-US'?: string; //search
   sort: string[];
   filter: string[];
   offset: number; //for pagination
