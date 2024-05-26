@@ -1,14 +1,16 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Spin, Breadcrumb, Dropdown } from 'antd';
-import { HomeOutlined, DownOutlined } from '@ant-design/icons';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Spin } from 'antd';
+import { useLocation } from 'react-router-dom';
 import type { ProductProjection } from '@commercetools/platform-sdk';
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
+import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
 import Filters from '@components/Filters/Filters.tsx';
 import ProductCard from '@components/ProductCard/ProductCard.tsx';
+import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import '@pages/CategoryPage/CategoryPage.scss';
+import { HomeOutlined } from '@ant-design/icons';
 
 const CategoryPage: React.FC = () => {
   const { categories, loading: categoryLoading } = useCategory();
@@ -21,8 +23,8 @@ const CategoryPage: React.FC = () => {
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const location = useLocation();
-  const navigate = useNavigate();
   const categorySlug = location.pathname.split('/').pop() || ''; // Ensure it's always a string
+  const { setItems } = useBreadcrumbs();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,6 +32,14 @@ const CategoryPage: React.FC = () => {
         const category = categories.find((cat) => cat.slug['en-US'] === categorySlug);
         if (category) {
           setCategoryName(category.name['en-US']);
+          setItems([
+            { href: '/', title: <HomeOutlined /> },
+            { href: '/catalog', title: 'Catalog' },
+            {
+              title: category.name['en-US'],
+              menu: true,
+            },
+          ]);
 
           let priceFilter = '';
           if (priceFrom !== undefined && priceTo !== undefined) {
@@ -62,7 +72,7 @@ const CategoryPage: React.FC = () => {
     };
 
     fetchProducts();
-  }, [categories, categorySlug, searchText, sortOrder, priceFrom, priceTo]);
+  }, [categories, categorySlug, searchText, sortOrder, priceFrom, priceTo, setItems]);
 
   const formatPrice = (centAmount: number) => (centAmount / 100).toFixed(2);
 
@@ -70,47 +80,13 @@ const CategoryPage: React.FC = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const handleMenuClick = ({ key }: { key: string }) => {
-    navigate(`/catalog/${key}`);
-  };
-
-  const categoriesMenuItems = categories?.map((category) => ({
-    key: category.slug['en-US'],
-    label: category.name['en-US'],
-  }));
-
-  const categoriesMenu = {
-    items: categoriesMenuItems,
-    onClick: handleMenuClick,
-  };
-
-  const breadcrumbItems = [
-    {
-      href: '/',
-      title: <HomeOutlined />,
-    },
-    {
-      href: '/catalog',
-      title: 'Catalog',
-    },
-    {
-      title: (
-        <Dropdown menu={categoriesMenu} trigger={['click']}>
-          <span>
-            {categoryName} <DownOutlined />
-          </span>
-        </Dropdown>
-      ),
-    },
-  ];
-
   if (categoryLoading || loading) {
     return <Spin spinning={categoryLoading || loading} />;
   }
 
   return (
     <div className="category-page">
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumbs />
       <h1 className="custom-title">{categoryName ? categoryName : 'Category Page'}</h1>
       <Filters
         searchText={searchText}

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@contexts/AuthContext';
 import CatalogMainPage from '@pages/CatalogPage/CatalogMainPage.tsx';
 import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
+import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext.tsx';
 
 describe('CatalogPage tests', () => {
   describe('Render element', () => {
@@ -25,7 +26,9 @@ describe('CatalogPage tests', () => {
         render(
           <AuthProvider>
             <CategoryProvider>
-              <CatalogMainPage />
+              <BreadcrumbsProvider>
+                <CatalogMainPage />
+              </BreadcrumbsProvider>
             </CategoryProvider>
           </AuthProvider>,
           {
@@ -44,7 +47,9 @@ describe('CatalogPage tests', () => {
         render(
           <AuthProvider>
             <CategoryProvider>
-              <CatalogMainPage />
+              <BreadcrumbsProvider>
+                <CatalogMainPage />
+              </BreadcrumbsProvider>
             </CategoryProvider>
           </AuthProvider>,
           {

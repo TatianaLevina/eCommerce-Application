@@ -1,10 +1,14 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Spin, Typography, Button, Modal, Carousel } from 'antd';
-import type { Product } from '@commercetools/platform-sdk';
+import { Spin, Typography, Button, Modal, Carousel, Dropdown } from 'antd';
 import { getSingleProductService } from '@services/ProductsService.ts';
+import { useCategory } from '@contexts/CategoriesContext.tsx';
+import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
+import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import '@pages/ProductPage/ProductPage.scss';
+import type { Product } from '@commercetools/platform-sdk';
+import { DownOutlined, HomeOutlined } from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
 
@@ -14,6 +18,8 @@ const ProductPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { categories } = useCategory();
+  const { setItems } = useBreadcrumbs();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -21,13 +27,36 @@ const ProductPage: React.FC = () => {
         const response = await getSingleProductService(productId);
         if (response) {
           setProduct(response);
+          setItems([
+            { href: '/', title: <HomeOutlined /> },
+            { href: '/catalog', title: 'Catalog' },
+            {
+              title: (
+                <Dropdown
+                  menu={{
+                    items: categories?.map((cat) => ({
+                      key: cat.slug['en-US'],
+                      label: cat.name['en-US'],
+                    })),
+                    onClick: ({ key }) => navigate(`/catalog/${key}`),
+                  }}
+                  trigger={['click']}
+                >
+                  <span>
+                    Category <DownOutlined />
+                  </span>
+                </Dropdown>
+              ),
+            },
+            { title: response.masterData.current.name['en-US'] },
+          ]);
         }
       }
       setLoading(false);
     };
 
     fetchProduct();
-  }, [productId]);
+  }, [productId, categories, setItems, navigate]);
 
   if (loading) {
     return <Spin spinning={loading} />;
@@ -67,6 +96,7 @@ const ProductPage: React.FC = () => {
 
   return (
     <>
+      <Breadcrumbs />
       <Modal
         title={name['en-US']}
         open={open}
@@ -94,7 +124,7 @@ const ProductPage: React.FC = () => {
             ))}
           </Carousel>
         </div>
-        <Paragraph className="base-text">{description ? description['en-US'] : 'No description available'}</Paragraph>
+        {description && <Paragraph className="base-text">{description['en-US']}</Paragraph>}
         <Paragraph className="base-text">
           Price: {formatPrice(prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)} USD
         </Paragraph>
