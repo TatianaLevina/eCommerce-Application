@@ -63,6 +63,7 @@ const CatalogMainPage: React.FC = () => {
       const categorySlug = target.getAttribute('data-slug');
       const category = categoriesWithImages.find((x) => x.slug === categorySlug);
 
+      console.log(category);
       if (category) {
         navigate(`/catalog/${category.slug}`, { state: { payload: category.name } });
       }
@@ -80,20 +81,23 @@ const CatalogMainPage: React.FC = () => {
         <h1 className="custom-title">Product Categories</h1>
         <div className="flex-container" onClick={(e) => clickCardHandler(e)}>
           {categoriesWithImages.length > 0 ? (
-            categoriesWithImages.map((cat) => (
-              <Card
-                title={cat.name}
-                data-id={cat.id}
-                data-slug={cat.slug}
-                key={cat.id}
-                bordered={false}
-                className="category-card zooming"
-              >
-                <div className="category-card__custom-image">
-                  <img className="category-card__img" src={cat.imageUrl} alt={cat.name} />
-                </div>
-              </Card>
-            ))
+            categoriesWithImages.map((cat) => {
+              console.log(cat);
+              return (
+                <Card
+                  title={cat.name}
+                  data-id={cat.id}
+                  data-slug={cat.slug}
+                  key={cat.id}
+                  bordered={false}
+                  className="category-card zooming"
+                >
+                  <div className="category-card__custom-image">
+                    <img className="category-card__img" src={cat.imageUrl} alt={cat.name} />
+                  </div>
+                </Card>
+              );
+            })
           ) : (
             <p>Product categories are not available on the server</p>
           )}

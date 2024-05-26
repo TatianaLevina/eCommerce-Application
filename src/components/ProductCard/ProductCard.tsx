@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
         </p>
         {discountedPrice && (
           <p className="product-card__price glow">
-            Di<span>sc</span>oun<span>t</span>ed pr<span>ic</span>e: {formatPrice(discountedPrice)}{' '}
+            <span>Discounted</span> price<span>:</span> {formatPrice(discountedPrice)}{' '}
             {price?.discounted?.value.currencyCode}
           </p>
         )}
