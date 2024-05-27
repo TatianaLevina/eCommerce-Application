@@ -106,6 +106,7 @@ const PersonalInfo: React.FC = () => {
         requiredMark="optional"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        layout="vertical"
         initialValues={{
           firstName: initValuesGeneralInfo.firstName,
           lastName: initValuesGeneralInfo.lastName,
