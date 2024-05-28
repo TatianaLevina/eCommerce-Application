@@ -91,3 +91,32 @@ html {
 .base-text {
   font-size: 16px;
 }
+
+.zooming {
+  overflow: hidden;
+  transition: transform 0.3s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+
+      .ant-card-head-title {
+        color: #2f7c69;
+        transition: color 0.3s ease;
+      }
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+
+      .ant-card-head-title {
+        color: #2f7c69;
+        transition: color 0.3s ease;
+      }
+    }
+  }
+}
