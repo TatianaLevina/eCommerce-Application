@@ -7,7 +7,6 @@ import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext';
 
 describe('ProductPage tests', () => {
   describe('Render element', () => {
-    // const formTestId = 'qwueyque8723hq8w';
     let container: HTMLElement | null = null;
 
     beforeEach(() => {

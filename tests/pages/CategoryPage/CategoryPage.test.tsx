@@ -6,7 +6,7 @@ import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
 import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext.tsx';
 import CategoryPage from '@/pages/CategoryPage/CategoryPage';
 
-describe('CatalogPage tests', () => {
+describe('CategoryPage tests', () => {
   describe('Render element', () => {
     let container: HTMLElement | null = null;
 
@@ -21,7 +21,7 @@ describe('CatalogPage tests', () => {
       container = null;
     });
 
-    test('Should CategoryPage be defined', () => {
+    test('Should be defined', () => {
       act(() => {
         render(
           <AuthProvider>
