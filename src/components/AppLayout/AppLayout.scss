@@ -1,0 +1,26 @@
+.layout {
+  background: none;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  &__content {
+    padding: 0 48px;
+    background: none;
+    min-height: 70vh;
+
+    @media screen and (max-width: 485px) {
+      padding: 0 10px;
+    }
+  }
+
+  &__wrapper {
+    background: #0000000d;
+    min-height: 70vh;
+    padding: 24px;
+    border-radius: 10px;
+
+    @media screen and (max-width: 410px) {
+      padding: 24px 10px;
+    }
+  }
+}

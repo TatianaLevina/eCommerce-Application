@@ -115,20 +115,48 @@ const ProductPage: React.FC = () => {
       </Modal>
       <div className="product-page" onClick={(e) => carouselClickHandler(e)}>
         <Title className="custom-title">{name['en-US']}</Title>
-        <div style={{ width: 320 }}>
-          <Carousel autoplay className="product-carousel">
-            {images?.map((img, idx) => (
-              <div key={idx}>
-                <img style={{ display: 'block', width: '100%', cursor: 'pointer' }} src={img.url} alt={name['en-US']} />
+        <div className="product-page__image-wrapper">
+          <div className="product-page__carusel-box">
+            <Carousel autoplay className="product-page__product-carousel">
+              {images?.map((img, idx) => (
+                <div key={idx}>
+                  <img
+                    style={{ display: 'block', width: '100%', cursor: 'pointer' }}
+                    src={img.url}
+                    alt={name['en-US']}
+                  />
+                </div>
+              ))}
+            </Carousel>
+          </div>
+          <div>
+            {/* <img
+              src="https://e7.pngegg.com/pngimages/524/289/png-clipart-red-and-white-special-discount-icon-special-discount-sign-miscellaneous-discount-signs-thumbnail.png"
+              alt="Discount"
+            /> */}
+            {discounted ? (
+              <div className="glow product-page__discount-text">
+                DISCOUNT{' '}
+                <span>
+                  {Math.ceil(
+                    (((prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0) -
+                      discounted!.value.centAmount) /
+                      (prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)) *
+                      100,
+                  )}
+                </span>{' '}
+                % OFF
               </div>
-            ))}
-          </Carousel>
+            ) : (
+              <div />
+            )}
+          </div>
         </div>
         {description && <Paragraph className="base-text">{description['en-US']}</Paragraph>}
-        <Paragraph className="base-text">
+        <Paragraph className={`base-text ${discounted ? 'base-text_through' : ''}`}>
           Price: {formatPrice(prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)} USD
         </Paragraph>
-        <Paragraph className="base-text">
+        <Paragraph className="base-text_colored">
           {discounted ? `Discount price: ${formatPrice(discounted.value.centAmount)} USD` : ''}
         </Paragraph>
         <div style={{ display: 'flex', gap: 20 }}>

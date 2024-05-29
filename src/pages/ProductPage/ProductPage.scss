@@ -1,4 +1,24 @@
-.product-carusel {
-  background-color: black;
-  max-width: 600px;
+.product-page {
+  &__product-carusel {
+    background-color: black;
+    max-width: 600px;
+  }
+
+  &__image-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row wrap;
+    gap: 20px;
+  }
+
+  &__discount-text {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  &__carusel-box {
+    width: 320px;
+  }
 }

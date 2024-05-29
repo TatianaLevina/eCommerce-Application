@@ -30,14 +30,14 @@ const AppHeader = () => {
   // const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
 
   return (
-    <Header style={{ height: '100px', display: 'flex', background: '#fff' }}>
-      <Flex gap="small" style={{ width: '100%' }} justify={justifyOptions[3]} align={alignOptions[1]}>
+    <Header className="header">
+      <Flex gap="small" className="flex-wrapper" justify={justifyOptions[3]} align={alignOptions[1]}>
         <Link to="/" style={{ lineHeight: '0px' }}>
           <img src={LOGO} alt="Sweet Home" />
         </Link>
 
         {isMobile ? (
-          <Flex gap="middle" style={{ width: '100%' }} justify={justifyOptions[2]} align={alignOptions[1]}>
+          <Flex gap="middle" className="flex-wrapper" justify={justifyOptions[2]} align={alignOptions[1]}>
             <Link to="/profile">
               <Avatar shape="square" className={'custom-color'} icon={<UserOutlined />} />
             </Link>
@@ -66,7 +66,7 @@ const AppHeader = () => {
         ) : (
           <>
             {/* <Search size="middle" placeholder="Product search" onSearch={onSearch} /> */}
-            <Flex gap="small" style={{ width: '100%' }} justify={justifyOptions[2]} align={alignOptions[1]}>
+            <Flex gap="small" className="flex-wrapper" justify={justifyOptions[2]} align={alignOptions[1]}>
               <Link to="/about">
                 <Button className={'custom-color'} ghost>
                   About us
