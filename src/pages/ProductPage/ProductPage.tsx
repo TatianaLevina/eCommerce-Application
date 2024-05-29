@@ -83,7 +83,7 @@ const ProductPage: React.FC = () => {
 
   const carouselClickHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const el: HTMLElement = e.target as HTMLElement;
-    const target: HTMLElement | null = el.closest('.product-carousel');
+    const target: HTMLElement | null = el.closest('.product-page__product-carousel');
 
     if (target) {
       toggleModal(true);
@@ -130,10 +130,6 @@ const ProductPage: React.FC = () => {
             </Carousel>
           </div>
           <div>
-            {/* <img
-              src="https://e7.pngegg.com/pngimages/524/289/png-clipart-red-and-white-special-discount-icon-special-discount-sign-miscellaneous-discount-signs-thumbnail.png"
-              alt="Discount"
-            /> */}
             {discounted ? (
               <div className="glow product-page__discount-text">
                 DISCOUNT{' '}

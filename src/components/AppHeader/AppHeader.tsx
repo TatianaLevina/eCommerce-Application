@@ -9,6 +9,7 @@ import { Avatar, Badge, Space } from 'antd';
 import LOGO from '../../images/logo.svg';
 import useMobile from '@/hooks/useMobile';
 import { useDrawerState } from '@/contexts/DrawerStateContext';
+import '@components/AppHeader/AppHeader.scss';
 
 const { Header } = Layout;
 // const { Search } = Input;
