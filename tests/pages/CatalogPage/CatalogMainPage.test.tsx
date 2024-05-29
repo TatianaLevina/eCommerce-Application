@@ -2,11 +2,11 @@ import { render, act } from '@testing-library/react';
 
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@contexts/AuthContext';
+import CatalogMainPage from '@pages/CatalogPage/CatalogMainPage.tsx';
 import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
 import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext.tsx';
-import CatalogPage from '@pages/CatalogPage/CatalogPage';
 
-describe('CatalogPage tests', () => {
+describe('CatalogMainPage tests', () => {
   describe('Render element', () => {
     let container: HTMLElement | null = null;
 
@@ -27,7 +27,7 @@ describe('CatalogPage tests', () => {
           <AuthProvider>
             <CategoryProvider>
               <BreadcrumbsProvider>
-                <CatalogPage />
+                <CatalogMainPage />
               </BreadcrumbsProvider>
             </CategoryProvider>
           </AuthProvider>,
@@ -40,6 +40,27 @@ describe('CatalogPage tests', () => {
 
       const el = container?.querySelector('div');
       expect(el).toBeDefined();
+    });
+
+    test('Contains HTMLElement', () => {
+      act(() => {
+        render(
+          <AuthProvider>
+            <CategoryProvider>
+              <BreadcrumbsProvider>
+                <CatalogMainPage />
+              </BreadcrumbsProvider>
+            </CategoryProvider>
+          </AuthProvider>,
+          {
+            wrapper: BrowserRouter,
+            container: container!,
+          },
+        );
+      });
+
+      const el = container?.querySelector('div');
+      expect(el).toBeInstanceOf(HTMLElement);
     });
   });
 });

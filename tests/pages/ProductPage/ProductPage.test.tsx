@@ -1,13 +1,13 @@
 import { render, act } from '@testing-library/react';
-
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@contexts/AuthContext';
-import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
-import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext.tsx';
-import CatalogPage from '@pages/CatalogPage/CatalogPage';
+import ProductPage from '@pages/ProductPage/ProductPage';
+import { CategoryProvider } from '@contexts/CategoriesContext';
+import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext';
 
-describe('CatalogPage tests', () => {
+describe('ProductPage tests', () => {
   describe('Render element', () => {
+    // const formTestId = 'qwueyque8723hq8w';
     let container: HTMLElement | null = null;
 
     beforeEach(() => {
@@ -27,7 +27,7 @@ describe('CatalogPage tests', () => {
           <AuthProvider>
             <CategoryProvider>
               <BreadcrumbsProvider>
-                <CatalogPage />
+                <ProductPage />
               </BreadcrumbsProvider>
             </CategoryProvider>
           </AuthProvider>,
@@ -37,8 +37,7 @@ describe('CatalogPage tests', () => {
           },
         );
       });
-
-      const el = container?.querySelector('div');
+      const el = container?.querySelector('.category-page');
       expect(el).toBeDefined();
     });
   });

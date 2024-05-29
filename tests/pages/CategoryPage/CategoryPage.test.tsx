@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@contexts/AuthContext';
 import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
 import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext.tsx';
-import CatalogPage from '@pages/CatalogPage/CatalogPage';
+import CategoryPage from '@/pages/CategoryPage/CategoryPage';
 
 describe('CatalogPage tests', () => {
   describe('Render element', () => {
@@ -21,13 +21,13 @@ describe('CatalogPage tests', () => {
       container = null;
     });
 
-    test('Should be defined', () => {
+    test('Should CategoryPage be defined', () => {
       act(() => {
         render(
           <AuthProvider>
             <CategoryProvider>
               <BreadcrumbsProvider>
-                <CatalogPage />
+                <CategoryPage />
               </BreadcrumbsProvider>
             </CategoryProvider>
           </AuthProvider>,
@@ -40,6 +40,27 @@ describe('CatalogPage tests', () => {
 
       const el = container?.querySelector('div');
       expect(el).toBeDefined();
+    });
+
+    test('Contains HTMLElement', () => {
+      act(() => {
+        render(
+          <AuthProvider>
+            <CategoryProvider>
+              <BreadcrumbsProvider>
+                <CategoryPage />
+              </BreadcrumbsProvider>
+            </CategoryProvider>
+          </AuthProvider>,
+          {
+            wrapper: BrowserRouter,
+            container: container!,
+          },
+        );
+      });
+
+      const el = container?.querySelector('div');
+      expect(el).toBeInstanceOf(HTMLElement);
     });
   });
 });
