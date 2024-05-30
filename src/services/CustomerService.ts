@@ -1,5 +1,7 @@
 import { createAuthFlow } from '@services/ClientBuilder.ts';
-import type { CustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
+import type { CustomerDraft, CustomerUpdateAction, MyCustomerSignin } from '@commercetools/platform-sdk';
+import type dayjs from 'dayjs';
+import validateConstant from '@/data/validateConstants';
 
 export const signUpCustomer = ({
   email,
@@ -40,6 +42,58 @@ export const signInCustomer = ({ email, password }: MyCustomerSignin) => {
         email,
         password,
         activeCartSignInMode: 'MergeWithExistingCustomerCart',
+      },
+    })
+    .execute();
+};
+
+export interface UserGeneralInfo {
+  firstName?: string;
+  lastName?: string;
+  birthDate?: dayjs.Dayjs;
+  email?: string;
+}
+
+export const updateUserInfo = (userID: string, userVersion: number, info: UserGeneralInfo) => {
+  const actions: CustomerUpdateAction[] = [];
+  if (info.firstName !== undefined) {
+    actions.push({
+      action: 'setFirstName',
+      firstName: info.firstName,
+    });
+  }
+  if (info.lastName !== undefined) {
+    actions.push({
+      action: 'setLastName',
+      lastName: info.lastName,
+    });
+  }
+  if (info.birthDate !== undefined) {
+    if (info.birthDate !== null) {
+      actions.push({
+        action: 'setDateOfBirth',
+        dateOfBirth: info.birthDate.format(validateConstant.dateFormat),
+      });
+    } else {
+      actions.push({
+        action: 'setDateOfBirth',
+      });
+    }
+  }
+  if (info.email !== undefined) {
+    actions.push({
+      action: 'changeEmail',
+      email: info.email,
+    });
+  }
+
+  return createAuthFlow()
+    .customers()
+    .withId({ ID: userID })
+    .post({
+      body: {
+        version: userVersion,
+        actions,
       },
     })
     .execute();

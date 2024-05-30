@@ -7,6 +7,7 @@ import { createPasswordAuthFlow } from '@services/ClientBuilder.ts';
 
 interface AuthContextType {
   user: Customer | null;
+  updateUser: (user: Customer) => void;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (customerData: CustomerDraft) => Promise<void>;
   signOut: () => void;
@@ -29,6 +30,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
+
+  const updateUser = (user: Customer) => {
+    setUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
+  };
 
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
@@ -69,7 +75,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('user');
   };
 
-  return <AuthContext.Provider value={{ user, signIn, signUp, signOut }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, updateUser, signIn, signUp, signOut }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {

@@ -1,26 +1,19 @@
 import type React from 'react';
-import { Button, DatePicker, Flex, Form, Input, Modal, Spin, Typography } from 'antd';
+import { Button, DatePicker, Flex, Form, Input, Modal, Spin, Typography, notification } from 'antd';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import dayjs from 'dayjs';
 import validateConstant from '@/data/validateConstants';
-
 import { EditOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { updateUserInfo, type UserGeneralInfo } from '@/services/CustomerService';
 
 const { Title } = Typography;
-
-interface UserGeneralInfo {
-  firstName?: string;
-  lastName?: string;
-  birthDate?: dayjs.Dayjs;
-  email?: string;
-}
 
 const PersonalInfo: React.FC = () => {
   const [form] = Form.useForm();
   const [editMode, setEditMode] = useState(false);
   const [updateInProgress, setUpdateInProgress] = useState(false);
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   function showError(msg: string): void {
     Modal.error({
@@ -28,28 +21,52 @@ const PersonalInfo: React.FC = () => {
       content: msg,
     });
   }
+  const [api, contextHolder] = notification.useNotification();
+  function showSuccess(): void {
+    api.success({
+      message: 'All changes are saved',
+      duration: 3,
+    });
+  }
 
   const validateAge = (val: dayjs.Dayjs | undefined): boolean => {
     return +new Date(Date.now() - dayjs(val).toDate().getTime()).getFullYear() - 1970 >= validateConstant.AgeLimit;
   };
 
-  const onFinish = (values: UserGeneralInfo): void => {
+  const onFinish = async (values: UserGeneralInfo) => {
+    setEditMode(false);
     if (values.birthDate && !validateAge(values.birthDate)) {
+      setEditMode(true);
       showError('You must be over 13 years old.');
       return;
     }
+
+    const updateValues: UserGeneralInfo = {
+      firstName: initValuesGeneralInfo.firstName !== values.firstName ? values.firstName : undefined,
+      lastName: initValuesGeneralInfo.lastName !== values.lastName ? values.lastName : undefined,
+      birthDate: !initValuesGeneralInfo.birthDate?.isSame(values.birthDate) ? values.birthDate : undefined,
+      email: initValuesGeneralInfo.email !== values.email ? values.email : undefined,
+    };
+    const shouldUpdate = !Object.values(updateValues).every((el) => el === undefined);
+    if (!shouldUpdate) {
+      showSuccess();
+      return;
+    }
     setUpdateInProgress(true);
-    setTimeout(() => {
+    try {
+      const response = await updateUserInfo(user!.id, user!.version, updateValues);
+      updateUser(response.body);
+      showSuccess();
+    } catch (error) {
+      setEditMode(true);
+      showError(`${error}`);
+    } finally {
       setUpdateInProgress(false);
-    }, 3000);
-    console.log('Submit');
+    }
   };
   const onFinishFailed = (): void => {
     showError('Fill in required fields!');
   };
-  // const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
-  //   setEditMode(disabled);
-  // };
 
   const initValuesGeneralInfo: UserGeneralInfo = {
     firstName: user?.firstName,
@@ -60,6 +77,7 @@ const PersonalInfo: React.FC = () => {
 
   return (
     <>
+      {contextHolder}
       <Spin spinning={updateInProgress} fullscreen />
       <h1 className="custom-title">My Profile</h1>
       <Flex justify="space-between" style={{ width: '100%' }}>
@@ -113,7 +131,6 @@ const PersonalInfo: React.FC = () => {
           email: initValuesGeneralInfo.email,
           birthDate: initValuesGeneralInfo.birthDate,
         }}
-        // onValuesChange={onFormLayoutChange}
         disabled={!editMode}
       >
         <div className="profile__general-info">
