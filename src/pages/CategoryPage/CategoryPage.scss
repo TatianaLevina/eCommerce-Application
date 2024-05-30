@@ -26,31 +26,3 @@
     margin-top: 20px;
   }
 }
-.category-page {
-  display: flex;
-  flex-direction: column;
-
-  .content {
-    flex-grow: 1;
-    padding: 16px;
-  }
-
-  .product-cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-  }
-
-  .custom-text {
-    display: block;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .pagination-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-}
