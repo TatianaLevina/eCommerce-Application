@@ -1,9 +1,11 @@
-import { AuthProvider } from '@contexts/AuthContext';
-import HomePage from '@pages/HomePage/HomePage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from '@contexts/AuthContext';
+import ProductPage from '@pages/ProductPage/ProductPage';
+import { CategoryProvider } from '@contexts/CategoriesContext';
+import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext';
 
-describe('HomePage tests', () => {
+describe('ProductPage tests', () => {
   describe('Render element', () => {
     let container: HTMLElement | null = null;
 
@@ -18,11 +20,15 @@ describe('HomePage tests', () => {
       container = null;
     });
 
-    test('Should HomePage be defined', () => {
+    test('Should be defined', () => {
       act(() => {
         render(
           <AuthProvider>
-            <HomePage />
+            <CategoryProvider>
+              <BreadcrumbsProvider>
+                <ProductPage />
+              </BreadcrumbsProvider>
+            </CategoryProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -30,26 +36,8 @@ describe('HomePage tests', () => {
           },
         );
       });
-
-      const el = container?.querySelector('div');
+      const el = container?.querySelector('.category-page');
       expect(el).toBeDefined();
-    });
-
-    test('Contains HTMLElement', () => {
-      act(() => {
-        render(
-          <AuthProvider>
-            <HomePage />
-          </AuthProvider>,
-          {
-            wrapper: BrowserRouter,
-            container: container!,
-          },
-        );
-      });
-
-      const el = container?.querySelector('div');
-      expect(el).toBeInstanceOf(HTMLElement);
     });
   });
 });
