@@ -1,12 +1,9 @@
 import { Layout } from 'antd';
 const { Footer } = Layout;
+import '@components/AppFooter/AppFooter.scss';
 
 const AppFooter = () => {
-  return (
-    <Footer style={{ textAlign: 'center', backgroundColor: '#fff', fontSize: '16px' }}>
-      Home Sweet Home © {new Date().getFullYear()} Created by CodeCrafters
-    </Footer>
-  );
+  return <Footer className="footer">Home Sweet Home © {new Date().getFullYear()} Created by CodeCrafters</Footer>;
 };
 
 export default AppFooter;
