@@ -69,10 +69,16 @@ export const updateUserInfo = (userID: string, userVersion: number, info: UserGe
     });
   }
   if (info.birthDate !== undefined) {
-    actions.push({
-      action: 'setDateOfBirth',
-      dateOfBirth: info.birthDate.format(validateConstant.dateFormat),
-    });
+    if (info.birthDate !== null) {
+      actions.push({
+        action: 'setDateOfBirth',
+        dateOfBirth: info.birthDate.format(validateConstant.dateFormat),
+      });
+    } else {
+      actions.push({
+        action: 'setDateOfBirth',
+      });
+    }
   }
   if (info.email !== undefined) {
     actions.push({
