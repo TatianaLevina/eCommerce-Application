@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Input, Select, Button, Drawer, Typography } from 'antd';
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
@@ -45,8 +45,14 @@ const Filters: React.FC<FiltersProps> = ({
     setTempPriceTo(priceTo);
   }, [priceTo]);
 
-  const debouncedSetPriceFrom = debounce((value: number | undefined) => setPriceFrom(value), 500);
-  const debouncedSetPriceTo = debounce((value: number | undefined) => setPriceTo(value), 500);
+  const debouncedSetPriceFrom = useCallback(
+    debounce((value: number | undefined) => setPriceFrom(value), 500),
+    [setPriceFrom],
+  );
+  const debouncedSetPriceTo = useCallback(
+    debounce((value: number | undefined) => setPriceTo(value), 500),
+    [setPriceTo],
+  );
 
   const handlePriceFromChange = (value: number | undefined) => {
     setTempPriceFrom(value);

@@ -1,7 +1,8 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Spin } from 'antd';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Spin, Pagination } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
 import type { ProductProjection } from '@commercetools/platform-sdk';
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
@@ -10,7 +11,6 @@ import Filters from '@components/Filters/Filters.tsx';
 import ProductCard from '@components/ProductCard/ProductCard.tsx';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import '@pages/CategoryPage/CategoryPage.scss';
-import { HomeOutlined } from '@ant-design/icons';
 
 const CategoryPage: React.FC = () => {
   const { categories, loading: categoryLoading } = useCategory();
@@ -22,12 +22,23 @@ const CategoryPage: React.FC = () => {
   const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined);
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [total, setTotal] = useState<number>(0);
   const location = useLocation();
-  const categorySlug = location.pathname.split('/').pop() || ''; // Ensure it's always a string
+  const navigate = useNavigate();
+  const categorySlug = location.pathname.split('/').pop() || '';
   const { setItems } = useBreadcrumbs();
 
+  const itemsPerPage = 8; // Number of items per page
+
   useEffect(() => {
-    const fetchProducts = async () => {
+    const searchParams = new URLSearchParams(location.search);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    setCurrentPage(page);
+  }, [location.search]);
+
+  useEffect(() => {
+    const fetchProducts = async (page: number) => {
       if (categories && categorySlug) {
         const category = categories.find((cat) => cat.slug['en-US'] === categorySlug);
         if (category) {
@@ -57,22 +68,32 @@ const CategoryPage: React.FC = () => {
 
           const response = await getProductsByParamsService({
             filter: filters,
-            limit: 12, // Adjust the limit as needed
-            offset: 0,
+            limit: itemsPerPage,
+            offset: (page - 1) * itemsPerPage,
             sort: sortOrder ? [sortOrder] : [],
             fuzzy: !!searchText,
             [`text.en-US`]: searchText,
           });
+
           if (response) {
             setProducts(response.body.results);
+            setTotal(response.body.total || 0);
           }
         }
       }
       setLoading(false);
     };
 
-    fetchProducts();
-  }, [categories, categorySlug, searchText, sortOrder, priceFrom, priceTo, setItems]);
+    fetchProducts(currentPage);
+  }, [categories, categorySlug, searchText, sortOrder, priceFrom, priceTo, currentPage, setItems]);
+
+  const handlePageChange = (page: number) => {
+    navigate(`${location.pathname}?page=${page}`);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const formatPrice = (centAmount: number) => (centAmount / 100).toFixed(2);
 
@@ -120,6 +141,9 @@ const CategoryPage: React.FC = () => {
           ) : (
             <p>No products found for this category</p>
           )}
+        </div>
+        <div className="pagination-container">
+          <Pagination current={currentPage} pageSize={itemsPerPage} total={total} onChange={handlePageChange} />
         </div>
       </div>
     </div>
