@@ -54,7 +54,7 @@ const PasswordConfirmationModal: React.FC<PasswordConfirmModalProps> = ({
       <Modal
         open={open}
         afterClose={form.resetFields}
-        title="Enter you password"
+        title="Enter you current password"
         onOk={passwordConfirm}
         onCancel={onPasswordModalCancel}
         footer={[
