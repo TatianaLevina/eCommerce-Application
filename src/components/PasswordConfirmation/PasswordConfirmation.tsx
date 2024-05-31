@@ -3,22 +3,25 @@ import { Modal, Button, Form, Input, Spin } from 'antd';
 import type React from 'react';
 import { LockOutlined } from '@ant-design/icons';
 import { useAuth } from '@/contexts/AuthContext';
-import { verifyPassword } from '@/services/CustomerService';
+import { changeUserPassword } from '@services/CustomerService';
 import { useState } from 'react';
+import { invalidateToken } from '@/services/TokenCache';
 
 export interface PasswordConfirmModalProps {
   open: boolean;
   onPasswordModalCancel: () => void;
   onPasswordModalConfirm: () => void;
+  newPassword: string;
 }
 
 const PasswordConfirmationModal: React.FC<PasswordConfirmModalProps> = ({
   open,
   onPasswordModalCancel,
   onPasswordModalConfirm,
+  newPassword,
 }) => {
   const [form] = Form.useForm();
-  const { user } = useAuth();
+  const { user, signIn } = useAuth();
   const [confirmInProgress, setConfirmInProgress] = useState(false);
 
   const passwordConfirm = async () => {
@@ -26,24 +29,23 @@ const PasswordConfirmationModal: React.FC<PasswordConfirmModalProps> = ({
     try {
       const value = await form.validateFields();
 
-      const isCorrect = await verifyPassword(user!, value.password);
-      if (isCorrect) {
-        console.log('Password correct');
-        setConfirmInProgress(false);
-        onPasswordModalConfirm();
-      } else {
-        setConfirmInProgress(false);
-        console.log('Password wrong');
+      const response = await changeUserPassword(user!.id, user!.version, value.password, newPassword);
+      invalidateToken();
+      await signIn(response.body.email, newPassword);
+      onPasswordModalConfirm();
+    } catch (error) {
+      if (error instanceof Error) {
         form.setFields([
           {
             name: ['password'],
-            errors: ['Wrong password'],
+            errors: [error.message],
           },
         ]);
       }
-      console.log('Form value:', value);
-    } catch (error) {
+
       console.log('Failed:', error);
+    } finally {
+      setConfirmInProgress(false);
     }
   };
   return (

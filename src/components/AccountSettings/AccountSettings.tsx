@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Button, Flex, Form, Input, Modal, Spin, Typography } from 'antd';
+import { Button, Flex, Form, Input, Modal, Typography, notification } from 'antd';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { EditOutlined, LockOutlined } from '@ant-design/icons';
@@ -12,9 +12,16 @@ const AccountSettings: React.FC = () => {
   const [form] = Form.useForm();
   const [editMode, setEditMode] = useState(false);
   const { user } = useAuth();
-  const [updateInProgress, setUpdateInProgress] = useState(false);
-
   const [openPasswordConfirmationModal, setOpenPasswordConfirmationModal] = useState(false);
+  const [userNewPassword, setUserNewPassword] = useState('');
+
+  const [api, contextHolder] = notification.useNotification();
+  function showSuccess(): void {
+    api.success({
+      message: 'All changes are saved',
+      duration: 3,
+    });
+  }
 
   const showError = (msg: string): void => {
     Modal.error({
@@ -24,22 +31,21 @@ const AccountSettings: React.FC = () => {
   };
 
   interface Passwords {
-    currentPassword: string;
     newPassword: string;
     confirmPassword: string;
   }
 
   const onFinish = (values: Passwords) => {
     setEditMode(false);
+    form.resetFields();
+
     if (values.newPassword !== values.confirmPassword) {
       setEditMode(true);
       showError('Confirm password is NOT the same with New password. Please check!');
       return;
     }
-    setUpdateInProgress(true);
-    setTimeout(() => {
-      setUpdateInProgress(false);
-    }, 5000);
+    setUserNewPassword(values.newPassword);
+    setOpenPasswordConfirmationModal(true);
   };
 
   const onFinishFailed = (): void => {
@@ -48,7 +54,7 @@ const AccountSettings: React.FC = () => {
 
   return (
     <>
-      <Spin spinning={updateInProgress} fullscreen />
+      {contextHolder}
       <h1 className="custom-title">My Profile</h1>
       <Flex justify="space-between" style={{ width: '100%' }}>
         <Title
@@ -67,7 +73,10 @@ const AccountSettings: React.FC = () => {
               style={{ alignSelf: 'center' }}
               type="primary"
               className={' primary-custom-color'}
-              onClick={() => setEditMode(!editMode)}
+              onClick={() => {
+                setEditMode(!editMode);
+                form.resetFields();
+              }}
             >
               Cancel
             </Button>
@@ -80,7 +89,7 @@ const AccountSettings: React.FC = () => {
               type="primary"
               className={' primary-custom-color'}
               onClick={() => {
-                setOpenPasswordConfirmationModal(true);
+                setEditMode(!editMode);
               }}
             >
               <EditOutlined />
@@ -90,9 +99,10 @@ const AccountSettings: React.FC = () => {
               open={openPasswordConfirmationModal}
               onPasswordModalCancel={() => setOpenPasswordConfirmationModal(false)}
               onPasswordModalConfirm={() => {
+                showSuccess();
                 setOpenPasswordConfirmationModal(false);
-                setEditMode(true);
               }}
+              newPassword={userNewPassword}
             />
           </>
         )}
