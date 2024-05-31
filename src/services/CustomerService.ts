@@ -1,5 +1,5 @@
 import { createAuthFlow } from '@services/ClientBuilder.ts';
-import type { CustomerDraft, CustomerUpdateAction, MyCustomerSignin } from '@commercetools/platform-sdk';
+import type { Customer, CustomerDraft, CustomerUpdateAction, MyCustomerSignin } from '@commercetools/platform-sdk';
 import type dayjs from 'dayjs';
 import validateConstant from '@/data/validateConstants';
 
@@ -45,6 +45,15 @@ export const signInCustomer = ({ email, password }: MyCustomerSignin) => {
       },
     })
     .execute();
+};
+
+export const verifyPassword = async (user: Customer, password: string) => {
+  try {
+    const response = await signInCustomer({ email: user.email, password });
+    return response.body.customer.id === user.id;
+  } catch (error) {
+    return false;
+  }
 };
 
 export interface UserGeneralInfo {
