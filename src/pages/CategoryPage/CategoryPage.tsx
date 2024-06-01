@@ -21,6 +21,8 @@ const CategoryPage: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<string>('');
   const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined);
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
+  const [filter, setFilter] = useState<string[]>([]);
+  const [allfilters, setAllFilters] = useState<string[]>([]);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
@@ -31,10 +33,6 @@ const CategoryPage: React.FC = () => {
 
   // Number of items per page
   const itemsPerPage = () => {
-    if (window.innerWidth > 1200) {
-      return 8;
-    }
-
     switch (true) {
       case window.innerWidth > 1200:
         return 8;
@@ -94,6 +92,15 @@ const CategoryPage: React.FC = () => {
           if (response) {
             setProducts(response.body.results);
             setTotal(response.body.total || 0);
+            // Get an array of filters
+            const filterArr = Array.from(
+              new Set(
+                response.body.results
+                  .map((prod) => prod.masterVariant.attributes?.find((a) => a.name === 'designer'))
+                  .map((a) => a?.value),
+              ),
+            );
+            setAllFilters(filterArr);
           }
         }
       }
@@ -102,6 +109,16 @@ const CategoryPage: React.FC = () => {
 
     fetchProducts(currentPage);
   }, [categories, categorySlug, searchText, sortOrder, priceFrom, priceTo, currentPage, setItems]);
+
+  const filterCards = (filterArr: string[], products: ProductProjection[]): ProductProjection[] => {
+    if (filterArr.length === 0) {
+      return products;
+    }
+
+    return products.filter((p) =>
+      filter.includes(p.masterVariant.attributes?.find((a) => a.name === 'designer')?.value),
+    );
+  };
 
   const handlePageChange = (page: number) => {
     navigate(`${location.pathname}?page=${page}`);
@@ -126,6 +143,7 @@ const CategoryPage: React.FC = () => {
       <Breadcrumbs />
       <h1 className="custom-title">{categoryName ? categoryName : 'Category Page'}</h1>
       <Filters
+        allFilters={allfilters}
         searchText={searchText}
         setSearchText={setSearchText}
         sortOrder={sortOrder}
@@ -133,6 +151,8 @@ const CategoryPage: React.FC = () => {
         priceFrom={priceFrom}
         setPriceFrom={setPriceFrom}
         priceTo={priceTo}
+        setFilter={setFilter}
+        filter={filter}
         setPriceTo={setPriceTo}
         resetFilters={() => {
           setSearchText('');
@@ -146,7 +166,7 @@ const CategoryPage: React.FC = () => {
       <div className="content">
         <div className="product-cards-container">
           {products.length > 0 ? (
-            products.map((product) => (
+            filterCards(filter, products).map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}

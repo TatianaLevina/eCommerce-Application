@@ -89,6 +89,14 @@
     }
   }
 
+  &__filter {
+    flex: 1 0 60%;
+
+    .ant-select {
+      width: 100%;
+    }
+  }
+
   .price-inputs {
     display: flex;
     align-items: center;
