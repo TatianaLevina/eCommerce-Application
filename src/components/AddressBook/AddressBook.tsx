@@ -145,6 +145,7 @@ const AddressBook: React.FC = () => {
       <List
         // grid={{ gutter: 16, column: 4 }}
         dataSource={data}
+        rowKey={(item) => item.address.id!}
         renderItem={(item) => (
           <List.Item>
             <AddressCard {...item} />
