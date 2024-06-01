@@ -1,5 +1,5 @@
 import { createAuthFlow } from '@services/ClientBuilder.ts';
-import type { CustomerDraft, CustomerUpdateAction, MyCustomerSignin } from '@commercetools/platform-sdk';
+import type { BaseAddress, CustomerDraft, CustomerUpdateAction, MyCustomerSignin } from '@commercetools/platform-sdk';
 import type dayjs from 'dayjs';
 import validateConstant from '@/data/validateConstants';
 
@@ -107,6 +107,75 @@ export const updateUserInfo = (userID: string, userVersion: number, info: UserGe
       body: {
         version: userVersion,
         actions,
+      },
+    })
+    .execute();
+};
+
+export interface AddressInfo {
+  address?: BaseAddress;
+  isBillingAddress?: boolean;
+  isShippingAddress?: boolean;
+  isDefaultBillingAddress?: boolean;
+  isDefaultShippingAddress?: boolean;
+}
+
+export const addAddress = async (userID: string, userVersion: number, addressInfo: AddressInfo) => {
+  const request = createAuthFlow().customers().withId({ ID: userID });
+  const response = await request
+    .post({
+      body: {
+        version: userVersion,
+        actions: [{ action: 'addAddress', address: addressInfo.address! }],
+      },
+    })
+    .execute();
+
+  const customer = response.body;
+
+  const address = customer.addresses[customer.addresses.length - 1];
+
+  const actions: CustomerUpdateAction[] = [];
+  if (addressInfo.isDefaultBillingAddress) {
+    actions.push({
+      action: 'setDefaultBillingAddress',
+      addressId: address.id,
+    });
+  } else if (addressInfo.isBillingAddress) {
+    actions.push({
+      action: 'addBillingAddressId',
+      addressId: address.id,
+    });
+  }
+  if (addressInfo.isDefaultShippingAddress) {
+    actions.push({
+      action: 'setDefaultShippingAddress',
+      addressId: address.id,
+    });
+  } else if (addressInfo.isShippingAddress) {
+    actions.push({
+      action: 'addShippingAddressId',
+      addressId: address.id,
+    });
+  }
+
+  return request
+    .post({
+      body: {
+        version: customer.version,
+        actions,
+      },
+    })
+    .execute();
+};
+export const removeAddress = (userID: string, userVersion: number, addressID: string) => {
+  return createAuthFlow()
+    .customers()
+    .withId({ ID: userID })
+    .post({
+      body: {
+        version: userVersion,
+        actions: [{ action: 'removeAddress', addressId: addressID }],
       },
     })
     .execute();
