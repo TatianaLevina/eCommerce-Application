@@ -47,6 +47,19 @@ export const signInCustomer = ({ email, password }: MyCustomerSignin) => {
     .execute();
 };
 
+export const changeUserPassword = async (
+  userID: string,
+  userVersion: number,
+  currentPassword: string,
+  newPassword: string,
+) => {
+  return createAuthFlow()
+    .customers()
+    .password()
+    .post({ body: { id: userID, version: userVersion, currentPassword, newPassword } })
+    .execute();
+};
+
 export interface UserGeneralInfo {
   firstName?: string;
   lastName?: string;
