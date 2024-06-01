@@ -29,7 +29,23 @@ const CategoryPage: React.FC = () => {
   const categorySlug = location.pathname.split('/').pop() || '';
   const { setItems } = useBreadcrumbs();
 
-  const itemsPerPage = 8; // Number of items per page
+  // Number of items per page
+  const itemsPerPage = () => {
+    if (window.innerWidth > 1200) {
+      return 8;
+    }
+
+    switch (true) {
+      case window.innerWidth > 1200:
+        return 8;
+      case window.innerWidth <= 1200 && window.innerWidth > 591:
+        return 6;
+      case window.innerWidth <= 591:
+        return 4;
+      default:
+        return 8;
+    }
+  };
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -68,8 +84,8 @@ const CategoryPage: React.FC = () => {
 
           const response = await getProductsByParamsService({
             filter: filters,
-            limit: itemsPerPage,
-            offset: (page - 1) * itemsPerPage,
+            limit: itemsPerPage(),
+            offset: (page - 1) * itemsPerPage(),
             sort: sortOrder ? [sortOrder] : [],
             fuzzy: !!searchText,
             [`text.en-US`]: searchText,
@@ -143,7 +159,7 @@ const CategoryPage: React.FC = () => {
           )}
         </div>
         <div className="pagination-container">
-          <Pagination current={currentPage} pageSize={itemsPerPage} total={total} onChange={handlePageChange} />
+          <Pagination current={currentPage} pageSize={itemsPerPage()} total={total} onChange={handlePageChange} />
         </div>
       </div>
     </div>

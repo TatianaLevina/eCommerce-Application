@@ -69,7 +69,7 @@ const ProductPage: React.FC = () => {
   const formatPrice = (centAmount: number) => (centAmount / 100).toFixed(2);
 
   const currentData = product.masterData.current;
-  const { name, description, masterVariant } = currentData;
+  const { name, description, metaDescription, masterVariant } = currentData;
   const { images, prices } = masterVariant;
   const discounted = prices?.find((x) => x.discounted?.value.currencyCode === 'USD')?.discounted;
 
@@ -148,7 +148,11 @@ const ProductPage: React.FC = () => {
             )}
           </div>
         </div>
-        {description && <Paragraph className="base-text">{description['en-US']}</Paragraph>}
+        {description ? (
+          <Paragraph className="base-text">{description['en-US']}</Paragraph>
+        ) : (
+          metaDescription && <Paragraph className="base-text">{metaDescription['en-US']}</Paragraph>
+        )}
         <Paragraph className={`base-text ${discounted ? 'base-text_through' : ''}`}>
           Price: {formatPrice(prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)} USD
         </Paragraph>
