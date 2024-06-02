@@ -60,6 +60,11 @@ const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
     showSuccess();
   };
 
+  const handleCancelEdit = () => {
+    addressFormInstance?.resetFields();
+    setEditMode(!editMode);
+  };
+
   return (
     <>
       {contextHolder}
@@ -70,7 +75,7 @@ const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
           <DeleteOutlined key="deleting" onClick={handleRemove} />,
           editMode ? <SaveOutlined key="save" onClick={handleSave} /> : <> </>,
           editMode ? (
-            <CloseOutlined key="cancel" onClick={() => setEditMode(!editMode)} />
+            <CloseOutlined key="cancel" onClick={handleCancelEdit} />
           ) : (
             <EditOutlined key="edit" onClick={() => setEditMode(!editMode)} />
           ),
