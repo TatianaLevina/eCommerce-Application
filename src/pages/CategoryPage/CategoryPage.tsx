@@ -11,6 +11,7 @@ import Filters from '@components/Filters/Filters.tsx';
 import ProductCard from '@components/ProductCard/ProductCard.tsx';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import '@pages/CategoryPage/CategoryPage.scss';
+import { type AllFilters } from '@components/Filters/Filter.type';
 
 const CategoryPage: React.FC = () => {
   const { categories, loading: categoryLoading } = useCategory();
@@ -21,8 +22,9 @@ const CategoryPage: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<string>('');
   const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined);
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
-  const [filter, setFilter] = useState<string[]>([]);
-  const [allfilters, setAllFilters] = useState<string[]>([]);
+  const [manufacturerFilter, setManufacturerFilter] = useState<string[]>([]);
+  const [materialFilter, setMaterialFilter] = useState<string[]>([]);
+  const [allfilters, setAllFilters] = useState<AllFilters>({ manufacturerFilters: [], materialFilters: [] });
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
@@ -80,6 +82,19 @@ const CategoryPage: React.FC = () => {
             filters.push(priceFilter);
           }
 
+          // add filters
+          const manufacturerFiltersQuery: string | undefined = `${manufacturerFilter.map((x) => `"${x}"`).join(', ')}`;
+          const materialFiltersQuery: string | undefined =
+            `${materialFilter.map((x) => `"${x.toLowerCase}"`).join(', ')}`;
+
+          if (manufacturerFiltersQuery) {
+            filters.push(`variants.attributes.designer:${manufacturerFiltersQuery}`);
+          }
+
+          if (materialFiltersQuery) {
+            filters.push(`variants.attributes.material.key:${materialFiltersQuery}`);
+          }
+
           const response = await getProductsByParamsService({
             filter: filters,
             limit: itemsPerPage(),
@@ -93,14 +108,21 @@ const CategoryPage: React.FC = () => {
             setProducts(response.body.results);
             setTotal(response.body.total || 0);
             // Get an array of filters
-            const filterArr = Array.from(
+            const filterArrManufacturer = Array.from(
               new Set(
                 response.body.results
                   .map((prod) => prod.masterVariant.attributes?.find((a) => a.name === 'designer'))
                   .map((a) => a?.value),
               ),
             );
-            setAllFilters(filterArr);
+            const filterArrMaterial = Array.from(
+              new Set(
+                response.body.results
+                  .map((prod) => prod.masterVariant.attributes?.find((a) => a.name === 'material'))
+                  .map((a) => a?.value.label['en-US']),
+              ),
+            );
+            setAllFilters({ manufacturerFilters: filterArrManufacturer, materialFilters: filterArrMaterial });
           }
         }
       }
@@ -108,17 +130,18 @@ const CategoryPage: React.FC = () => {
     };
 
     fetchProducts(currentPage);
-  }, [categories, categorySlug, searchText, sortOrder, priceFrom, priceTo, currentPage, setItems]);
-
-  const filterCards = (filterArr: string[], products: ProductProjection[]): ProductProjection[] => {
-    if (filterArr.length === 0) {
-      return products;
-    }
-
-    return products.filter((p) =>
-      filter.includes(p.masterVariant.attributes?.find((a) => a.name === 'designer')?.value),
-    );
-  };
+  }, [
+    categories,
+    categorySlug,
+    searchText,
+    sortOrder,
+    priceFrom,
+    priceTo,
+    manufacturerFilter,
+    materialFilter,
+    currentPage,
+    setItems,
+  ]);
 
   const handlePageChange = (page: number) => {
     navigate(`${location.pathname}?page=${page}`);
@@ -129,6 +152,15 @@ const CategoryPage: React.FC = () => {
   }, [currentPage]);
 
   const formatPrice = (centAmount: number) => (centAmount / 100).toFixed(2);
+
+  const resetFilters = () => {
+    setSearchText('');
+    setSortOrder('');
+    setPriceFrom(undefined);
+    setPriceTo(undefined);
+    setMaterialFilter([]);
+    setManufacturerFilter([]);
+  };
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -151,22 +183,19 @@ const CategoryPage: React.FC = () => {
         priceFrom={priceFrom}
         setPriceFrom={setPriceFrom}
         priceTo={priceTo}
-        setFilter={setFilter}
-        filter={filter}
+        setManufacturer={setManufacturerFilter}
+        manufacturer={manufacturerFilter}
+        setMaterial={setMaterialFilter}
+        material={materialFilter}
         setPriceTo={setPriceTo}
-        resetFilters={() => {
-          setSearchText('');
-          setSortOrder('');
-          setPriceFrom(undefined);
-          setPriceTo(undefined);
-        }}
+        resetFilters={resetFilters}
         drawerOpen={drawerOpen}
         toggleDrawer={toggleDrawer}
       />
       <div className="content">
         <div className="product-cards-container">
           {products.length > 0 ? (
-            filterCards(filter, products).map((product) => (
+            products.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}

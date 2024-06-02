@@ -4,6 +4,7 @@ import { Input, Select, Button, Drawer, Typography } from 'antd';
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
 import '@components/Filters/Filters.scss';
+import { type AllFilters } from '@components/Filters/Filter.type';
 
 const { Option } = Select;
 
@@ -17,9 +18,11 @@ interface FiltersProps {
   priceTo: number | undefined;
   setPriceTo: (value: number | undefined) => void;
   resetFilters: () => void;
-  filter: string[];
-  setFilter: (value: string[]) => void;
-  allFilters: string[];
+  manufacturer: string[];
+  setManufacturer: (value: string[]) => void;
+  material: string[];
+  setMaterial: (value: string[]) => void;
+  allFilters: AllFilters;
   drawerOpen: boolean;
   toggleDrawer: () => void;
 }
@@ -33,8 +36,10 @@ const Filters: React.FC<FiltersProps> = ({
   setPriceFrom,
   priceTo,
   setPriceTo,
-  filter,
-  setFilter,
+  manufacturer,
+  setManufacturer,
+  material,
+  setMaterial,
   allFilters,
   resetFilters,
   drawerOpen,
@@ -42,12 +47,22 @@ const Filters: React.FC<FiltersProps> = ({
 }) => {
   const [tempPriceFrom, setTempPriceFrom] = useState<number | undefined>(priceFrom);
   const [tempPriceTo, setTempPriceTo] = useState<number | undefined>(priceTo);
-  const [tempFilter, setTempFilter] = useState<string[]>(filter);
+  const [tempManufacturer, setTempManufacturer] = useState<string[]>(manufacturer);
+  const [tempMaterial, setTempMaterial] = useState<string[]>(material);
 
-  const opts: {
+  const optsManufacturer: {
     value: string;
     label: string;
-  }[] = allFilters.map((x) => ({ value: x, label: x }));
+  }[] = allFilters.manufacturerFilters.map((x) => {
+    return { value: x, label: x };
+  });
+
+  const optsMaterial: {
+    value: string;
+    label: string;
+  }[] = allFilters.materialFilters.map((x) => {
+    return { value: x, label: x };
+  });
 
   useEffect(() => {
     setTempPriceFrom(priceFrom);
@@ -58,8 +73,12 @@ const Filters: React.FC<FiltersProps> = ({
   }, [priceTo]);
 
   useEffect(() => {
-    setTempFilter(filter);
-  }, [filter]);
+    setTempManufacturer(manufacturer);
+  }, [manufacturer]);
+
+  useEffect(() => {
+    setTempMaterial(material);
+  }, [material]);
 
   const debouncedSetPriceFrom = useCallback(
     debounce((value: number | undefined) => setPriceFrom(value), 500),
@@ -70,9 +89,14 @@ const Filters: React.FC<FiltersProps> = ({
     [setPriceTo],
   );
 
-  const debouncedSetFilter = useCallback(
-    debounce((value: string[]) => setFilter(value), 500),
-    [setFilter],
+  const debouncedSetManufacturer = useCallback(
+    debounce((value: string[]) => setManufacturer(value), 500),
+    [setManufacturer],
+  );
+
+  const debouncedSetMaterial = useCallback(
+    debounce((value: string[]) => setMaterial(value), 500),
+    [setMaterial],
   );
 
   const handlePriceFromChange = (value: number | undefined) => {
@@ -85,9 +109,14 @@ const Filters: React.FC<FiltersProps> = ({
     debouncedSetPriceTo(value);
   };
 
-  const handleChange = (value: string[]) => {
-    setTempFilter(value);
-    debouncedSetFilter(value);
+  const handleChangeManufacturer = (value: string[]) => {
+    setTempManufacturer(value);
+    debouncedSetManufacturer(value);
+  };
+
+  const handleChangeMaterial = (value: string[]) => {
+    setTempMaterial(value);
+    debouncedSetMaterial(value);
   };
 
   return (
@@ -144,14 +173,25 @@ const Filters: React.FC<FiltersProps> = ({
             />
           </div>
           <div style={{ marginTop: 16 }}>
-            <Typography.Text>Filter</Typography.Text>
+            <Typography.Text>Manufacturer</Typography.Text>
             <Select
               mode="multiple"
-              value={tempFilter}
-              placeholder="Please select"
+              value={tempManufacturer}
+              placeholder="Select Manufacturer"
               style={{ display: 'block', marginTop: 8, width: '100%' }}
-              onChange={handleChange}
-              options={opts}
+              onChange={handleChangeManufacturer}
+              options={optsManufacturer}
+            />
+          </div>
+          <div style={{ marginTop: 16 }}>
+            <Typography.Text>Material</Typography.Text>
+            <Select
+              mode="multiple"
+              value={tempMaterial}
+              placeholder="Select Material"
+              style={{ display: 'block', marginTop: 8, width: '100%' }}
+              onChange={handleChangeMaterial}
+              options={optsMaterial}
             />
           </div>
         </div>
@@ -185,7 +225,7 @@ const Filters: React.FC<FiltersProps> = ({
             </Select>
           </div>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div className="filters-inline__row">
             <Typography.Text>Price</Typography.Text>
             <div className="price-inputs">
@@ -208,14 +248,26 @@ const Filters: React.FC<FiltersProps> = ({
             </div>
           </div>
           <div className="filters-inline__filter">
-            <Typography.Text>Price</Typography.Text>
+            <Typography.Text>Manufacturer</Typography.Text>
             <div className="price-inputs">
               <Select
                 mode="multiple"
-                value={tempFilter}
-                placeholder="Please select"
-                onChange={handleChange}
-                options={opts}
+                value={tempManufacturer}
+                placeholder="Select Manufacturer"
+                onChange={handleChangeManufacturer}
+                options={optsManufacturer}
+              />
+            </div>
+          </div>
+          <div className="filters-inline__filter">
+            <Typography.Text>Material</Typography.Text>
+            <div className="price-inputs">
+              <Select
+                mode="multiple"
+                value={tempMaterial}
+                placeholder="Select Material"
+                onChange={handleChangeMaterial}
+                options={optsMaterial}
               />
             </div>
           </div>
