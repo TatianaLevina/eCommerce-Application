@@ -1,7 +1,6 @@
 import type React from 'react';
 import type { FormInstance } from 'antd';
 import { Button, Flex, List, Modal, Spin, Typography, notification } from 'antd';
-import type { AddressCardProps } from '../AddressCard/AddressCard';
 import AddressCard from '../AddressCard/AddressCard';
 import { useAuth } from '@/contexts/AuthContext';
 import type { BaseAddress } from '@commercetools/platform-sdk';
@@ -13,7 +12,7 @@ const { Title } = Typography;
 
 const AddressBook: React.FC = () => {
   const { user, updateUser } = useAuth();
-  const addressCardsData: AddressCardProps[] = user!.addresses.map((address: BaseAddress) => {
+  const addressCardsData: AddressInfo[] = user!.addresses.map((address: BaseAddress) => {
     return {
       address,
       isBillingAddress: user!.billingAddressIds?.includes(address.id!),
@@ -23,7 +22,7 @@ const AddressBook: React.FC = () => {
     };
   });
   const [open, setOpen] = useState(false);
-  const [upSaveInProgress, setSaveInProgress] = useState(false);
+  const [saveInProgress, setSaveInProgress] = useState(false);
   const [newAddressFormInstance, setFormInstance] = useState<FormInstance>();
   const showAddAddressModal = () => {
     setOpen(true);
@@ -53,7 +52,6 @@ const AddressBook: React.FC = () => {
 
       const response = await addAddress(user!.id, user!.version, values);
       updateUser(response.body);
-      console.log('Form values:', values);
     } catch (error) {
       if (error instanceof Error) {
         showError(error.message);
@@ -71,7 +69,7 @@ const AddressBook: React.FC = () => {
   return (
     <>
       {contextHolder}
-      <Spin spinning={upSaveInProgress} fullscreen />
+      <Spin spinning={saveInProgress} fullscreen />
       <h1 className="custom-title">My Profile</h1>
       <Flex justify="space-between" style={{ width: '100%' }}>
         <Title
@@ -131,7 +129,7 @@ const AddressBook: React.FC = () => {
       <List
         // grid={{ gutter: 16, column: 4 }}
         dataSource={addressCardsData}
-        rowKey={(item) => item.address.id!}
+        rowKey={(item) => item.address!.id!}
         renderItem={(item) => (
           <List.Item>
             <AddressCard {...item} />

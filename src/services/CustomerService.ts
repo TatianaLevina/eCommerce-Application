@@ -180,3 +180,79 @@ export const removeAddress = (userID: string, userVersion: number, addressID: st
     })
     .execute();
 };
+
+export const updateAddress = async (
+  userID: string,
+  userVersion: number,
+  info: AddressInfo,
+  updatedInfo: AddressInfo,
+) => {
+  const addressID = info.address!.id!;
+  const actions: CustomerUpdateAction[] = [
+    {
+      action: 'changeAddress',
+      addressId: addressID,
+      address: info.address!,
+    },
+  ];
+  if (info.isBillingAddress !== updatedInfo.isBillingAddress) {
+    if (updatedInfo.isBillingAddress) {
+      actions.push({
+        action: 'addBillingAddressId',
+        addressId: addressID,
+      });
+    } else {
+      actions.push({
+        action: 'removeBillingAddressId',
+        addressId: addressID,
+      });
+    }
+  }
+  if (info.isDefaultBillingAddress !== updatedInfo.isDefaultBillingAddress) {
+    if (updatedInfo.isDefaultBillingAddress) {
+      actions.push({
+        action: 'setDefaultBillingAddress',
+        addressId: addressID,
+      });
+    } else {
+      actions.push({
+        action: 'setDefaultBillingAddress',
+      });
+    }
+  }
+  if (info.isShippingAddress !== updatedInfo.isShippingAddress) {
+    if (updatedInfo.isShippingAddress) {
+      actions.push({
+        action: 'addShippingAddressId',
+        addressId: addressID,
+      });
+    } else {
+      actions.push({
+        action: 'removeShippingAddressId',
+        addressId: addressID,
+      });
+    }
+  }
+  if (info.isDefaultShippingAddress !== updatedInfo.isDefaultShippingAddress) {
+    if (updatedInfo.isDefaultShippingAddress) {
+      actions.push({
+        action: 'setDefaultShippingAddress',
+        addressId: addressID,
+      });
+    } else {
+      actions.push({
+        action: 'setDefaultShippingAddress',
+      });
+    }
+  }
+  return createAuthFlow()
+    .customers()
+    .withId({ ID: userID })
+    .post({
+      body: {
+        version: userVersion,
+        actions,
+      },
+    })
+    .execute();
+};

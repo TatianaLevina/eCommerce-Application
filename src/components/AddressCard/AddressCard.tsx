@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import AddressForm from '../AddressForm/AddressForm';
 import type { AddressInfo } from '@/services/CustomerService';
-import { removeAddress } from '@/services/CustomerService';
+import { removeAddress, updateAddress } from '@/services/CustomerService';
 import { useAuth } from '@/contexts/AuthContext';
 
 const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
@@ -36,12 +36,22 @@ const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
 
   const handleSave = async () => {
     setEditMode(!editMode);
+    setUpdateInProgress(true);
     try {
-      const values = await addressFormInstance?.validateFields();
-      console.log('Form values:', values);
+      const values = (await addressFormInstance?.validateFields()) as AddressInfo;
+      const response = await updateAddress(user!.id, user!.version, addressInfo, values);
+      updateUser(response.body);
     } catch (error) {
+      if (error instanceof Error) {
+        showError(error.message);
+      }
       console.log('Failed:', error);
+      addressFormInstance?.resetFields();
+      return;
+    } finally {
+      setUpdateInProgress(false);
     }
+    showSuccess();
   };
 
   const handleRemove = async () => {
