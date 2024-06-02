@@ -85,7 +85,7 @@ const CategoryPage: React.FC = () => {
           // add filters
           const manufacturerFiltersQuery: string | undefined = `${manufacturerFilter.map((x) => `"${x}"`).join(', ')}`;
           const materialFiltersQuery: string | undefined =
-            `${materialFilter.map((x) => `"${x.toLowerCase}"`).join(', ')}`;
+            `${materialFilter.map((x) => `"${x.toLowerCase()}"`).join(', ')}`;
 
           if (manufacturerFiltersQuery) {
             filters.push(`variants.attributes.designer:${manufacturerFiltersQuery}`);
@@ -122,7 +122,8 @@ const CategoryPage: React.FC = () => {
                   .map((a) => a?.value.label['en-US']),
               ),
             );
-            setAllFilters({ manufacturerFilters: filterArrManufacturer, materialFilters: filterArrMaterial });
+            allfilters ??
+              setAllFilters({ manufacturerFilters: filterArrManufacturer, materialFilters: filterArrMaterial });
           }
         }
       }
