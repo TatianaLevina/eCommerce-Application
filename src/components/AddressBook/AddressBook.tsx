@@ -1,11 +1,11 @@
 import type React from 'react';
 import type { FormInstance } from 'antd';
 import { Button, Flex, List, Modal, Spin, Typography, notification } from 'antd';
-// import type { AddressCardProps } from '../AddressCard/AddressCard';
+import type { AddressCardProps } from '../AddressCard/AddressCard';
 import AddressCard from '../AddressCard/AddressCard';
 import { useAuth } from '@/contexts/AuthContext';
 import type { BaseAddress } from '@commercetools/platform-sdk';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AddressForm from '../AddressForm/AddressForm';
 import type { AddressInfo } from '@/services/CustomerService';
 import { addAddress } from '@/services/CustomerService';
@@ -13,32 +13,15 @@ const { Title } = Typography;
 
 const AddressBook: React.FC = () => {
   const { user, updateUser } = useAuth();
-  const [data, setCardsData] = useState(
-    user!.addresses.map((address: BaseAddress) => {
-      return {
-        address,
-        isBillingAddress: user!.billingAddressIds?.includes(address.id!),
-        isShippingAddress: user!.shippingAddressIds?.includes(address.id!),
-        isDefaultBillingAddress: user!.defaultBillingAddressId === address.id!,
-        isDefaultShippingAddress: user!.defaultShippingAddressId === address.id!,
-      };
-    }),
-  );
-  useEffect(() => {
-    console.log('useEffect');
-    setCardsData(
-      user!.addresses.map((address: BaseAddress) => {
-        return {
-          address,
-          isBillingAddress: user!.billingAddressIds?.includes(address.id!),
-          isShippingAddress: user!.shippingAddressIds?.includes(address.id!),
-          isDefaultBillingAddress: user!.defaultBillingAddressId === address.id!,
-          isDefaultShippingAddress: user!.defaultShippingAddressId === address.id!,
-        };
-      }),
-    );
-  }, [user]);
-  // const [loading, setLoading] = useState(false);
+  const addressCardsData: AddressCardProps[] = user!.addresses.map((address: BaseAddress) => {
+    return {
+      address,
+      isBillingAddress: user!.billingAddressIds?.includes(address.id!),
+      isShippingAddress: user!.shippingAddressIds?.includes(address.id!),
+      isDefaultBillingAddress: user!.defaultBillingAddressId === address.id!,
+      isDefaultShippingAddress: user!.defaultShippingAddressId === address.id!,
+    };
+  });
   const [open, setOpen] = useState(false);
   const [upSaveInProgress, setSaveInProgress] = useState(false);
   const [newAddressFormInstance, setFormInstance] = useState<FormInstance>();
@@ -144,7 +127,7 @@ const AddressBook: React.FC = () => {
 
       <List
         // grid={{ gutter: 16, column: 4 }}
-        dataSource={data}
+        dataSource={addressCardsData}
         rowKey={(item) => item.address.id!}
         renderItem={(item) => (
           <List.Item>
