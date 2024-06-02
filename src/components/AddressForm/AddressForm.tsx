@@ -1,28 +1,40 @@
 import type React from 'react';
 import validateConstant from '@/data/validateConstants';
 import { options } from '@/pages/RegisterPage/RegisterPage';
-import { Flex, Form, Input, Select, Switch, Typography, type FormInstance } from 'antd';
+import type { SwitchProps, FormInstance } from 'antd';
+import { Flex, Form, Input, Select, Switch, Typography } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import type { AddressInfo } from '@/services/CustomerService';
 
 const { Text } = Typography;
 
+interface SwitchItemProps extends SwitchProps {
+  text: string;
+}
+
+const SwitchItem: React.FC<SwitchItemProps> = ({ text, ...props }: SwitchItemProps) => {
+  return (
+    <Flex gap="small">
+      <Text>{text}</Text>
+      <Switch {...props}></Switch>
+    </Flex>
+  );
+};
+
 export interface AddressFormProps {
-  initialValues: AddressInfo;
+  addressInfo: AddressInfo;
   onFormInstanceReady: (instance: FormInstance<AddressInfo>) => void;
   disabled?: boolean;
 }
 
-const AddressForm: React.FC<AddressFormProps> = ({ initialValues, onFormInstanceReady, disabled }) => {
+const AddressForm: React.FC<AddressFormProps> = ({ addressInfo: initialValues, onFormInstanceReady, disabled }) => {
   const [form] = Form.useForm();
   useEffect(() => {
     onFormInstanceReady(form);
   }, []);
-  const [isBillingAddress, setBilling] = useState(initialValues.isBillingAddress);
-  const [isShippingAddress, setShipping] = useState(initialValues.isShippingAddress);
-  const [isDefaultBillingAddress, setDefaultBilling] = useState(initialValues.isDefaultBillingAddress);
-  const [isDefaultShippingAddress, setDefaultShipping] = useState(initialValues.isDefaultShippingAddress);
+
+  // form.setFieldsValue(initialValues);
   return (
     <Form
       form={form}
@@ -35,31 +47,24 @@ const AddressForm: React.FC<AddressFormProps> = ({ initialValues, onFormInstance
     >
       <Flex gap="small">
         <Form.Item name="isBillingAddress" valuePropName="checked">
-          <Flex gap="small">
-            <Text>Billing Address</Text>
-            <Switch
-              checkedChildren="yes"
-              unCheckedChildren="no"
-              disabled={!isShippingAddress}
-              checked={isBillingAddress}
-              onChange={(checked: boolean) => {
-                if (!checked) {
-                  setDefaultBilling(false);
-                }
-                setBilling(checked);
-              }}
-            ></Switch>
-          </Flex>
+          <SwitchItem
+            text={'Billing Address'}
+            checkedChildren="yes"
+            unCheckedChildren="no"
+            onChange={(checked: boolean) => {
+              if (!checked) {
+                form.setFieldValue('isDefaultBillingAddress', false);
+              }
+            }}
+          />
         </Form.Item>
         <Form.Item name="isDefaultBillingAddress" valuePropName="checked">
           <Switch
             checkedChildren="default"
             unCheckedChildren="make default"
-            checked={isDefaultBillingAddress}
             onChange={(checked: boolean) => {
-              setDefaultBilling(checked);
               if (checked) {
-                setBilling(checked);
+                form.setFieldValue('isBillingAddress', checked);
               }
             }}
           ></Switch>
@@ -67,32 +72,25 @@ const AddressForm: React.FC<AddressFormProps> = ({ initialValues, onFormInstance
       </Flex>
       <Flex gap="small">
         <Form.Item name="isShippingAddress" valuePropName="checked">
-          <Flex gap="small">
-            <Text>Shipping Address</Text>
-            <Switch
-              checkedChildren="yes"
-              unCheckedChildren="no"
-              disabled={!isBillingAddress}
-              checked={isShippingAddress}
-              onChange={(checked: boolean) => {
-                if (!checked) {
-                  setDefaultShipping(false);
-                }
-                setShipping(checked);
-              }}
-            ></Switch>
-          </Flex>
+          <SwitchItem
+            text="Shipping Address"
+            checkedChildren="yes"
+            unCheckedChildren="no"
+            onChange={(checked: boolean) => {
+              if (!checked) {
+                form.setFieldValue('isDefaultShippingAddress', false);
+              }
+            }}
+          ></SwitchItem>
         </Form.Item>
 
         <Form.Item name="isDefaultShippingAddress" valuePropName="checked">
           <Switch
             checkedChildren="default"
             unCheckedChildren="make default"
-            checked={isDefaultShippingAddress}
             onChange={(checked: boolean) => {
-              setDefaultShipping(checked);
               if (checked) {
-                setShipping(checked);
+                form.setFieldValue('isShippingAddress', true);
               }
             }}
           ></Switch>

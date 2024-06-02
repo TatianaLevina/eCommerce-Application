@@ -43,6 +43,7 @@ const AddressBook: React.FC = () => {
   };
 
   const handleCancel = () => {
+    newAddressFormInstance?.resetFields();
     setOpen(false);
   };
   const addNewAddress = async () => {
@@ -60,6 +61,7 @@ const AddressBook: React.FC = () => {
       console.log('Failed:', error);
       return;
     } finally {
+      newAddressFormInstance?.resetFields();
       setOpen(false);
       setSaveInProgress(false);
     }
@@ -96,6 +98,7 @@ const AddressBook: React.FC = () => {
           title="Add new address"
           onOk={addNewAddress}
           onCancel={handleCancel}
+          forceRender={true}
           footer={[
             <Button key="back" onClick={handleCancel} className={' primary-custom-color'}>
               Cancel
@@ -112,13 +115,13 @@ const AddressBook: React.FC = () => {
           ]}
         >
           <AddressForm
-            initialValues={{
+            addressInfo={{
               isBillingAddress: true,
               isShippingAddress: true,
               isDefaultBillingAddress: false,
               isDefaultShippingAddress: false,
             }}
-            onFormInstanceReady={(instance) => {
+            onFormInstanceReady={(instance: FormInstance) => {
               setFormInstance(instance);
             }}
           />

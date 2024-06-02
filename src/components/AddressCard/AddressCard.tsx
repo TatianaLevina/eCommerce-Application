@@ -2,36 +2,25 @@ import type React from 'react';
 import { EditOutlined, DeleteOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import type { FormInstance } from 'antd';
 import { Card, Spin, notification } from 'antd';
-// import { Spin } from 'antd';
-import type { BaseAddress } from '@commercetools/platform-sdk';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import AddressForm from '../AddressForm/AddressForm';
 import type { AddressInfo } from '@/services/CustomerService';
 import { removeAddress } from '@/services/CustomerService';
 import { useAuth } from '@/contexts/AuthContext';
 
-export interface AddressCardProps {
-  address: BaseAddress;
-  isBillingAddress?: boolean;
-  isShippingAddress?: boolean;
-  isDefaultBillingAddress?: boolean;
-  isDefaultShippingAddress?: boolean;
-}
-
-const AddressCard: React.FC<AddressCardProps> = ({
-  address,
-  isBillingAddress,
-  isShippingAddress,
-  isDefaultBillingAddress,
-  isDefaultShippingAddress,
-}: AddressInfo) => {
+const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
   const [editMode, setEditMode] = useState(false);
   const [addressFormInstance, setFormInstance] = useState<FormInstance>();
   const { user, updateUser } = useAuth();
   const [updateInProgress, setUpdateInProgress] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+
+  useEffect(() => {
+    addressFormInstance?.setFieldsValue(addressInfo);
+  }, [addressFormInstance, addressInfo]);
+
   const showSuccess = () => {
     api.success({
       message: 'All changes are saved',
@@ -54,10 +43,11 @@ const AddressCard: React.FC<AddressCardProps> = ({
       console.log('Failed:', error);
     }
   };
+
   const handleRemove = async () => {
     setUpdateInProgress(true);
     try {
-      const response = await removeAddress(user!.id, user!.version, address!.id!);
+      const response = await removeAddress(user!.id, user!.version, addressInfo.address!.id!);
       updateUser(response.body);
     } catch (error) {
       if (error instanceof Error) {
@@ -87,14 +77,8 @@ const AddressCard: React.FC<AddressCardProps> = ({
         ]}
       >
         <AddressForm
-          initialValues={{
-            address,
-            isBillingAddress,
-            isShippingAddress,
-            isDefaultBillingAddress,
-            isDefaultShippingAddress,
-          }}
-          onFormInstanceReady={(instance) => {
+          addressInfo={addressInfo}
+          onFormInstanceReady={(instance: FormInstance) => {
             setFormInstance(instance);
           }}
           disabled={!editMode}
