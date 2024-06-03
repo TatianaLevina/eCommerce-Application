@@ -85,7 +85,7 @@ const ProductPage: React.FC = () => {
     const el: HTMLElement = e.target as HTMLElement;
     const target: HTMLElement | null = el.closest('.product-page__product-carousel');
 
-    if (target) {
+    if (target && el.tagName !== 'BUTTON') {
       toggleModal(true);
     }
   };
