@@ -53,16 +53,20 @@ const Filters: React.FC<FiltersProps> = ({
   const optsManufacturer: {
     value: string;
     label: string;
-  }[] = allFilters.manufacturerFilters.map((x) => {
-    return { value: x, label: x };
-  });
+  }[] = allFilters
+    ? allFilters.manufacturerFilters.map((x) => {
+        return { value: x, label: x };
+      })
+    : [];
 
   const optsMaterial: {
     value: string;
     label: string;
-  }[] = allFilters.materialFilters.map((x) => {
-    return { value: x, label: x };
-  });
+  }[] = allFilters
+    ? allFilters.materialFilters.map((x) => {
+        return { value: x, label: x };
+      })
+    : [];
 
   useEffect(() => {
     setTempPriceFrom(priceFrom);
