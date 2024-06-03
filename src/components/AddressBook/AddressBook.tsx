@@ -49,26 +49,27 @@ const AddressBook: React.FC = () => {
   const addNewAddress = async () => {
     setSaveInProgress(true);
     try {
-      // const values = (await newAddressFormInstance?.validateFields()) as AddressInfo;
       let values: AddressInfo | null = null;
       try {
         values = (await newAddressFormInstance?.validateFields()) as AddressInfo;
       } catch {
-        throw new Error('Validation is fail.');
+        setSaveInProgress(false);
+        return;
       }
 
       const response = await addAddress(user!.id, user!.version, values);
       updateUser(response.body);
+      newAddressFormInstance?.resetFields();
+      setOpen(false);
+      setSaveInProgress(false);
     } catch (error) {
       if (error instanceof Error) {
         showError(error.message);
       }
-      console.log('Failed:', error);
-      return;
-    } finally {
       newAddressFormInstance?.resetFields();
       setOpen(false);
       setSaveInProgress(false);
+      return;
     }
     showSuccess();
   };

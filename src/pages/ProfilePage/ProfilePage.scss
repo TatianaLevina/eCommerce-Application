@@ -10,3 +10,11 @@
     width: 55px;
   }
 }
+@media (max-width: 740px) and (min-width: 701px) {
+  .address__form-item {
+    margin-bottom: 6px;
+  }
+  .address__form-switch {
+    width: 55px;
+  }
+}
