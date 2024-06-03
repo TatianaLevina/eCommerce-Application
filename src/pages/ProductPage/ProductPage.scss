@@ -22,3 +22,30 @@
     width: 320px;
   }
 }
+
+.slick-arrow::after {
+  width: 20px !important;
+  height: 20px !important;
+  color: #2f7c69 !important;
+  box-sizing: border-box !important;
+  position: absolute !important;
+  top: 6px !important;
+  inset-inline-start: 6px !important;
+  display: inline-block !important;
+  border: 0 solid currentcolor !important;
+  border-inline-width: 4px 0 !important;
+  border-block-width: 4px 0 !important;
+  border-radius: 2px !important;
+  content: '' !important;
+}
+
+.slick-dots {
+  & > li > button {
+    background: #2f7c69 !important;
+    border-radius: 50%;
+  }
+  .slick-active {
+    background: #2f7c69 !important;
+    border-radius: 50%;
+  }
+}
