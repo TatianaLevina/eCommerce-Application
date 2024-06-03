@@ -32,6 +32,11 @@ html {
   background-color: #2f7c69 !important;
   color: #fff !important;
 }
+.primary-custom-color:disabled {
+  background-color: #2f7c69 !important;
+  color: #fff !important;
+  opacity: 0.4;
+}
 .primary-custom-color:hover {
   background-color: #3ca087 !important;
   color: #fff !important;
