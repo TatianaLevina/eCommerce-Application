@@ -4,6 +4,7 @@ import { Input, Select, Button, Drawer, Typography } from 'antd';
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
 import '@components/Filters/Filters.scss';
+import { type AllFilters } from '@components/Filters/Filter.type';
 
 const { Option } = Select;
 
@@ -17,6 +18,11 @@ interface FiltersProps {
   priceTo: number | undefined;
   setPriceTo: (value: number | undefined) => void;
   resetFilters: () => void;
+  manufacturer: string[];
+  setManufacturer: (value: string[]) => void;
+  material: string[];
+  setMaterial: (value: string[]) => void;
+  allFilters: AllFilters;
   drawerOpen: boolean;
   toggleDrawer: () => void;
 }
@@ -30,12 +36,33 @@ const Filters: React.FC<FiltersProps> = ({
   setPriceFrom,
   priceTo,
   setPriceTo,
+  manufacturer,
+  setManufacturer,
+  material,
+  setMaterial,
+  allFilters,
   resetFilters,
   drawerOpen,
   toggleDrawer,
 }) => {
   const [tempPriceFrom, setTempPriceFrom] = useState<number | undefined>(priceFrom);
   const [tempPriceTo, setTempPriceTo] = useState<number | undefined>(priceTo);
+  const [tempManufacturer, setTempManufacturer] = useState<string[]>(manufacturer);
+  const [tempMaterial, setTempMaterial] = useState<string[]>(material);
+
+  const optsManufacturer: {
+    value: string;
+    label: string;
+  }[] = allFilters.manufacturerFilters.map((x) => {
+    return { value: x, label: x };
+  });
+
+  const optsMaterial: {
+    value: string;
+    label: string;
+  }[] = allFilters.materialFilters.map((x) => {
+    return { value: x, label: x };
+  });
 
   useEffect(() => {
     setTempPriceFrom(priceFrom);
@@ -44,6 +71,14 @@ const Filters: React.FC<FiltersProps> = ({
   useEffect(() => {
     setTempPriceTo(priceTo);
   }, [priceTo]);
+
+  useEffect(() => {
+    setTempManufacturer(manufacturer);
+  }, [manufacturer]);
+
+  useEffect(() => {
+    setTempMaterial(material);
+  }, [material]);
 
   const debouncedSetPriceFrom = useCallback(
     debounce((value: number | undefined) => setPriceFrom(value), 500),
@@ -54,6 +89,16 @@ const Filters: React.FC<FiltersProps> = ({
     [setPriceTo],
   );
 
+  const debouncedSetManufacturer = useCallback(
+    debounce((value: string[]) => setManufacturer(value), 500),
+    [setManufacturer],
+  );
+
+  const debouncedSetMaterial = useCallback(
+    debounce((value: string[]) => setMaterial(value), 500),
+    [setMaterial],
+  );
+
   const handlePriceFromChange = (value: number | undefined) => {
     setTempPriceFrom(value);
     debouncedSetPriceFrom(value);
@@ -62,6 +107,16 @@ const Filters: React.FC<FiltersProps> = ({
   const handlePriceToChange = (value: number | undefined) => {
     setTempPriceTo(value);
     debouncedSetPriceTo(value);
+  };
+
+  const handleChangeManufacturer = (value: string[]) => {
+    setTempManufacturer(value);
+    debouncedSetManufacturer(value);
+  };
+
+  const handleChangeMaterial = (value: string[]) => {
+    setTempMaterial(value);
+    debouncedSetMaterial(value);
   };
 
   return (
@@ -117,6 +172,28 @@ const Filters: React.FC<FiltersProps> = ({
               style={{ marginTop: 8, width: '50%' }}
             />
           </div>
+          <div style={{ marginTop: 16 }}>
+            <Typography.Text>Manufacturer</Typography.Text>
+            <Select
+              mode="multiple"
+              value={tempManufacturer}
+              placeholder="Select Manufacturer"
+              style={{ display: 'block', marginTop: 8, width: '100%' }}
+              onChange={handleChangeManufacturer}
+              options={optsManufacturer}
+            />
+          </div>
+          <div style={{ marginTop: 16 }}>
+            <Typography.Text>Material</Typography.Text>
+            <Select
+              mode="multiple"
+              value={tempMaterial}
+              placeholder="Select Material"
+              style={{ display: 'block', marginTop: 8, width: '100%' }}
+              onChange={handleChangeMaterial}
+              options={optsMaterial}
+            />
+          </div>
         </div>
         <Button type="primary" onClick={resetFilters} style={{ marginTop: 16, backgroundColor: '#2f7c69' }}>
           Reset
@@ -148,25 +225,51 @@ const Filters: React.FC<FiltersProps> = ({
             </Select>
           </div>
         </div>
-        <div className="filters-inline__row">
-          <Typography.Text>Price</Typography.Text>
-          <div className="price-inputs">
-            <Input
-              placeholder="From"
-              type="number"
-              min={0}
-              value={tempPriceFrom}
-              onChange={(e) => handlePriceFromChange(parseFloat(e.target.value))}
-              style={{ width: '50%' }}
-            />
-            <Input
-              placeholder="To"
-              type="number"
-              min={0}
-              value={tempPriceTo}
-              onChange={(e) => handlePriceToChange(parseFloat(e.target.value))}
-              style={{ width: '50%' }}
-            />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className="filters-inline__row">
+            <Typography.Text>Price</Typography.Text>
+            <div className="price-inputs">
+              <Input
+                placeholder="From"
+                type="number"
+                min={0}
+                value={tempPriceFrom}
+                onChange={(e) => handlePriceFromChange(parseFloat(e.target.value))}
+                style={{ width: '50%' }}
+              />
+              <Input
+                placeholder="To"
+                type="number"
+                min={0}
+                value={tempPriceTo}
+                onChange={(e) => handlePriceToChange(parseFloat(e.target.value))}
+                style={{ width: '50%' }}
+              />
+            </div>
+          </div>
+          <div className="filters-inline__filter">
+            <Typography.Text>Manufacturer</Typography.Text>
+            <div className="price-inputs">
+              <Select
+                mode="multiple"
+                value={tempManufacturer}
+                placeholder="Select Manufacturer"
+                onChange={handleChangeManufacturer}
+                options={optsManufacturer}
+              />
+            </div>
+          </div>
+          <div className="filters-inline__filter">
+            <Typography.Text>Material</Typography.Text>
+            <div className="price-inputs">
+              <Select
+                mode="multiple"
+                value={tempMaterial}
+                placeholder="Select Material"
+                onChange={handleChangeMaterial}
+                options={optsMaterial}
+              />
+            </div>
           </div>
         </div>
         <Button

@@ -23,12 +23,20 @@ describe('Filters component tests', () => {
         const fnStr = (x: string): void => {
           console.log(x);
         };
+        const fnArr = (x: string[]): void => {
+          x.forEach((y) => console.log(y));
+        };
         const fnUnNum = (x: number | undefined): void => {
           console.log(x);
         };
         render(
           <AuthProvider>
             <Filters
+              allFilters={{ manufacturerFilters: [], materialFilters: [] }}
+              setManufacturer={fnArr}
+              manufacturer={['']}
+              setMaterial={fnArr}
+              material={['']}
               searchText={'test'}
               setSearchText={fnStr}
               sortOrder={'test'}
@@ -58,12 +66,20 @@ describe('Filters component tests', () => {
         const fnStr = (x: string): void => {
           console.log(x);
         };
+        const fnArr = (x: string[]): void => {
+          x.forEach((y) => console.log(y));
+        };
         const fnUnNum = (x: number | undefined): void => {
           console.log(x);
         };
         render(
           <AuthProvider>
             <Filters
+              allFilters={{ manufacturerFilters: [], materialFilters: [] }}
+              setManufacturer={fnArr}
+              manufacturer={['']}
+              setMaterial={fnArr}
+              material={['']}
               searchText={'test'}
               setSearchText={fnStr}
               sortOrder={'test'}
@@ -95,12 +111,20 @@ describe('Filters component tests', () => {
         const fnStr = (x: string): void => {
           console.log(x);
         };
+        const fnArr = (x: string[]): void => {
+          x.forEach((y) => console.log(y));
+        };
         const fnUnNum = (x: number | undefined): void => {
           console.log(x);
         };
         render(
           <AuthProvider>
             <Filters
+              allFilters={{ manufacturerFilters: [], materialFilters: [] }}
+              setManufacturer={fnArr}
+              manufacturer={['']}
+              setMaterial={fnArr}
+              material={['']}
               searchText={'test'}
               setSearchText={fnStr}
               sortOrder={'test'}
@@ -123,7 +147,7 @@ describe('Filters component tests', () => {
 
       const inputEls = container?.querySelectorAll('input');
       const buttonEls = container?.querySelectorAll('button');
-      expect(inputEls?.length).toBe(4);
+      expect(inputEls?.length).toBe(6);
       expect(buttonEls?.length).toBe(2);
     });
   });
