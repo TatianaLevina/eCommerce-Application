@@ -71,7 +71,7 @@ const PersonalInfo: React.FC = () => {
   const initValuesGeneralInfo: UserGeneralInfo = {
     firstName: user?.firstName,
     lastName: user?.lastName,
-    birthDate: dayjs(user?.dateOfBirth, validateConstant.dateFormat),
+    birthDate: user?.dateOfBirth !== undefined ? dayjs(user!.dateOfBirth, validateConstant.dateFormat) : undefined,
     email: user?.email,
   };
 

@@ -6,10 +6,12 @@ import { useState } from 'react';
 import PersonalInfo from '@/components/PersonalInfo/PersonalInfo';
 import AddressBook from '@/components/AddressBook/AddressBook';
 import AccountSettings from '@/components/AccountSettings/AccountSettings';
+import useMobile from '@/hooks/useMobile';
+import './ProfilePage.scss';
 
 const { Content, Sider } = Layout;
 
-const subMenuItems: MenuProps['items'] = [
+const subMenuItemsDesktop: MenuProps['items'] = [
   {
     key: 'info',
     icon: <UserOutlined />,
@@ -26,7 +28,20 @@ const subMenuItems: MenuProps['items'] = [
     label: 'Account Settings',
   },
 ];
-
+const subMenuItemsMobile: MenuProps['items'] = [
+  {
+    key: 'info',
+    icon: <UserOutlined />,
+  },
+  {
+    key: 'addresses',
+    icon: <HomeOutlined />,
+  },
+  {
+    key: 'settings',
+    icon: <SettingOutlined />,
+  },
+];
 const getItemComponent = (key: string) => {
   switch (key) {
     case 'info':
@@ -41,17 +56,24 @@ const getItemComponent = (key: string) => {
 };
 
 const ProfilePage: React.FC = () => {
+  const isMobile = useMobile();
   const [item, setItem] = useState('info');
+  const itemsChange = () => {
+    if (isMobile) {
+      return subMenuItemsMobile;
+    }
+    return subMenuItemsDesktop;
+  };
   return (
     <>
       <Layout style={{ padding: '24px 0', background: '#fff', borderRadius: '8px' }}>
-        <Sider width={200}>
+        <Sider className="profile__sider">
           <Menu
             mode="inline"
             defaultSelectedKeys={['info']}
             defaultOpenKeys={['info']}
             style={{ height: '100%' }}
-            items={subMenuItems}
+            items={itemsChange()}
             onSelect={(info) => {
               setItem(info.key);
             }}

@@ -24,6 +24,7 @@ const AddressBook: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [saveInProgress, setSaveInProgress] = useState(false);
   const [newAddressFormInstance, setFormInstance] = useState<FormInstance>();
+
   const showAddAddressModal = () => {
     setOpen(true);
   };
@@ -71,7 +72,7 @@ const AddressBook: React.FC = () => {
       {contextHolder}
       <Spin spinning={saveInProgress} fullscreen />
       <h1 className="custom-title">My Profile</h1>
-      <Flex justify="space-between" style={{ width: '100%' }}>
+      <Flex justify="space-between" style={{ width: '100%' }} wrap>
         <Title
           level={4}
           color="#376a4f"

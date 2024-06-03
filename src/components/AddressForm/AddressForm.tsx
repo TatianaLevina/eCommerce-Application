@@ -45,9 +45,10 @@ const AddressForm: React.FC<AddressFormProps> = ({ addressInfo: initialValues, o
       layout="vertical"
       initialValues={initialValues}
     >
-      <Flex gap="small">
-        <Form.Item name="isBillingAddress" valuePropName="checked">
+      <Flex gap="small" wrap>
+        <Form.Item name="isBillingAddress" valuePropName="checked" className="address__form-item">
           <SwitchItem
+            className="address__form-switch"
             text={'Billing Address'}
             checkedChildren="yes"
             unCheckedChildren="no"
@@ -58,7 +59,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ addressInfo: initialValues, o
             }}
           />
         </Form.Item>
-        <Form.Item name="isDefaultBillingAddress" valuePropName="checked">
+        <Form.Item name="isDefaultBillingAddress" valuePropName="checked" className="address__form-item">
           <Switch
             checkedChildren="default"
             unCheckedChildren="make default"
@@ -70,9 +71,10 @@ const AddressForm: React.FC<AddressFormProps> = ({ addressInfo: initialValues, o
           ></Switch>
         </Form.Item>
       </Flex>
-      <Flex gap="small">
-        <Form.Item name="isShippingAddress" valuePropName="checked">
+      <Flex gap="small" wrap>
+        <Form.Item name="isShippingAddress" valuePropName="checked" className="address__form-item">
           <SwitchItem
+            className="address__form-switch"
             text="Shipping Address"
             checkedChildren="yes"
             unCheckedChildren="no"

@@ -56,7 +56,7 @@ const LoginPage: React.FC = () => {
           className="login-form"
           requiredMark="optional"
           layout="vertical"
-          style={{ minWidth: '25vw' }}
+          style={{ width: 340 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
