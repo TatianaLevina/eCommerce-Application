@@ -70,8 +70,11 @@ const ProductPage: React.FC = () => {
 
   const currentData = product.masterData.current;
   const { name, description, metaDescription, masterVariant } = currentData;
-  const { images, prices } = masterVariant;
+  const { images, prices, attributes } = masterVariant;
   const discounted = prices?.find((x) => x.discounted?.value.currencyCode === 'USD')?.discounted;
+
+  const designer = attributes?.find((x) => x.name === 'designer')?.value;
+  const material = attributes?.find((x) => x.name === 'material')?.value.label['en-US'];
 
   const backClickHandler = () => {
     navigate(-1);
@@ -153,6 +156,8 @@ const ProductPage: React.FC = () => {
         ) : (
           metaDescription && <Paragraph className="base-text">{metaDescription['en-US']}</Paragraph>
         )}
+        {designer && <Paragraph className="base-text">Manufacturer: {designer}</Paragraph>}
+        {material && <Paragraph className="base-text">Material: {material}</Paragraph>}
         <Paragraph className={`base-text ${discounted ? 'base-text_through' : ''}`}>
           Price: {formatPrice(prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)} USD
         </Paragraph>
