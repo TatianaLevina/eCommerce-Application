@@ -24,7 +24,7 @@ const CategoryPage: React.FC = () => {
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
   const [manufacturerFilter, setManufacturerFilter] = useState<string[]>([]);
   const [materialFilter, setMaterialFilter] = useState<string[]>([]);
-  const [allfilters, setAllFilters] = useState<AllFilters>({ manufacturerFilters: [], materialFilters: [] });
+  const [allfilters, setAllFilters] = useState<AllFilters>(null);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
@@ -87,6 +87,9 @@ const CategoryPage: React.FC = () => {
           const materialFiltersQuery: string | undefined =
             `${materialFilter.map((x) => `"${x.toLowerCase()}"`).join(', ')}`;
 
+          console.log(manufacturerFilter);
+          console.log(materialFilter);
+
           if (manufacturerFiltersQuery) {
             filters.push(`variants.attributes.designer:${manufacturerFiltersQuery}`);
           }
@@ -122,8 +125,10 @@ const CategoryPage: React.FC = () => {
                   .map((a) => a?.value.label['en-US']),
               ),
             );
+
             allfilters ??
               setAllFilters({ manufacturerFilters: filterArrManufacturer, materialFilters: filterArrMaterial });
+            console.log(allfilters);
           }
         }
       }
