@@ -24,7 +24,7 @@ const CategoryPage: React.FC = () => {
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
   const [manufacturerFilter, setManufacturerFilter] = useState<string[]>([]);
   const [materialFilter, setMaterialFilter] = useState<string[]>([]);
-  const [allfilters, setAllFilters] = useState<AllFilters>({ manufacturerFilters: [], materialFilters: [] });
+  const [allfilters, setAllFilters] = useState<AllFilters>(null);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
