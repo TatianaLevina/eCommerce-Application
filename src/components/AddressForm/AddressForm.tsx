@@ -1,35 +1,40 @@
 import type React from 'react';
 import validateConstant from '@/data/validateConstants';
 import { options } from '@/pages/RegisterPage/RegisterPage';
-import type { BaseAddress } from '@commercetools/platform-sdk';
-import { Flex, Form, Input, Select, Switch, Typography, type FormInstance } from 'antd';
+import type { SwitchProps, FormInstance } from 'antd';
+import { Flex, Form, Input, Select, Switch, Typography } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import type { AddressInfo } from '@/services/CustomerService';
 
 const { Text } = Typography;
 
-export interface AddressFormValues {
-  address?: BaseAddress;
-  isBillingAddress?: boolean;
-  isShippingAddress?: boolean;
-  isDefaultBillingAddress?: boolean;
-  isDefaultShippingAddress?: boolean;
+interface SwitchItemProps extends SwitchProps {
+  text: string;
 }
+
+const SwitchItem: React.FC<SwitchItemProps> = ({ text, ...props }: SwitchItemProps) => {
+  return (
+    <Flex gap="small">
+      <Text>{text}</Text>
+      <Switch {...props}></Switch>
+    </Flex>
+  );
+};
+
 export interface AddressFormProps {
-  initialValues: AddressFormValues;
-  onFormInstanceReady: (instance: FormInstance<AddressFormValues>) => void;
+  addressInfo: AddressInfo;
+  onFormInstanceReady: (instance: FormInstance<AddressInfo>) => void;
   disabled?: boolean;
 }
 
-const AddressForm: React.FC<AddressFormProps> = ({ initialValues, onFormInstanceReady, disabled }) => {
+const AddressForm: React.FC<AddressFormProps> = ({ addressInfo: initialValues, onFormInstanceReady, disabled }) => {
   const [form] = Form.useForm();
   useEffect(() => {
     onFormInstanceReady(form);
   }, []);
-  const [isBilling, setBilling] = useState(initialValues.isBillingAddress);
-  const [isShipping, setShipping] = useState(initialValues.isShippingAddress);
-  const [isDefaultBilling, setDefaultBilling] = useState(initialValues.isDefaultBillingAddress);
-  const [isDefaultShipping, setDefaultShipping] = useState(initialValues.isDefaultShippingAddress);
+
+  // form.setFieldsValue(initialValues);
   return (
     <Form
       form={form}
@@ -38,72 +43,61 @@ const AddressForm: React.FC<AddressFormProps> = ({ initialValues, onFormInstance
       // onFinishFailed={onFinishFailed}
       disabled={disabled}
       layout="vertical"
-      initialValues={{
-        street: initialValues.address?.streetName,
-        city: initialValues.address?.city,
-        country: initialValues.address?.country,
-        postalCode: initialValues.address?.postalCode,
-      }}
+      initialValues={initialValues}
     >
-      <Form.Item name="billingAddress">
-        <Flex gap="small">
-          {' '}
-          <Text>Billing Address</Text>
-          <Switch
+      <Flex gap="small">
+        <Form.Item name="isBillingAddress" valuePropName="checked">
+          <SwitchItem
+            text={'Billing Address'}
             checkedChildren="yes"
             unCheckedChildren="no"
-            disabled={!isShipping}
-            checked={isBilling}
             onChange={(checked: boolean) => {
               if (!checked) {
-                setDefaultBilling(false);
+                form.setFieldValue('isDefaultBillingAddress', false);
               }
-              setBilling(checked);
             }}
-          ></Switch>
+          />
+        </Form.Item>
+        <Form.Item name="isDefaultBillingAddress" valuePropName="checked">
           <Switch
             checkedChildren="default"
             unCheckedChildren="make default"
-            checked={isDefaultBilling}
             onChange={(checked: boolean) => {
-              setDefaultBilling(checked);
               if (checked) {
-                setBilling(checked);
+                form.setFieldValue('isBillingAddress', checked);
               }
             }}
           ></Switch>
-        </Flex>
-      </Form.Item>
-      <Form.Item name="shippingAddress">
-        <Flex gap="small">
-          <Text>Shipping Address</Text>
-          <Switch
+        </Form.Item>
+      </Flex>
+      <Flex gap="small">
+        <Form.Item name="isShippingAddress" valuePropName="checked">
+          <SwitchItem
+            text="Shipping Address"
             checkedChildren="yes"
             unCheckedChildren="no"
-            disabled={!isBilling}
-            checked={isShipping}
             onChange={(checked: boolean) => {
               if (!checked) {
-                setDefaultShipping(false);
+                form.setFieldValue('isDefaultShippingAddress', false);
               }
-              setShipping(checked);
             }}
-          ></Switch>
+          ></SwitchItem>
+        </Form.Item>
+
+        <Form.Item name="isDefaultShippingAddress" valuePropName="checked">
           <Switch
             checkedChildren="default"
             unCheckedChildren="make default"
-            checked={isDefaultShipping}
             onChange={(checked: boolean) => {
-              setDefaultShipping(checked);
               if (checked) {
-                setShipping(checked);
+                form.setFieldValue('isShippingAddress', true);
               }
             }}
           ></Switch>
-        </Flex>
-      </Form.Item>
+        </Form.Item>
+      </Flex>
       <Form.Item
-        name="street"
+        name={['address', 'streetName']}
         label="Street"
         tooltip={{
           title: `Enter street. Must contain at least one character`,
@@ -114,7 +108,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ initialValues, onFormInstance
         <Input />
       </Form.Item>
       <Form.Item
-        name="city"
+        name={['address', 'city']}
         label="City"
         tooltip={{
           title: `Enter city. Must contain at least one character and no special characters or numbers`,
@@ -130,7 +124,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ initialValues, onFormInstance
         <Input />
       </Form.Item>
       <Form.Item
-        name="country"
+        name={['address', 'country']}
         label="Country"
         tooltip="This is a required field. Select a country from the list"
         rules={[{ required: true }]}
@@ -138,7 +132,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ initialValues, onFormInstance
         <Select options={options} placeholder="Select country" />
       </Form.Item>
       <Form.Item
-        name="postalCode"
+        name={['address', 'postalCode']}
         label="Postal Code"
         tooltip={{
           title: `Enter Postal Code. Must follow the format for the country (000000 or XXXXX-YYYY or XXXX YYY)`,
