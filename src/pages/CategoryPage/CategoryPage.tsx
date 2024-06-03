@@ -87,9 +87,6 @@ const CategoryPage: React.FC = () => {
           const materialFiltersQuery: string | undefined =
             `${materialFilter.map((x) => `"${x.toLowerCase()}"`).join(', ')}`;
 
-          console.log(manufacturerFilter);
-          console.log(materialFilter);
-
           if (manufacturerFiltersQuery) {
             filters.push(`variants.attributes.designer:${manufacturerFiltersQuery}`);
           }
@@ -128,7 +125,6 @@ const CategoryPage: React.FC = () => {
 
             allfilters ??
               setAllFilters({ manufacturerFilters: filterArrManufacturer, materialFilters: filterArrMaterial });
-            console.log(allfilters);
           }
         }
       }
