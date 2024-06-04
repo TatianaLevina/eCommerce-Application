@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@contexts/AuthContext';
 import { Layout } from 'antd';
 import { Button, Flex } from 'antd';
@@ -17,8 +17,13 @@ const { Header } = Layout;
 const AppHeader = () => {
   const { user, signOut } = useAuth();
 
+  // to delete next line after cross-checking !!!!!
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     signOut();
+    // to delete next line after cross-checking !!!!!
+    navigate('/');
   };
 
   const { isCollapsed, setCollapsed } = useDrawerState();
