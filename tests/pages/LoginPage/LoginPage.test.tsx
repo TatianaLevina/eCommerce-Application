@@ -5,7 +5,6 @@ import { AuthProvider } from '@contexts/AuthContext';
 
 describe('LoginPage tests', () => {
   describe('Render element', () => {
-    // const formTestId = 'qwueyque8723hq8w';
     let container: HTMLElement | null = null;
 
     beforeEach(() => {

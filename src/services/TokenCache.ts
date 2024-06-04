@@ -16,3 +16,7 @@ export const getExistingToken = () => {
   const token = cache ? `Bearer ${JSON.parse(cache)?.refreshToken}` : '';
   return token;
 };
+
+export const invalidateToken = () => {
+  localStorage.removeItem('token');
+};

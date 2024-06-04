@@ -49,12 +49,12 @@ interface FormValues {
   shippingAsDefault?: boolean;
 }
 
-interface Option {
+export interface Option {
   value: string;
   label: string;
 }
 
-const options: Option[] = countries.map((c) => {
+export const options: Option[] = countries.map((c) => {
   return { value: c.Code, label: c.Name };
 });
 
@@ -113,7 +113,7 @@ export const RegisterPage: React.FC = () => {
       addresses: addresses,
       billingAddresses: [0],
       shippingAddresses: [shareAddress ? 0 : 1],
-      defaultShippingAddress: shareAddress || values.shippingAsDefault ? 0 : undefined,
+      defaultShippingAddress: values.shippingAsDefault ? 0 : undefined,
       defaultBillingAddress: values.billingAsDefault ? 0 : undefined,
     };
 

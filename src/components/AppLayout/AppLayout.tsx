@@ -4,6 +4,7 @@ import AppFooter from '@components/AppFooter/AppFooter';
 import { Layout } from 'antd';
 import { DrawerStateProvider } from '@contexts/DrawerStateContext';
 import SidebarMenu from '@components/AppDrawer/AppDrawer';
+import '@components/AppLayout/AppLayout.scss';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,13 +13,7 @@ const { Content } = Layout;
 
 const AppLayout: React.FC<LayoutProps> = ({ children }) => (
   <DrawerStateProvider>
-    <Layout
-      style={{
-        background: 'none',
-        maxWidth: '1440px',
-        margin: '0 auto',
-      }}
-    >
+    <Layout className="layout">
       <AppHeader />
       <main>
         <Layout
@@ -26,17 +21,8 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => (
             background: 'none',
           }}
         >
-          <Content style={{ padding: '0 48px', background: 'none', minHeight: '70vh' }}>
-            <div
-              style={{
-                background: 'rgba(0, 0, 0, 0.05)',
-                minHeight: '70vh',
-                padding: 24,
-                borderRadius: '10px',
-              }}
-            >
-              {children}
-            </div>
+          <Content className="layout__content">
+            <div className="layout__wrapper">{children}</div>
           </Content>
           <SidebarMenu />
         </Layout>

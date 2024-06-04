@@ -51,22 +51,5 @@ describe('HomePage tests', () => {
       const el = container?.querySelector('div');
       expect(el).toBeInstanceOf(HTMLElement);
     });
-
-    // test('contains inputs', () => {
-    //   act(() => {
-    //     render(
-    //       <AuthProvider>
-    //         <HomePage />
-    //       </AuthProvider>,
-    //       {
-    //         wrapper: BrowserRouter,
-    //         container: container!,
-    //       },
-    //     );
-    //   });
-
-    //   const els = container?.querySelectorAll('input');
-    //   expect(els?.length).toBe(11);
-    // });
   });
 });

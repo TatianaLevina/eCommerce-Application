@@ -7,7 +7,7 @@ const validateConstant = {
   passwordRules: [
     { required: true, message: 'Please input your password!' },
     { pattern: /(?=.*[A-Z]).*/, message: 'Password must contain at least 1 uppercase letter.' },
-    { pattern: /(?=.*[A-Z]).*/, message: 'Password must contain at least 1 lowercase letter.' },
+    { pattern: /(?=.*[a-z]).*/, message: 'Password must contain at least 1 lowercase letter.' },
     { pattern: /(?=.*\d).*/, message: 'Password must contain at least 1 digit.' },
     { pattern: /(?=.*[^\w\s]|_).*/, message: 'Password must contain at least 1 special character.' },
     { pattern: /^(?!\s+).+$/, message: 'Password must not contain leading whitespace' },

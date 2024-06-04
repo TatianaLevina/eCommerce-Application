@@ -1,5 +1,7 @@
 @import 'node_modules/normalize-scss/sass/normalize/import-now';
 @import url('https://fonts.googleapis.com/css2?family=Inika:wght@400;700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import './glow';
+@import './zooming';
 
 html {
   background: url('/bg.png') no-repeat center center fixed;
@@ -29,6 +31,11 @@ html {
 .primary-custom-color {
   background-color: #2f7c69 !important;
   color: #fff !important;
+}
+.primary-custom-color:disabled {
+  background-color: #2f7c69 !important;
+  color: #fff !important;
+  opacity: 0.4;
 }
 .primary-custom-color:hover {
   background-color: #3ca087 !important;
@@ -86,4 +93,32 @@ html {
   font-weight: 400;
   font-style: normal;
   color: #886b1c !important;
+}
+
+.base-text {
+  font-size: 16px;
+
+  &_through {
+    text-decoration: line-through !important;
+  }
+
+  &_colored {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #886b1c;
+  }
+}
+
+.profile__general-info {
+  border-radius: 10px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.profile__addresses {
+  border: 2px solid #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
