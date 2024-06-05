@@ -1,26 +1,27 @@
 import type React from 'react';
 import { Button, Form, InputNumber } from 'antd';
 // import { useNavigate } from 'react-router-dom';
-import type { ProductProjection } from '@commercetools/platform-sdk';
+import type { LineItem } from '@commercetools/platform-sdk';
 import '@components/ProductCard/ProductCard.scss';
 import ImageCustom from '../ImageCustom/ImageCustom';
 import { DeleteOutlined } from '@ant-design/icons';
 import { formatPrice } from '@utils/Utilities';
 // import { useState } from 'react';
+import '@components/CartItem/CartItem.scss';
 
 interface CartItemProps {
-  product: ProductProjection;
+  product: LineItem;
   removeClickHandler: (id: string) => void;
-  inputChangeHandler: (value: 1 | 99 | null) => void;
+  inputChangeHandler: (id: string, value: 1 | 99 | null) => void;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputChangeHandler }) => {
   // const navigate = useNavigate();
   // const [total, setTotal] = useState<number>(0);
   // const [count, setCount] = useState<number>(0);
-  const price = product.masterVariant.prices?.find((x) => x.value.currencyCode === 'USD');
+  const price = product.variant.prices?.find((x) => x.value.currencyCode === 'USD');
   const discountedPrice = price?.discounted?.value.centAmount;
-  const imageUrl = product.masterVariant.images?.[0]?.url || 'default-image-url';
+  const imageUrl = product.variant.images?.[0]?.url || 'default-image-url';
 
   return (
     <div className="cart-item" id={product.id}>
@@ -42,8 +43,7 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
             name="count"
             min={1}
             max={99}
-            changeOnWheel
-            onChange={(value) => inputChangeHandler(value)}
+            onChange={(value) => inputChangeHandler(product.id, value)}
           />
         </Form.Item>
         <div className="cart-item__price-box">

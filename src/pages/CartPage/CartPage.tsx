@@ -1,116 +1,266 @@
 import CartItem from '@/components/CartItem/CartItem';
-import { type ProductProjection } from '@commercetools/platform-sdk';
+import { type Cart } from '@commercetools/platform-sdk';
 import '@pages/CartPage/CartPage.scss';
 import { Button } from 'antd';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const product: ProductProjection = {
-  id: '5d9577f9-5b3c-487e-8ba0-1305ad7d0da0',
+const cart: Cart = {
+  id: 'string',
   version: 1,
-  productType: {
-    typeId: 'product-type',
-    id: '4136dfc8-51e0-4099-874d-dd224b3c2e6b',
-  },
-  name: {
-    'en-US': 'Portoy',
-  },
-  categories: [
+  key: 'string',
+  customerId: 'string',
+  customerEmail: 'string',
+  anonymousId: 'string',
+  lineItems: [
     {
-      typeId: 'category',
-      id: 'ade97a3e-e9d2-42cc-a7ed-1cb32cbc442e',
-    },
-  ],
-  categoryOrderHints: {},
-  slug: {
-    'en-US': 'armchair-portoy',
-  },
-  metaTitle: {
-    'en-US': 'Portoy',
-  },
-  metaKeywords: {
-    'en-US': 'basic;',
-  },
-  metaDescription: {
-    'en-US':
-      'The ergonomic design provides ample support for your back and neck, while the contoured seat ensures a comfortable sitting experience.',
-  },
-  variants: [],
-  masterVariant: {
-    attributes: [
-      {
-        name: 'designer',
-        value: 'Middle Earth Chemical Plant',
+      id: '00000000-5b3c-487e-8ba0-1305ad7d0da0',
+      productId: '5d9577f9-5b3c-487e-8ba0-1305ad7d0da0',
+      name: {
+        'en-US': 'Portoy',
       },
-      {
-        name: 'material',
-        value: {
-          key: 'plastic',
-          label: {
-            'en-US': 'Plastic',
+      productSlug: {
+        'en-US': 'armchair-portoy',
+      },
+      productType: {
+        typeId: 'product-type',
+        id: 'string',
+      },
+      variant: {
+        attributes: [
+          {
+            name: 'designer',
+            value: 'Middle Earth Chemical Plant',
           },
-        },
-      },
-      {
-        name: 'arrangement',
-        value: {
-          key: 'house',
-          label: {
-            'en-US': 'house',
+          {
+            name: 'material',
+            value: {
+              key: 'plastic',
+              label: {
+                'en-US': 'Plastic',
+              },
+            },
           },
-        },
+          {
+            name: 'arrangement',
+            value: {
+              key: 'house',
+              label: {
+                'en-US': 'house',
+              },
+            },
+          },
+        ],
+        assets: [],
+        images: [
+          {
+            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--r-Q3wjA0.jpg',
+            dimensions: {
+              w: 0,
+              h: 0,
+            },
+          },
+          {
+            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--RlxEMgWo.jpg',
+            dimensions: {
+              w: 0,
+              h: 0,
+            },
+          },
+          {
+            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--hCwt9BRg.jpg',
+            dimensions: {
+              w: 0,
+              h: 0,
+            },
+          },
+        ],
+        prices: [
+          {
+            id: '12cdf84b-640c-4088-9880-9f840d7f692c',
+            value: {
+              type: 'centPrecision',
+              currencyCode: 'USD',
+              centAmount: 9999,
+              fractionDigits: 2,
+            },
+          },
+        ],
+        key: '17',
+        sku: '17',
+        id: 1,
       },
-    ],
-    assets: [],
-    images: [
-      {
-        url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--r-Q3wjA0.jpg',
-        dimensions: {
-          w: 0,
-          h: 0,
-        },
-      },
-      {
-        url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--RlxEMgWo.jpg',
-        dimensions: {
-          w: 0,
-          h: 0,
-        },
-      },
-      {
-        url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--hCwt9BRg.jpg',
-        dimensions: {
-          w: 0,
-          h: 0,
-        },
-      },
-    ],
-    prices: [
-      {
-        id: '12cdf84b-640c-4088-9880-9f840d7f692c',
+      price: {
+        id: 'string',
         value: {
           type: 'centPrecision',
+          centAmount: 100,
           currencyCode: 'USD',
-          centAmount: 9999,
-          fractionDigits: 2,
+          fractionDigits: 1,
         },
       },
-    ],
-    key: '17',
-    sku: '17',
-    id: 1,
+      quantity: 5,
+      totalPrice: {
+        type: 'centPrecision',
+        centAmount: 100,
+        currencyCode: 'USD',
+        fractionDigits: 1,
+      },
+      discountedPricePerQuantity: [],
+      taxedPricePortions: [],
+      state: [],
+      perMethodTaxRate: [],
+      priceMode: 'LineItemPriceMode',
+      lineItemMode: 'LineItemMode',
+    },
+    {
+      id: '11111111-5b3c-487e-8ba0-1305ad7d0da0',
+      productId: '5d9577f9-5b3c-487e-8ba0-1305ad7d0da0',
+      name: {
+        'en-US': 'Portoy',
+      },
+      productSlug: {
+        'en-US': 'armchair-portoy',
+      },
+      productType: {
+        typeId: 'product-type',
+        id: 'string',
+      },
+      variant: {
+        attributes: [
+          {
+            name: 'designer',
+            value: 'Middle Earth Chemical Plant',
+          },
+          {
+            name: 'material',
+            value: {
+              key: 'plastic',
+              label: {
+                'en-US': 'Plastic',
+              },
+            },
+          },
+          {
+            name: 'arrangement',
+            value: {
+              key: 'house',
+              label: {
+                'en-US': 'house',
+              },
+            },
+          },
+        ],
+        assets: [],
+        images: [
+          {
+            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--r-Q3wjA0.jpg',
+            dimensions: {
+              w: 0,
+              h: 0,
+            },
+          },
+          {
+            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--RlxEMgWo.jpg',
+            dimensions: {
+              w: 0,
+              h: 0,
+            },
+          },
+          {
+            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--hCwt9BRg.jpg',
+            dimensions: {
+              w: 0,
+              h: 0,
+            },
+          },
+        ],
+        prices: [
+          {
+            id: '12cdf84b-640c-4088-9880-9f840d7f692c',
+            value: {
+              type: 'centPrecision',
+              currencyCode: 'USD',
+              centAmount: 9999,
+              fractionDigits: 2,
+            },
+          },
+        ],
+        key: '17',
+        sku: '17',
+        id: 1,
+      },
+      price: {
+        id: 'string',
+        value: {
+          type: 'centPrecision',
+          centAmount: 100,
+          currencyCode: 'USD',
+          fractionDigits: 1,
+        },
+      },
+      quantity: 5,
+      totalPrice: {
+        type: 'centPrecision',
+        centAmount: 100,
+        currencyCode: 'USD',
+        fractionDigits: 1,
+      },
+      discountedPricePerQuantity: [],
+      taxedPricePortions: [],
+      state: [],
+      perMethodTaxRate: [],
+      priceMode: 'LineItemPriceMode',
+      lineItemMode: 'LineItemMode',
+    },
+  ],
+  customLineItems: [],
+  totalLineItemQuantity: 4,
+  totalPrice: {
+    type: 'centPrecision',
+    centAmount: 100,
+    currencyCode: 'USD',
+    fractionDigits: 1,
   },
-  searchKeywords: {},
-  hasStagedChanges: false,
-  published: true,
-  taxCategory: {
-    typeId: 'tax-category',
-    id: '6c2e290e-8b0a-42db-ae78-9e5db9b25473',
+  discountOnTotalPrice: {
+    discountedAmount: {
+      type: 'centPrecision',
+      centAmount: 100,
+      currencyCode: 'USD',
+      fractionDigits: 1,
+    },
+    includedDiscounts: [],
+    discountedNetAmount: {
+      type: 'centPrecision',
+      centAmount: 100,
+      currencyCode: 'USD',
+      fractionDigits: 1,
+    },
+    discountedGrossAmount: {
+      type: 'centPrecision',
+      centAmount: 100,
+      currencyCode: 'USD',
+      fractionDigits: 1,
+    },
   },
-  createdAt: '2024-06-02T13:06:07.099Z',
-  lastModifiedAt: '2024-06-02T13:06:07.099Z',
+  taxMode: 'TaxMode',
+  taxRoundingMode: 'RoundingMode',
+  taxCalculationMode: 'TaxCalculationMode',
+  inventoryMode: 'InventoryMode',
+  cartState: 'CartState',
+  shippingMode: 'ShippingMode',
+  shipping: [],
+  itemShippingAddresses: [],
+  discountCodes: [],
+  directDiscounts: [],
+  refusedGifts: [],
+  origin: 'CartOrigin',
+  createdAt: 'string',
+  lastModifiedAt: 'string',
 };
 
 export default function CartPage() {
+  const navigate = useNavigate();
   const [promocode, setPromocode] = useState<string | null>(null);
   // const [prod, setProd] = useState<ProductProjection>(product);
 
@@ -124,7 +274,7 @@ export default function CartPage() {
   };
 
   const toCatalogClickHandler = () => {
-    console.log('toCatalogClickHandler');
+    navigate(`/catalog/`);
   };
 
   const buyClickHandler = () => {
@@ -132,17 +282,17 @@ export default function CartPage() {
   };
 
   const removeClickHandler = (id: string) => {
-    console.log(id);
-    console.log('removeClickHandler');
+    console.log('REMOVE ITEM: ', id);
   };
 
-  const inputChangeHandler = (value: 1 | 99 | null) => {
-    console.log(value);
+  const inputChangeHandler = (id: string, value: 1 | 99 | null) => {
+    if (!value) {
+      console.log('value is null, return');
+      return;
+    }
+
+    console.log(value, ' >>> ', id);
   };
-
-  //!
-
-  //!
 
   return (
     <div className="cart">
@@ -150,11 +300,16 @@ export default function CartPage() {
         <h1 className="custom-title">Cart</h1>
         <div className="cart__products-box">
           {/*>>>>>*/}
-          <CartItem
-            product={product}
-            removeClickHandler={removeClickHandler}
-            inputChangeHandler={inputChangeHandler}
-          ></CartItem>
+
+          {cart.lineItems.map((item) => (
+            <CartItem
+              key={item.id}
+              product={item}
+              removeClickHandler={removeClickHandler}
+              inputChangeHandler={inputChangeHandler}
+            ></CartItem>
+          ))}
+
           {/*<<<<<*/}
         </div>
         <div className="cart__bottom-box">
