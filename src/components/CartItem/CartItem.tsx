@@ -3,7 +3,7 @@ import { Button, Form, InputNumber } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import type { LineItem } from '@commercetools/platform-sdk';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
-import { formatPrice } from '@utils/utilities';
+import { formatPrice } from '@/utils/Utilities';
 import '@components/CartItem/CartItem.scss';
 
 interface CartItemProps {

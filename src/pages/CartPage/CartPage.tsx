@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { type Cart } from '@commercetools/platform-sdk';
 import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
+import { createCartService, getCartService } from '@/services/CartService';
 
 const cart: Cart = {
   id: 'string',
@@ -283,6 +284,7 @@ function CartPage() {
 
   const removeClickHandler = (id: string) => {
     console.log('REMOVE ITEM: ', id);
+    createCartService(id, 'USD');
   };
 
   const inputChangeHandler = (id: string, value: 1 | 99 | null) => {
@@ -290,7 +292,7 @@ function CartPage() {
       console.log('value is null, return');
       return;
     }
-
+    getCartService(id).then((res) => console.log(res));
     console.log(value, ' >>> ', id);
   };
 
