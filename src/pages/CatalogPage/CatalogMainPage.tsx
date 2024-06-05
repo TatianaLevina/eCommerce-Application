@@ -8,6 +8,7 @@ import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
 import '@pages/CatalogPage/CatalogMainPage.scss';
 import { HomeOutlined } from '@ant-design/icons';
+import ImageCustom from '@components/ImageCustom/ImageCustom';
 
 interface CategoryWithImage {
   id: string;
@@ -90,7 +91,7 @@ const CatalogMainPage: React.FC = () => {
                 className="category-card zooming"
               >
                 <div className="category-card__custom-image">
-                  <img className="category-card__img" src={cat.imageUrl} alt={cat.name} />
+                  <ImageCustom className="category-card__img" src={cat.imageUrl} alt={cat.name}></ImageCustom>
                 </div>
               </Card>
             ))

@@ -9,6 +9,7 @@ import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import '@pages/ProductPage/ProductPage.scss';
 import type { Product } from '@commercetools/platform-sdk';
 import { DownOutlined, HomeOutlined } from '@ant-design/icons';
+import ImageCustom from '@components/ImageCustom/ImageCustom';
 
 const { Title, Paragraph } = Typography;
 
@@ -111,7 +112,11 @@ const ProductPage: React.FC = () => {
         <Carousel draggable arrows infinite={false}>
           {images?.map((img, idx) => (
             <div key={idx}>
-              <img style={{ display: 'block', width: '90%', cursor: 'pointer' }} src={img.url} alt={name['en-US']} />
+              <ImageCustom
+                style={{ display: 'block', width: '90%', cursor: 'pointer' }}
+                src={img.url}
+                alt={name['en-US']}
+              ></ImageCustom>
             </div>
           ))}
         </Carousel>
@@ -123,11 +128,11 @@ const ProductPage: React.FC = () => {
             <Carousel autoplay className="product-page__product-carousel">
               {images?.map((img, idx) => (
                 <div key={idx}>
-                  <img
+                  <ImageCustom
                     style={{ display: 'block', width: '100%', cursor: 'pointer' }}
                     src={img.url}
                     alt={name['en-US']}
-                  />
+                  ></ImageCustom>
                 </div>
               ))}
             </Carousel>
