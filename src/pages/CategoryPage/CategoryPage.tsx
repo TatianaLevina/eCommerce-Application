@@ -12,6 +12,7 @@ import ProductCard from '@components/ProductCard/ProductCard.tsx';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import '@pages/CategoryPage/CategoryPage.scss';
 import { type AllFilters } from '@components/Filters/Filter.type';
+import { formatPrice } from '@utils/Utilities';
 
 const CategoryPage: React.FC = () => {
   const { categories, loading: categoryLoading } = useCategory();
@@ -152,8 +153,6 @@ const CategoryPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
-
-  const formatPrice = (centAmount: number) => (centAmount / 100).toFixed(2);
 
   const resetFilters = () => {
     setSearchText('');
