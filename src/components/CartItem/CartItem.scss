@@ -70,6 +70,16 @@
     color: #2f7c69;
     font-weight: 500;
   }
+
+  @media screen and (max-width: 680px) {
+    & {
+      flex-flow: column;
+    }
+
+    &__rught {
+      align-self: flex-end;
+    }
+  }
 }
 
 .no-margin-block {
