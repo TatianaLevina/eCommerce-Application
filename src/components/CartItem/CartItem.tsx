@@ -1,12 +1,9 @@
 import type React from 'react';
 import { Button, Form, InputNumber } from 'antd';
-// import { useNavigate } from 'react-router-dom';
-import type { LineItem } from '@commercetools/platform-sdk';
-import '@components/ProductCard/ProductCard.scss';
-import ImageCustom from '../ImageCustom/ImageCustom';
 import { DeleteOutlined } from '@ant-design/icons';
-import { formatPrice } from '@utils/Utilities';
-// import { useState } from 'react';
+import type { LineItem } from '@commercetools/platform-sdk';
+import ImageCustom from '@components/ImageCustom/ImageCustom';
+import { formatPrice } from '@utils/utilities';
 import '@components/CartItem/CartItem.scss';
 
 interface CartItemProps {

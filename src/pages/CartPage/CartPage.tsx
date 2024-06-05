@@ -1,9 +1,9 @@
-import CartItem from '@/components/CartItem/CartItem';
-import { type Cart } from '@commercetools/platform-sdk';
-import '@pages/CartPage/CartPage.scss';
-import { Button } from 'antd';
 import { useState } from 'react';
+import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { type Cart } from '@commercetools/platform-sdk';
+import CartItem from '@components/CartItem/CartItem';
+import '@pages/CartPage/CartPage.scss';
 
 const cart: Cart = {
   id: 'string',
@@ -259,7 +259,7 @@ const cart: Cart = {
   lastModifiedAt: 'string',
 };
 
-export default function CartPage() {
+function CartPage() {
   const navigate = useNavigate();
   const [promocode, setPromocode] = useState<string | null>(null);
   // const [prod, setProd] = useState<ProductProjection>(product);
@@ -346,3 +346,5 @@ export default function CartPage() {
     </div>
   );
 }
+
+export default CartPage;
