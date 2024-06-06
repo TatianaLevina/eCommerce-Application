@@ -307,38 +307,49 @@ function CartPage() {
   }
 
   const [cartTest, setCartTest] = useState<Cart | null>(null);
-  // if (!cartTest) {
-  //   return;
-  // }
 
-  // const { id, version } = cartTest;
+  const updateCart = (cart: Cart | null) => {
+    if (cart) {
+      setCartTest(cart);
+      updateCartInBase(cart);
+    } else {
+      setCartTest(cart);
+    }
+  };
 
-  const id = cartTest?.id ?? '';
-  const version = cartTest?.version ?? 0;
+  const updateCartInBase = (cart: Cart) => {
+    console.log(cart);
+  };
 
   const createHandler = async () => {
-    const result = await createCartService('USD');
+    const result = await createCartService(cartTest, 'USD');
     setTimeout(() => {
       setCartTest(result);
       console.log('create: ', result);
     }, 100);
   };
   const getHandler = async () => {
-    const result = await getCartService();
+    const result = await getCartService(cartTest);
     setTimeout(() => {
       setCartTest(result);
       console.log('get: ', result);
     }, 100);
   };
   const deleteHandler = async () => {
-    const result = await deleteCartService(id, version);
+    const result = await deleteCartService(cartTest);
     setTimeout(() => {
       if (result) {
-        setCartTest(null);
+        updateCart(null);
       }
       console.log('delete: ', result);
     }, 100);
   };
+
+  const addItemHandler = async () => {};
+  const remItemdHandler = async () => {};
+  const addCodeHandler = async () => {};
+  const remCodeHandler = async () => {};
+  const setQuantityHandler = async () => {};
 
   {
     /**
@@ -383,12 +394,27 @@ function CartPage() {
         {/**
          * FOR TEST
          */}
-        <div className="cart__bottom-box">
-          <Button className="primary-custom-color" onClick={createHandler}>
+        <div className="cart__bottom-box" style={{ flexFlow: 'wrap' }}>
+          <Button type="primary" onClick={createHandler}>
             Create Cart
           </Button>
-          <Button className="primary-custom-color" onClick={getHandler}>
-            GetCart
+          <Button type="primary" onClick={getHandler}>
+            Get Cart
+          </Button>
+          <Button type="primary" onClick={addItemHandler}>
+            add item
+          </Button>
+          <Button type="primary" onClick={remItemdHandler}>
+            remove item
+          </Button>
+          <Button type="primary" onClick={addCodeHandler}>
+            add disc code
+          </Button>
+          <Button type="primary" onClick={remCodeHandler}>
+            remove disc code
+          </Button>
+          <Button type="primary" onClick={setQuantityHandler}>
+            set quantity
           </Button>
           <Button danger onClick={deleteHandler}>
             Delete Cart
