@@ -306,7 +306,7 @@ function CartPage() {
      */
   }
 
-  const [cartTest, setTextCartTest] = useState<Cart | null>(null);
+  const [cartTest, setCartTest] = useState<Cart | null>(null);
   // if (!cartTest) {
   //   return;
   // }
@@ -319,25 +319,25 @@ function CartPage() {
   const createHandler = async () => {
     const result = await createCartService('USD');
     setTimeout(() => {
-      setTextCartTest(result);
-      console.log(cartTest);
-    });
+      setCartTest(result);
+      console.log('create: ', result);
+    }, 100);
   };
   const getHandler = async () => {
     const result = await getCartService();
     setTimeout(() => {
-      setTextCartTest(result);
-      console.log(cartTest);
-    });
+      setCartTest(result);
+      console.log('get: ', result);
+    }, 100);
   };
   const deleteHandler = async () => {
     const result = await deleteCartService(id, version);
     setTimeout(() => {
       if (result) {
-        setTextCartTest(null);
+        setCartTest(null);
       }
-      console.log(cartTest);
-    });
+      console.log('delete: ', result);
+    }, 100);
   };
 
   {

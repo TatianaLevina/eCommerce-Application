@@ -1,5 +1,5 @@
 import { createAuthFlow } from '@services/ClientBuilder.ts';
-import type { Cart } from '@commercetools/platform-sdk';
+import type { Cart, MyCartUpdateAction } from '@commercetools/platform-sdk';
 
 export const createCartService = async (currency: string): Promise<Cart | null> => {
   try {
@@ -51,4 +51,59 @@ export const deleteCartService = async (cartId: string, version: number): Promis
     console.error('deleteCartService', e);
     return null;
   }
+};
+
+type cartUpdateActions =
+  | 'addLineItem'
+  | 'removeLineItem'
+  | 'addDiscountCode'
+  | 'removeDiscountCode'
+  | 'changeLineItemQuantity'; // DO WE NEED SMTH ELSE?
+
+interface changeCartServiceParams {
+  sku?: string;
+  cartItemId?: string | string[];
+  cartVersion: number;
+  cartId: string;
+  action: string;
+  quantity: number | number[];
+}
+
+export const changeCartService = ({
+  sku,
+  cartVersion,
+  cartId,
+  cartItemId,
+  action,
+  quantity,
+}: changeCartServiceParams) => {
+  const actions = [];
+  if (Array.isArray(cartItemId) && Array.isArray(quantity)) {
+    cartItemId.map((item, i) => {
+      actions.push({
+        action: action as cartUpdateActions,
+        sku,
+        lineItemId: item,
+        quantity: quantity[i],
+      });
+    });
+  } else
+    actions.push({
+      action: action as cartUpdateActions,
+      sku,
+      lineItemId: cartItemId,
+      quantity,
+    });
+
+  return createAuthFlow()
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: actions as MyCartUpdateAction[],
+      },
+    })
+    .execute();
 };
