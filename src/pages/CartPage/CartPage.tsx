@@ -4,7 +4,7 @@
 // import { type Cart } from '@commercetools/platform-sdk';
 // import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
-import { createCartService, deleteCartService, getCartService } from '@/services/CartService';
+import { changeCartService, createCartService, deleteCartService, getCartService } from '@/services/CartService';
 
 // const cart: Cart = {
 //   id: 'string',
@@ -265,10 +265,11 @@ function CartPage() {
   createCartService('USD');
   getCartService().then((res) => {
     console.log(res);
-    const cartID = res?.id || '';
+    const cartId = res?.id || '';
     const cartVersion = res?.version || 1;
-    console.log(cartID);
-    deleteCartService(cartID, cartVersion);
+    console.log(cartId);
+    changeCartService({ action: 'addLineItem', sku: '11', cartItemId: '0', quantity: 1, cartVersion, cartId });
+    deleteCartService(cartId, cartVersion);
   });
 
   // const navigate = useNavigate();
