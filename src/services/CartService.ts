@@ -1,9 +1,30 @@
 import { createAuthFlow } from '@services/ClientBuilder.ts';
 import type { Cart } from '@commercetools/platform-sdk';
 
-export const getCartService = async (id: string): Promise<Cart | null> => {
+export const createCartService = async (currency: string): Promise<Cart | null> => {
   try {
-    const responseCart = await createAuthFlow().carts().withCustomerId({ customerId: id }).get().execute();
+    const responseCart = await createAuthFlow()
+      .me()
+      .carts()
+      .post({
+        body: {
+          currency: currency,
+        },
+      })
+      .execute();
+    if (responseCart.statusCode === 201) {
+      return responseCart.body;
+    }
+    return null;
+  } catch (e) {
+    console.error('createCartService', e);
+    return null;
+  }
+};
+
+export const getCartService = async (): Promise<Cart | null> => {
+  try {
+    const responseCart = await createAuthFlow().me().activeCart().get().execute();
     if (responseCart.statusCode === 200) {
       return responseCart.body;
     }
@@ -14,22 +35,20 @@ export const getCartService = async (id: string): Promise<Cart | null> => {
   }
 };
 
-export const createCartService = async (id: string, currency: string): Promise<void> => {
+export const deleteCartService = async (cartId: string, version: number): Promise<Cart | null> => {
   try {
     const responseCart = await createAuthFlow()
+      .me()
       .carts()
-      .post({
-        body: {
-          key: id,
-          currency: currency,
-          customerId: id,
-        },
-      })
+      .withId({ ID: cartId })
+      .delete({ queryArgs: { version } })
       .execute();
-    if (responseCart.statusCode === 201) {
-      console.log('Yes!');
+    if (responseCart.statusCode === 200) {
+      return responseCart.body;
     }
+    return null;
   } catch (e) {
-    console.error('createCartService', e);
+    console.error('deleteCartService', e);
+    return null;
   }
 };
