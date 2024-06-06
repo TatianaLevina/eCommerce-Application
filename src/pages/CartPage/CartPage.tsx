@@ -306,17 +306,38 @@ function CartPage() {
      */
   }
 
+  const [cartTest, setTextCartTest] = useState<Cart | null>(null);
+  // if (!cartTest) {
+  //   return;
+  // }
+
+  // const { id, version } = cartTest;
+
+  const id = cartTest?.id ?? '';
+  const version = cartTest?.version ?? 0;
+
   const createHandler = async () => {
     const result = await createCartService('USD');
-    console.log(result);
+    setTimeout(() => {
+      setTextCartTest(result);
+      console.log(cartTest);
+    });
   };
   const getHandler = async () => {
     const result = await getCartService();
-    console.log(result);
+    setTimeout(() => {
+      setTextCartTest(result);
+      console.log(cartTest);
+    });
   };
   const deleteHandler = async () => {
-    const result = await deleteCartService('2', 1);
-    console.log(result);
+    const result = await deleteCartService(id, version);
+    setTimeout(() => {
+      if (result) {
+        setTextCartTest(null);
+      }
+      console.log(cartTest);
+    });
   };
 
   {
