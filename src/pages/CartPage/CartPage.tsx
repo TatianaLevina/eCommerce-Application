@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { type Cart } from '@commercetools/platform-sdk';
 import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
-import { createCartService, getCartService } from '@/services/CartService';
+import { createCartService, deleteCartService, getCartService } from '@/services/CartService';
 
 const cart: Cart = {
   id: 'string',
@@ -261,9 +261,15 @@ const cart: Cart = {
 };
 
 function CartPage() {
+  const [text, setText] = useState<string>('');
+
   const navigate = useNavigate();
   const [promocode, setPromocode] = useState<string | null>(null);
   // const [prod, setProd] = useState<ProductProjection>(product);
+
+  const changeHandler = (value: React.ChangeEvent<HTMLInputElement>) => {
+    setText(value.target.value);
+  };
 
   const enterPromoClickHandler = () => {
     console.log('EnterPromo');
@@ -284,7 +290,6 @@ function CartPage() {
 
   const removeClickHandler = (id: string) => {
     console.log('REMOVE ITEM: ', id);
-    createCartService(id, 'USD');
   };
 
   const inputChangeHandler = (id: string, value: 1 | 99 | null) => {
@@ -292,9 +297,33 @@ function CartPage() {
       console.log('value is null, return');
       return;
     }
-    getCartService(id).then((res) => console.log(res));
     console.log(value, ' >>> ', id);
   };
+
+  {
+    /**
+     * FOR TEST
+     */
+  }
+
+  const createHandler = async () => {
+    const result = await createCartService('USD');
+    console.log(result);
+  };
+  const getHandler = async () => {
+    const result = await getCartService();
+    console.log(result);
+  };
+  const deleteHandler = async () => {
+    const result = await deleteCartService('2', 1);
+    console.log(result);
+  };
+
+  {
+    /**
+     * FOR TEST
+     */
+  }
 
   return (
     <div className="cart">
@@ -309,6 +338,8 @@ function CartPage() {
               product={item}
               removeClickHandler={removeClickHandler}
               inputChangeHandler={inputChangeHandler}
+              text={text}
+              textHandler={changeHandler}
             ></CartItem>
           ))}
 
@@ -328,6 +359,23 @@ function CartPage() {
             </Button>
           )}
         </div>
+        {/**
+         * FOR TEST
+         */}
+        <div className="cart__bottom-box">
+          <Button className="primary-custom-color" onClick={createHandler}>
+            Create Cart
+          </Button>
+          <Button className="primary-custom-color" onClick={getHandler}>
+            GetCart
+          </Button>
+          <Button danger onClick={deleteHandler}>
+            Delete Cart
+          </Button>
+        </div>
+        {/**
+         * FOR TEST
+         */}
         <div className="cart__bottom-box">
           <div className="cart__bottom-part">
             <Button danger onClick={cleanClickHandler}>
