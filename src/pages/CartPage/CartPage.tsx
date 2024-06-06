@@ -345,6 +345,18 @@ function CartPage() {
     }, 100);
   };
 
+  const ceckIsProdInCartHandler = () => {
+    // Params: product, cart
+    // Return: boolean
+    console.log('true/false');
+  };
+
+  const getProductsCountHandler = () => {
+    // Params: none
+    // Return: number
+    console.log(cart.lineItems.length);
+  };
+
   const addItemHandler = async () => {};
   const remItemdHandler = async () => {};
   const addCodeHandler = async () => {};
@@ -400,6 +412,12 @@ function CartPage() {
           </Button>
           <Button type="primary" onClick={getHandler}>
             Get Cart
+          </Button>
+          <Button type="primary" onClick={ceckIsProdInCartHandler}>
+            Is Proguct in cart?
+          </Button>
+          <Button type="primary" onClick={getProductsCountHandler}>
+            Get Count
           </Button>
           <Button type="primary" onClick={addItemHandler}>
             add item
