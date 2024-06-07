@@ -10,11 +10,13 @@ import {
   createCartService,
   deleteCartService,
   getCartService,
+  removeDiscountCodeService,
   removeLineItemsService,
   setQuantityService,
 } from '@/services/CartService';
+// import { divide, result } from 'lodash';
 // import ProductCard from '@/components/ProductCard/ProductCard';
-
+/*
 const cart: Cart = {
   id: 'string',
   version: 1,
@@ -268,7 +270,7 @@ const cart: Cart = {
   createdAt: 'string',
   lastModifiedAt: 'string',
 };
-
+*/
 function CartPage() {
   const [text, setText] = useState<string>('');
 
@@ -317,86 +319,97 @@ function CartPage() {
 
   const [cartTest, setCartTest] = useState<Cart | null>(null);
 
-  const updateCart = (cart: Cart | null) => {
-    if (cart) {
-      setCartTest(cart);
-      updateCartInBase(cart);
-    } else {
-      setCartTest(cart);
-    }
+  const createHandler = () => {
+    createCartService(cartTest, 'USD')
+      .then((result) => {
+        setCartTest(result);
+        console.log('create: ', result);
+      })
+      .catch((e) => console.error(e));
   };
-
-  const updateCartInBase = (cart: Cart) => {
-    console.log(cart);
-  };
-
-  const createHandler = async () => {
-    const result = await createCartService(cartTest, 'USD');
-    setTimeout(() => {
-      setCartTest(result);
-      console.log('create: ', result);
-    }, 100);
-  };
-  const getHandler = async () => {
-    const result = await getCartService();
-    setTimeout(() => {
+  const getHandler = () => {
+    getCartService().then((result) => {
       setCartTest(result);
       console.log('get: ', result);
-    }, 100);
+    });
   };
-  const deleteHandler = async () => {
-    const result = await deleteCartService(cartTest);
-    setTimeout(() => {
+  const deleteHandler = () => {
+    deleteCartService(cartTest).then((result) => {
       if (result) {
-        updateCart(null);
+        setCartTest(null);
       }
       console.log('delete: ', result);
-    }, 100);
+    });
   };
 
-  const ceckIsProdInCartHandler = () => {
+  const ceckIsProdInCartHandler = (/*id: string*/) => {
     // Params: product, cart
     // Return: boolean
-    console.log('true/false');
+    const testId = '30217184-de16-42aa-a7c5-9ea1e345b743';
+    const result: boolean = cartTest?.lineItems.find((x) => x.productId === testId) ? true : false;
+    console.log(result);
   };
 
   const getProductsCountHandler = () => {
     // Params: none
     // Return: number
-    console.log(cart.lineItems.length);
+    console.log(cartTest?.lineItems.length);
   };
 
-  const addItemHandler = async () => {
-    //? We take it from the product card
-    const testId = '00000000-5b3c-487e-8ba0-1305ad7d0da0';
-    const result = await addLineItemsService({ productId: testId }, cart);
-    console.log(result);
+  const addItemHandler = (/*productId: string*/) => {
+    if (cartTest) {
+      //? We take it from the product card
+      const testId = '30217184-de16-42aa-a7c5-9ea1e345b743';
+      addLineItemsService({ productId: testId }, cartTest!).then((result) => {
+        setCartTest(result ? result : null);
+        console.log(result);
+      });
+    }
   };
+
   const remItemdHandler = async () => {
-    //? Take from the card you clicked on
-    const testLineItemId = '00000000-5b3c-487e-8ba0-1305ad7d0da0';
-    const result = await removeLineItemsService({ lineItemId: testLineItemId }, cart);
-    console.log(result);
+    if (cartTest) {
+      //? Take from the card you clicked on
+      const testLineItemId = cartTest.lineItems[0].id;
+      removeLineItemsService({ lineItemId: testLineItemId }, cartTest!).then((result) => {
+        setCartTest(result ? result : null);
+        console.log(result);
+      });
+    }
   };
-  const addCodeHandler = async () => {
-    //? User enters ?
-    const testLineItemId = 'TEST_PROMO_13';
-    const result = await addDiscountCodeService({ code: testLineItemId }, cart);
-    console.log(result);
-  };
-  const remCodeHandler = async () => {
-    //? We take it from the storage
-    const testDiscountCode: DiscountCodeReference = { id: '777', typeId: 'discount-code' };
 
-    const result = await addDiscountCodeService({ discountCode: testDiscountCode }, cart);
-    console.log(result);
+  const addCodeHandler = (/*code: string*/) => {
+    if (cartTest) {
+      //? User enters ?
+      const testLineItemId = 'BOGO';
+      addDiscountCodeService({ code: testLineItemId }, cartTest!).then((result) => {
+        setCartTest(result ? result : null);
+        console.log(result);
+      });
+    }
   };
-  const setQuantityHandler = async () => {
-    //? User enters
-    const testquantity: number = 27;
 
-    const result = await setQuantityService({ quantity: testquantity }, cart);
-    console.log(result);
+  const remCodeHandler = async (/*discountCode: DiscountCodeReference*/) => {
+    if (cartTest) {
+      //? We take it from the storage
+      const testDiscountCode: DiscountCodeReference = cartTest.discountCodes[0].discountCode;
+      removeDiscountCodeService({ discountCode: testDiscountCode }, cartTest!).then((result) => {
+        setCartTest(result ? result : null);
+        console.log(result);
+      });
+    }
+  };
+
+  const setQuantityHandler = async (/* itemId: string */) => {
+    if (cartTest) {
+      //? User enters
+      const testquantity: number = 27;
+      const testId = cartTest.lineItems[0].id;
+      setQuantityService({ quantity: testquantity, lineItemId: testId }, cartTest!).then((result) => {
+        setCartTest(result ? result : null);
+        console.log(result);
+      });
+    }
   };
 
   {
@@ -412,16 +425,20 @@ function CartPage() {
         <div className="cart__products-box">
           {/*>>>>>*/}
 
-          {cart.lineItems.map((item) => (
-            <CartItem
-              key={item.id}
-              product={item}
-              removeClickHandler={removeClickHandler}
-              inputChangeHandler={inputChangeHandler}
-              text={text}
-              textHandler={changeHandler}
-            ></CartItem>
-          ))}
+          {cartTest && cartTest.lineItems.length > 0 ? (
+            cartTest.lineItems.map((item) => (
+              <CartItem
+                key={item.id}
+                product={item}
+                removeClickHandler={removeClickHandler}
+                inputChangeHandler={inputChangeHandler}
+                text={text}
+                textHandler={changeHandler}
+              ></CartItem>
+            ))
+          ) : (
+            <div>cart is empty</div>
+          )}
 
           {/*<<<<<*/}
         </div>

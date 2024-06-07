@@ -116,52 +116,57 @@ export const changeCartService = async (actions: MyCartUpdateAction[], cart: Car
 
 export const addLineItemsService = async ({ productId /*, sku*/ }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
-  actions.push({
+  const action: MyCartAddLineItemAction = {
     action: CartUpdateActions.addItem,
     productId: productId,
     // sku: sku,
-  } as MyCartAddLineItemAction);
+  };
+  actions.push(action);
 
   return await changeCartService(actions, cart);
 };
 
 export const removeLineItemsService = async ({ lineItemId }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
-  actions.push({
+  const action: MyCartRemoveLineItemAction = {
     action: CartUpdateActions.removeItem,
     lineItemId: lineItemId,
-  } as MyCartRemoveLineItemAction);
+  };
+  actions.push(action);
 
   return await changeCartService(actions, cart);
 };
 
 export const setQuantityService = async ({ lineItemId, quantity }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
-  actions.push({
+  const action: MyCartChangeLineItemQuantityAction = {
     action: CartUpdateActions.changeQuantity,
-    quantity: quantity,
+    quantity: quantity!,
     lineItemId: lineItemId,
-  } as MyCartChangeLineItemQuantityAction);
+  };
+  actions.push(action);
 
   return await changeCartService(actions, cart);
 };
 
 export const addDiscountCodeService = async ({ code }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
-  actions.push({
+  const action: MyCartAddDiscountCodeAction = {
     action: CartUpdateActions.addDiscount,
-    code: code,
-  } as MyCartAddDiscountCodeAction);
+    code: code!,
+  };
+  actions.push(action);
 
   return await changeCartService(actions, cart);
 };
 
 export const removeDiscountCodeService = async ({ discountCode }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
-  actions.push({
+  const action: MyCartRemoveDiscountCodeAction = {
     action: CartUpdateActions.removeDiscount,
-    discountCode: discountCode,
-  } as MyCartRemoveDiscountCodeAction);
+    discountCode: discountCode!,
+  };
+  actions.push(action);
 
   return await changeCartService(actions, cart);
 };
