@@ -1,10 +1,19 @@
 import { useState } from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { type Cart } from '@commercetools/platform-sdk';
+import type { DiscountCodeReference, Cart } from '@commercetools/platform-sdk';
 import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
-import { createCartService, deleteCartService, getCartService } from '@/services/CartService';
+import {
+  addDiscountCodeService,
+  addLineItemsService,
+  createCartService,
+  deleteCartService,
+  getCartService,
+  removeLineItemsService,
+  setQuantityService,
+} from '@/services/CartService';
+// import ProductCard from '@/components/ProductCard/ProductCard';
 
 const cart: Cart = {
   id: 'string',
@@ -329,7 +338,7 @@ function CartPage() {
     }, 100);
   };
   const getHandler = async () => {
-    const result = await getCartService(cartTest);
+    const result = await getCartService();
     setTimeout(() => {
       setCartTest(result);
       console.log('get: ', result);
@@ -357,11 +366,38 @@ function CartPage() {
     console.log(cart.lineItems.length);
   };
 
-  const addItemHandler = async () => {};
-  const remItemdHandler = async () => {};
-  const addCodeHandler = async () => {};
-  const remCodeHandler = async () => {};
-  const setQuantityHandler = async () => {};
+  const addItemHandler = async () => {
+    //? We take it from the product card
+    const testId = '00000000-5b3c-487e-8ba0-1305ad7d0da0';
+    const result = await addLineItemsService({ productId: testId }, cart);
+    console.log(result);
+  };
+  const remItemdHandler = async () => {
+    //? Take from the card you clicked on
+    const testLineItemId = '00000000-5b3c-487e-8ba0-1305ad7d0da0';
+    const result = await removeLineItemsService({ lineItemId: testLineItemId }, cart);
+    console.log(result);
+  };
+  const addCodeHandler = async () => {
+    //? User enters ?
+    const testLineItemId = 'TEST_PROMO_13';
+    const result = await addDiscountCodeService({ code: testLineItemId }, cart);
+    console.log(result);
+  };
+  const remCodeHandler = async () => {
+    //? We take it from the storage
+    const testDiscountCode: DiscountCodeReference = { id: '777', typeId: 'discount-code' };
+
+    const result = await addDiscountCodeService({ discountCode: testDiscountCode }, cart);
+    console.log(result);
+  };
+  const setQuantityHandler = async () => {
+    //? User enters
+    const testquantity: number = 27;
+
+    const result = await setQuantityService({ quantity: testquantity }, cart);
+    console.log(result);
+  };
 
   {
     /**
