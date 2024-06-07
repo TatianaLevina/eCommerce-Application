@@ -14,269 +14,12 @@ import {
   removeLineItemsService,
   setQuantityService,
 } from '@/services/CartService';
-// import { divide, result } from 'lodash';
-// import ProductCard from '@/components/ProductCard/ProductCard';
-/*
-const cart: Cart = {
-  id: 'string',
-  version: 1,
-  key: 'string',
-  customerId: 'string',
-  customerEmail: 'string',
-  anonymousId: 'string',
-  lineItems: [
-    {
-      id: '00000000-5b3c-487e-8ba0-1305ad7d0da0',
-      productId: '5d9577f9-5b3c-487e-8ba0-1305ad7d0da0',
-      name: {
-        'en-US': 'Portoy',
-      },
-      productSlug: {
-        'en-US': 'armchair-portoy',
-      },
-      productType: {
-        typeId: 'product-type',
-        id: 'string',
-      },
-      variant: {
-        attributes: [
-          {
-            name: 'designer',
-            value: 'Middle Earth Chemical Plant',
-          },
-          {
-            name: 'material',
-            value: {
-              key: 'plastic',
-              label: {
-                'en-US': 'Plastic',
-              },
-            },
-          },
-          {
-            name: 'arrangement',
-            value: {
-              key: 'house',
-              label: {
-                'en-US': 'house',
-              },
-            },
-          },
-        ],
-        assets: [],
-        images: [
-          {
-            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--r-Q3wjA0.jpg',
-            dimensions: {
-              w: 0,
-              h: 0,
-            },
-          },
-          {
-            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--RlxEMgWo.jpg',
-            dimensions: {
-              w: 0,
-              h: 0,
-            },
-          },
-          {
-            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--hCwt9BRg.jpg',
-            dimensions: {
-              w: 0,
-              h: 0,
-            },
-          },
-        ],
-        prices: [
-          {
-            id: '12cdf84b-640c-4088-9880-9f840d7f692c',
-            value: {
-              type: 'centPrecision',
-              currencyCode: 'USD',
-              centAmount: 9999,
-              fractionDigits: 2,
-            },
-          },
-        ],
-        key: '17',
-        sku: '17',
-        id: 1,
-      },
-      price: {
-        id: 'string',
-        value: {
-          type: 'centPrecision',
-          centAmount: 100,
-          currencyCode: 'USD',
-          fractionDigits: 1,
-        },
-      },
-      quantity: 5,
-      totalPrice: {
-        type: 'centPrecision',
-        centAmount: 100,
-        currencyCode: 'USD',
-        fractionDigits: 1,
-      },
-      discountedPricePerQuantity: [],
-      taxedPricePortions: [],
-      state: [],
-      perMethodTaxRate: [],
-      priceMode: 'LineItemPriceMode',
-      lineItemMode: 'LineItemMode',
-    },
-    {
-      id: '11111111-5b3c-487e-8ba0-1305ad7d0da0',
-      productId: '5d9577f9-5b3c-487e-8ba0-1305ad7d0da0',
-      name: {
-        'en-US': 'Portoy',
-      },
-      productSlug: {
-        'en-US': 'armchair-portoy',
-      },
-      productType: {
-        typeId: 'product-type',
-        id: 'string',
-      },
-      variant: {
-        attributes: [
-          {
-            name: 'designer',
-            value: 'Middle Earth Chemical Plant',
-          },
-          {
-            name: 'material',
-            value: {
-              key: 'plastic',
-              label: {
-                'en-US': 'Plastic',
-              },
-            },
-          },
-          {
-            name: 'arrangement',
-            value: {
-              key: 'house',
-              label: {
-                'en-US': 'house',
-              },
-            },
-          },
-        ],
-        assets: [],
-        images: [
-          {
-            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--r-Q3wjA0.jpg',
-            dimensions: {
-              w: 0,
-              h: 0,
-            },
-          },
-          {
-            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--RlxEMgWo.jpg',
-            dimensions: {
-              w: 0,
-              h: 0,
-            },
-          },
-          {
-            url: 'https://images.cdn.europe-west1.gcp.commercetools.com/ff91879f-f4a7-436e-bc45-97970b384e8e/photo_2024-05-24_15--hCwt9BRg.jpg',
-            dimensions: {
-              w: 0,
-              h: 0,
-            },
-          },
-        ],
-        prices: [
-          {
-            id: '12cdf84b-640c-4088-9880-9f840d7f692c',
-            value: {
-              type: 'centPrecision',
-              currencyCode: 'USD',
-              centAmount: 9999,
-              fractionDigits: 2,
-            },
-          },
-        ],
-        key: '17',
-        sku: '17',
-        id: 1,
-      },
-      price: {
-        id: 'string',
-        value: {
-          type: 'centPrecision',
-          centAmount: 100,
-          currencyCode: 'USD',
-          fractionDigits: 1,
-        },
-      },
-      quantity: 5,
-      totalPrice: {
-        type: 'centPrecision',
-        centAmount: 100,
-        currencyCode: 'USD',
-        fractionDigits: 1,
-      },
-      discountedPricePerQuantity: [],
-      taxedPricePortions: [],
-      state: [],
-      perMethodTaxRate: [],
-      priceMode: 'LineItemPriceMode',
-      lineItemMode: 'LineItemMode',
-    },
-  ],
-  customLineItems: [],
-  totalLineItemQuantity: 4,
-  totalPrice: {
-    type: 'centPrecision',
-    centAmount: 100,
-    currencyCode: 'USD',
-    fractionDigits: 1,
-  },
-  discountOnTotalPrice: {
-    discountedAmount: {
-      type: 'centPrecision',
-      centAmount: 100,
-      currencyCode: 'USD',
-      fractionDigits: 1,
-    },
-    includedDiscounts: [],
-    discountedNetAmount: {
-      type: 'centPrecision',
-      centAmount: 100,
-      currencyCode: 'USD',
-      fractionDigits: 1,
-    },
-    discountedGrossAmount: {
-      type: 'centPrecision',
-      centAmount: 100,
-      currencyCode: 'USD',
-      fractionDigits: 1,
-    },
-  },
-  taxMode: 'TaxMode',
-  taxRoundingMode: 'RoundingMode',
-  taxCalculationMode: 'TaxCalculationMode',
-  inventoryMode: 'InventoryMode',
-  cartState: 'CartState',
-  shippingMode: 'ShippingMode',
-  shipping: [],
-  itemShippingAddresses: [],
-  discountCodes: [],
-  directDiscounts: [],
-  refusedGifts: [],
-  origin: 'CartOrigin',
-  createdAt: 'string',
-  lastModifiedAt: 'string',
-};
-*/
+
 function CartPage() {
   const [text, setText] = useState<string>('');
 
   const navigate = useNavigate();
   const [promocode, setPromocode] = useState<string | null>(null);
-  // const [prod, setProd] = useState<ProductProjection>(product);
 
   const changeHandler = (value: React.ChangeEvent<HTMLInputElement>) => {
     setText(value.target.value);
@@ -343,16 +86,12 @@ function CartPage() {
   };
 
   const ceckIsProdInCartHandler = (/*id: string*/) => {
-    // Params: product, cart
-    // Return: boolean
     const testId = '30217184-de16-42aa-a7c5-9ea1e345b743';
     const result: boolean = cartTest?.lineItems.find((x) => x.productId === testId) ? true : false;
     console.log(result);
   };
 
   const getProductsCountHandler = () => {
-    // Params: none
-    // Return: number
     console.log(cartTest?.lineItems.length);
   };
 
@@ -457,7 +196,7 @@ function CartPage() {
           )}
         </div>
         {/**
-         * FOR TEST
+         * FOR TEST >>>>>>>>>>>>>>
          */}
         <div className="cart__bottom-box" style={{ flexFlow: 'wrap' }}>
           <Button type="primary" onClick={createHandler}>
@@ -492,7 +231,7 @@ function CartPage() {
           </Button>
         </div>
         {/**
-         * FOR TEST
+         * FOR TEST >>>>>>>>>>>>>>
          */}
         <div className="cart__bottom-box">
           <div className="cart__bottom-part">
