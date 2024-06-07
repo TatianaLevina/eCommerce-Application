@@ -6,6 +6,7 @@ import { useCart } from '@contexts/CartContext';
 import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
 import { formatPrice } from '@/utils/Utilities';
+import PromoCode from '@/components/PromoCode/PromoCode';
 
 const CartPage: React.FC = () => {
   const {
@@ -115,6 +116,7 @@ const CartPage: React.FC = () => {
             <Button className="danger-custom-color" onClick={clearCartHandler}>
               Clear Shopping Cart
             </Button>
+            <PromoCode />
           </>
         )}
       </div>

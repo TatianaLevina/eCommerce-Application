@@ -15,14 +15,11 @@ const DiscountBanner: React.FC<DiscountBannerProps> = ({ discountCode, image }) 
   let untilDay = null;
   if (discountCode.validFrom) {
     fromDay = new Date(discountCode.validFrom).toLocaleDateString();
-    console.log(fromDay);
   }
   if (discountCode.validUntil) {
     untilDay = new Date(discountCode.validUntil).toLocaleDateString();
-    console.log(untilDay);
   }
   const description = discountCode.description!['en-US'];
-  console.log(discountCode.description!['en-US']);
 
   return (
     <>
