@@ -10,6 +10,12 @@ import type {
   MyCartUpdateAction,
 } from '@commercetools/platform-sdk';
 
+/**
+ * Creating cart.
+ * @param cart cart from storage
+ * @param currency set surrency. Default is 'USD'
+ * @returns new cart wrapped in Promise | null if something wrong
+ */
 export const createCartService = async (cart: Cart | null, currency: string = 'USD'): Promise<Cart | null> => {
   if (!cart) {
     try {
@@ -35,6 +41,10 @@ export const createCartService = async (cart: Cart | null, currency: string = 'U
   }
 };
 
+/**
+ * gets the basket from the database
+ * @returns new cart wrapped in Promise | null if something wrong
+ */
 export const getCartService = async (): Promise<Cart | null> => {
   try {
     const responseCart = await createAuthFlow().me().activeCart().get().execute();
@@ -45,28 +55,14 @@ export const getCartService = async (): Promise<Cart | null> => {
   } catch (e) {
     console.error('getCartService', e);
     return null;
-
-    /* From base branch
-import type { Cart, MyCartUpdateAction } from '@commercetools/platform-sdk';
-
-export const createCartService = async (currency: string): Promise<Cart | null> => {
-  const responseCart = await createAuthFlow()
-    .me()
-    .carts()
-    .post({
-      body: {
-        currency: currency,
-      },
-    })
-    .execute();
-  if (responseCart.statusCode === 201) {
-    return responseCart.body;
-    */
-    // }
-    // return null;
   }
 };
 
+/**
+ * Deletes the cart
+ * @param cart cart from storage
+ * @returns deleted basket, if there is no basket in the database, then null. Wrapped in Promise
+ */
 export const deleteCartService = async (cart: Cart | null): Promise<Cart | null> => {
   if (cart) {
     try {
@@ -86,79 +82,8 @@ export const deleteCartService = async (cart: Cart | null): Promise<Cart | null>
     }
   } else {
     return null;
-
-    /* From base branch
-export const getCartService = async (): Promise<Cart | null> => {
-  const responseCart = await createAuthFlow().me().activeCart().get().execute();
-  if (responseCart.statusCode === 200) {
-    return responseCart.body;
-    */
-    // }
-    // return null;
   }
 };
-// export const deleteCartService = async (cartId: string, version: number): Promise<Cart | null> => {
-//   const responseCart = await createAuthFlow()
-//     .me()
-//     .carts()
-//     .withId({ ID: cartId })
-//     .delete({ queryArgs: { version } })
-//     .execute();
-//   if (responseCart.statusCode === 200) {
-//     return responseCart.body;
-//   }
-//   return null;
-// };
-
-// type cartUpdateActions = 'addLineItem' | 'removeLineItem' | 'addDiscountCode' | 'removeDiscountCode'; // DO WE NEED SMTH ELSE?
-
-// interface changeCartServiceParams {
-//   sku?: string;
-//   cartItemId?: string | string[];
-//   cartVersion: number;
-//   cartId: string;
-//   action: string;
-//   quantity: number | number[];
-// }
-
-// export const changeCartService = ({
-//   sku,
-//   cartVersion,
-//   cartId,
-//   cartItemId,
-//   action,
-//   quantity,
-// }: changeCartServiceParams) => {
-//   const actions = [];
-//   if (Array.isArray(cartItemId) && Array.isArray(quantity)) {
-//     cartItemId.map((item, i) => {
-//       actions.push({
-//         action: action as cartUpdateActions,
-//         sku,
-//         lineItemId: item,
-//         quantity: quantity[i],
-//       });
-//     });
-//   } else
-//     actions.push({
-//       action: action as cartUpdateActions,
-//       sku,
-//       lineItemId: cartItemId,
-//       quantity,
-//     });
-
-//   return createAuthFlow()
-//     .me()
-//     .carts()
-//     .withId({ ID: cartId })
-//     .post({
-//       body: {
-//         version: cartVersion,
-//         actions: actions as MyCartUpdateAction[],
-//       },
-//     })
-//     .execute();
-// };
 
 export enum CartUpdateActions {
   addItem = 'addLineItem',
@@ -177,7 +102,13 @@ interface ChangeCartServiceParams {
   quantity?: number;
 }
 
-export const changeCartService = async (actions: MyCartUpdateAction[], cart: Cart) => {
+/**
+ * General method that changes the basket in the database
+ * @param actions MyCartUpdateAction array to change cart
+ * @param cart cart from storage
+ * @returns new cart wrapped in Promise | null if something wrong
+ */
+const changeCartService = async (actions: MyCartUpdateAction[], cart: Cart) => {
   if (cart) {
     try {
       const responseCart = await createAuthFlow()
@@ -204,6 +135,12 @@ export const changeCartService = async (actions: MyCartUpdateAction[], cart: Car
   }
 };
 
+/**
+ * creates a cart change object with the addition of an item and calls the main change method.
+ * @param param0 a ChangeCartServiceParams object containing the product ID
+ * @param cart cart from storage
+ * @returns new cart wrapped in Promise | null if something wrong
+ */
 export const addLineItemsService = async ({ productId /*, sku*/ }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
   const action: MyCartAddLineItemAction = {
@@ -216,6 +153,12 @@ export const addLineItemsService = async ({ productId /*, sku*/ }: ChangeCartSer
   return await changeCartService(actions, cart);
 };
 
+/**
+ * creates a cart change object to remove the item and calls the main change method
+ * @param param0 a ChangeCartServiceParams object containing the lineItemId (from cart)
+ * @param cart cart from storage
+ * @returns new cart wrapped in Promise | null if something wrong
+ */
 export const removeLineItemsService = async ({ lineItemId }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
   const action: MyCartRemoveLineItemAction = {
@@ -227,6 +170,12 @@ export const removeLineItemsService = async ({ lineItemId }: ChangeCartServicePa
   return await changeCartService(actions, cart);
 };
 
+/**
+ * creates a cart change object with a change in the quantity of the item and calls the main change method
+ * @param param0 a ChangeCartServiceParams object containing the lineItemId (from cart) and new quantity
+ * @param cart cart from storage
+ * @returns new cart wrapped in Promise | null if something wrong
+ */
 export const setQuantityService = async ({ lineItemId, quantity }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
   const action: MyCartChangeLineItemQuantityAction = {
@@ -239,6 +188,12 @@ export const setQuantityService = async ({ lineItemId, quantity }: ChangeCartSer
   return await changeCartService(actions, cart);
 };
 
+/**
+ * creates a cart change object with the addition of a promo code and calls the main change method
+ * @param param0 a ChangeCartServiceParams object containing the promocode
+ * @param cart cart from storage
+ * @returns new cart wrapped in Promise | null if something wrong
+ */
 export const addDiscountCodeService = async ({ code }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
   const action: MyCartAddDiscountCodeAction = {
@@ -250,6 +205,12 @@ export const addDiscountCodeService = async ({ code }: ChangeCartServiceParams, 
   return await changeCartService(actions, cart);
 };
 
+/**
+ * creates a cart change object with the deletion of the promo code and calls the main change method
+ * @param param0 a ChangeCartServiceParams object containing the link to promocode (from cart)
+ * @param cart cart from storage
+ * @returns new cart wrapped in Promise | null if something wrong
+ */
 export const removeDiscountCodeService = async ({ discountCode }: ChangeCartServiceParams, cart: Cart) => {
   const actions: MyCartUpdateAction[] = [];
   const action: MyCartRemoveDiscountCodeAction = {
