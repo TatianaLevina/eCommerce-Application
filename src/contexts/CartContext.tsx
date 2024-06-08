@@ -50,10 +50,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const getCart = () => {
     setLoading(true);
-    getCartService().then((result) => {
-      setCart(result);
-      console.log('get: ', result);
-    });
+    getCartService()
+      .then((result) => {
+        setCart(result);
+        console.log('get: ', result);
+      })
+      .catch((e) => {
+        console.error(e);
+        setLoading(false);
+      });
     setLoading(false);
   };
 
@@ -87,53 +92,78 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addItemToCart = (productId: string) => {
     if (cart) {
       setLoading(true);
-      addLineItemsService({ productId: productId }, cart).then((result) => {
-        setCart(result ? result : null);
-        setLoading(false);
-        console.log(result);
-      });
+      addLineItemsService({ productId: productId }, cart)
+        .then((result) => {
+          setCart(result ? result : null);
+          setLoading(false);
+          console.log(result);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoading(false);
+        });
     }
   };
 
   const removeItemFromCart = (lineItemId: string) => {
     if (cart) {
       setLoading(true);
-      removeLineItemsService({ lineItemId: lineItemId }, cart).then((result) => {
-        setCart(result ? result : null);
-        setLoading(false);
-        console.log(result);
-      });
+      removeLineItemsService({ lineItemId: lineItemId }, cart)
+        .then((result) => {
+          setCart(result ? result : null);
+          setLoading(false);
+          console.log(result);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoading(false);
+        });
     }
   };
 
   const addCodeToCart = (code: string) => {
     if (cart) {
-      addDiscountCodeService({ code: code }, cart).then((result) => {
-        setCart(result ? result : null);
-        setLoading(false);
-        console.log(result);
-      });
+      addDiscountCodeService({ code: code }, cart)
+        .then((result) => {
+          setCart(result ? result : null);
+          setLoading(false);
+          console.log(result);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoading(false);
+        });
     }
   };
 
   const removeCodeFromCart = (discountCode: DiscountCodeReference) => {
     if (cart) {
-      removeDiscountCodeService({ discountCode: discountCode }, cart).then((result) => {
-        setCart(result ? result : null);
-        setLoading(false);
-        console.log(result);
-      });
+      removeDiscountCodeService({ discountCode: discountCode }, cart)
+        .then((result) => {
+          setCart(result ? result : null);
+          setLoading(false);
+          console.log(result);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoading(false);
+        });
     }
   };
 
   const setItemQuantity = (lineItemId: string, quantity: number) => {
     if (cart) {
       //? User enters
-      setQuantityService({ quantity: quantity, lineItemId: lineItemId }, cart).then((result) => {
-        setCart(result ? result : null);
-        setLoading(false);
-        console.log(result);
-      });
+      setQuantityService({ quantity: quantity, lineItemId: lineItemId }, cart)
+        .then((result) => {
+          setCart(result ? result : null);
+          setLoading(false);
+          console.log(result);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoading(false);
+        });
     }
   };
 
