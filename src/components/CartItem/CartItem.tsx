@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Button, Form, Input, InputNumber } from 'antd';
+import { Button, Form, InputNumber } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import type { LineItem } from '@commercetools/platform-sdk';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
@@ -11,11 +11,15 @@ interface CartItemProps {
   product: LineItem;
   removeClickHandler: (id: string) => void;
   inputChangeHandler: (id: string, value: 1 | 99 | null) => void;
-  text: string;
-  textHandler: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  // text: string;
+  // textHandler: (value: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputChangeHandler, text, textHandler }) => {
+const CartItem: React.FC<CartItemProps> = ({
+  product,
+  removeClickHandler,
+  inputChangeHandler /*, text, textHandler*/,
+}) => {
   const price = product.variant.prices?.find((x) => x.value.currencyCode === 'USD');
   const discountedPrice = price?.discounted?.value.centAmount;
   const imageUrl = product.variant.images?.[0]?.url || 'default-image-url';
@@ -47,18 +51,6 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
             onChange={(value) => inputChangeHandler(product.id, value)}
           />
         </Form.Item>
-
-        {/*TEST*/}
-        <Form.Item label="TEST" htmlFor="text" className="cart-item__input no-margin-block">
-          <Input name="text" onChange={(value) => textHandler(value)} />
-        </Form.Item>
-        <p
-          className={`cart-item__price ${discountedPrice ? 'cart-item__price_invalid' : 'cart-item__price_actual'} base-text no-margin-block`}
-        >
-          {text}
-        </p>
-        {/*TEST*/}
-
         <div className="cart-item__price-box">
           <p
             className={`cart-item__price ${discountedPrice ? 'cart-item__price_invalid' : 'cart-item__price_actual'} base-text no-margin-block`}

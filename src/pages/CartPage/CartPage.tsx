@@ -1,56 +1,14 @@
 import { useState } from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import type { DiscountCodeReference, Cart } from '@commercetools/platform-sdk';
+import type { DiscountCodeReference } from '@commercetools/platform-sdk';
 import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
-import {
-  addDiscountCodeService,
-  addLineItemsService,
-  createCartService,
-  deleteCartService,
-  getCartService,
-  removeDiscountCodeService,
-  removeLineItemsService,
-  setQuantityService,
-} from '@/services/CartService';
+import { useCart } from '@/contexts/CartContext';
 
 function CartPage() {
-  const [text, setText] = useState<string>('');
-
   const navigate = useNavigate();
   const [promocode, setPromocode] = useState<string | null>(null);
-
-  const changeHandler = (value: React.ChangeEvent<HTMLInputElement>) => {
-    setText(value.target.value);
-  };
-
-  // const navigate = useNavigate();
-  // const [promocode, setPromocode] = useState<string | null>(null);
-  // // const [prod, setProd] = useState<ProductProjection>(product);
-  //
-  //
-  // const toCatalogClickHandler = () => {
-  //   navigate(`/catalog/`);
-  // };
-  //
-  // const buyClickHandler = () => {
-  //   console.log('buyClickHandler');
-  // };
-
-  // const removeClickHandler = (id: string) => {
-  //   console.log('REMOVE ITEM: ', id);
-  //   createCartService(id, 'USD');
-  // };
-
-  // const inputChangeHandler = (id: string, value: 1 | 99 | null) => {
-  //   if (!value) {
-  //     console.log('value is null, return');
-  //     return;
-  //   }
-  //   getCartService(id).then((res) => console.log(res));
-  //   console.log(value, ' >>> ', id);
-  // };
 
   const enterPromoClickHandler = () => {
     console.log('EnterPromo');
@@ -66,7 +24,10 @@ function CartPage() {
   };
 
   const removeClickHandler = (id: string) => {
-    console.log('REMOVE ITEM: ', id);
+    if (cart) {
+      //? Take from the card you clicked on
+      removeItemFromCart(id);
+    }
   };
 
   const toCatalogClickHandler = () => {
@@ -87,94 +48,85 @@ function CartPage() {
      */
   }
 
-  const [cartTest, setCartTest] = useState<Cart | null>(null);
+  const {
+    cart,
+    createCart,
+    getCart,
+    deleteCart,
+    checkIsProdInCart,
+    addItemToCart,
+    removeItemFromCart,
+    addCodeToCart,
+    removeCodeFromCart,
+    setItemQuantity,
+    getProductsCount,
+    getItemQuantity,
+  } = useCart();
 
   const createHandler = () => {
-    createCartService(cartTest, 'USD')
-      .then((result) => {
-        setCartTest(result);
-        console.log('create: ', result);
-      })
-      .catch((e) => console.error(e));
+    createCart();
   };
   const getHandler = () => {
-    getCartService().then((result) => {
-      setCartTest(result);
-      console.log('get: ', result);
-    });
+    getCart();
   };
   const deleteHandler = () => {
-    deleteCartService(cartTest).then((result) => {
-      if (result) {
-        setCartTest(null);
-      }
-      console.log('delete: ', result);
-    });
+    deleteCart();
   };
 
   const ceckIsProdInCartHandler = (/*id: string*/) => {
     const testId = '30217184-de16-42aa-a7c5-9ea1e345b743';
-    const result: boolean = cartTest?.lineItems.find((x) => x.productId === testId) ? true : false;
+    const result: boolean = checkIsProdInCart(testId);
     console.log(result);
   };
 
   const getProductsCountHandler = () => {
-    console.log(cartTest?.lineItems.length);
+    getProductsCount();
   };
 
   const addItemHandler = (/*productId: string*/) => {
-    if (cartTest) {
-      //? We take it from the product card
-      const testId = '30217184-de16-42aa-a7c5-9ea1e345b743';
-      addLineItemsService({ productId: testId }, cartTest!).then((result) => {
-        setCartTest(result ? result : null);
-        console.log(result);
-      });
-    }
+    //? We take it from the product card
+    const testId = '30217184-de16-42aa-a7c5-9ea1e345b743';
+    addItemToCart(testId);
   };
 
   const remItemdHandler = async () => {
-    if (cartTest) {
+    if (cart) {
       //? Take from the card you clicked on
-      const testLineItemId = cartTest.lineItems[0].id;
-      removeLineItemsService({ lineItemId: testLineItemId }, cartTest!).then((result) => {
-        setCartTest(result ? result : null);
-        console.log(result);
-      });
+      const testLineItemId = cart.lineItems[0].id;
+      removeItemFromCart(testLineItemId);
     }
   };
 
   const addCodeHandler = (/*code: string*/) => {
-    if (cartTest) {
+    if (cart) {
       //? User enters ?
       const testLineItemId = 'BOGO';
-      addDiscountCodeService({ code: testLineItemId }, cartTest!).then((result) => {
-        setCartTest(result ? result : null);
-        console.log(result);
-      });
+      addCodeToCart(testLineItemId);
     }
   };
 
   const remCodeHandler = async (/*discountCode: DiscountCodeReference*/) => {
-    if (cartTest) {
+    if (cart) {
       //? We take it from the storage
-      const testDiscountCode: DiscountCodeReference = cartTest.discountCodes[0].discountCode;
-      removeDiscountCodeService({ discountCode: testDiscountCode }, cartTest!).then((result) => {
-        setCartTest(result ? result : null);
-        console.log(result);
-      });
+      const testDiscountCode: DiscountCodeReference = cart.discountCodes[0].discountCode;
+      removeCodeFromCart(testDiscountCode);
     }
   };
 
   const setQuantityHandler = async (/* itemId: string */) => {
-    if (cartTest) {
+    if (cart) {
       //? User enters
       const testquantity: number = 27;
-      const testId = cartTest.lineItems[0].id;
-      setQuantityService({ quantity: testquantity, lineItemId: testId }, cartTest!).then((result) => {
-        setCartTest(result ? result : null);
-        console.log(result);
-      });
+      const testId = cart.lineItems[0].id;
+      setItemQuantity(testId, testquantity);
+    }
+  };
+
+  const getQuantityHandler = async (/* itemId: string */) => {
+    if (cart) {
+      //? User enters
+      const testId = cart.lineItems[0].id;
+      console.log(getItemQuantity(testId));
     }
   };
 
@@ -191,15 +143,13 @@ function CartPage() {
         <div className="cart__products-box">
           {/*>>>>>*/}
 
-          {cartTest && cartTest.lineItems.length > 0 ? (
-            cartTest.lineItems.map((item) => (
+          {cart && cart.lineItems.length > 0 ? (
+            cart.lineItems.map((item) => (
               <CartItem
                 key={item.id}
                 product={item}
                 removeClickHandler={removeClickHandler}
                 inputChangeHandler={inputChangeHandler}
-                text={text}
-                textHandler={changeHandler}
               ></CartItem>
             ))
           ) : (
@@ -252,6 +202,9 @@ function CartPage() {
           </Button>
           <Button type="primary" onClick={setQuantityHandler}>
             set quantity
+          </Button>
+          <Button type="primary" onClick={getQuantityHandler}>
+            get quantity
           </Button>
           <Button danger onClick={deleteHandler}>
             Delete Cart
