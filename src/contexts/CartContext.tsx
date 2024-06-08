@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { Cart, DiscountCodeReference } from '@commercetools/platform-sdk';
 import {
+  CartError,
   addDiscountCodeService,
   addLineItemsService,
   createCartService,
@@ -35,6 +36,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const createCart = () => {
+    console.log('Creating...');
     setLoading(true);
     createCartService(cart, 'USD')
       .then((result) => {
@@ -43,8 +45,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         setLoading(false);
       })
       .catch((e) => {
-        console.error(e);
-        setLoading(false);
+        if (e instanceof CartError) {
+          console.error(e.message);
+          setLoading(false);
+        }
       });
   };
 
@@ -56,8 +60,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         console.log('get: ', result);
       })
       .catch((e) => {
-        console.error(e);
-        setLoading(false);
+        if (e instanceof CartError) {
+          console.error(e.message);
+          setLoading(false);
+        }
       });
     setLoading(false);
   };
@@ -72,9 +78,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         console.log('delete: ', result);
         setLoading(false);
       })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
+      .catch((e) => {
+        if (e instanceof CartError) {
+          console.error(e.message);
+          setLoading(false);
+        }
       });
   };
 
@@ -99,8 +107,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           console.log(result);
         })
         .catch((e) => {
-          console.error(e);
-          setLoading(false);
+          if (e instanceof CartError) {
+            console.error(e.message);
+            setLoading(false);
+          }
         });
     }
   };
@@ -115,8 +125,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           console.log(result);
         })
         .catch((e) => {
-          console.error(e);
-          setLoading(false);
+          if (e instanceof CartError) {
+            console.error(e.message);
+            setLoading(false);
+          }
         });
     }
   };
@@ -130,8 +142,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           console.log(result);
         })
         .catch((e) => {
-          console.error(e);
-          setLoading(false);
+          if (e instanceof CartError) {
+            console.error(e.message);
+            setLoading(false);
+          }
         });
     }
   };
@@ -145,8 +159,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           console.log(result);
         })
         .catch((e) => {
-          console.error(e);
-          setLoading(false);
+          if (e instanceof CartError) {
+            console.error(e.message);
+            setLoading(false);
+          }
         });
     }
   };
@@ -161,8 +177,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           console.log(result);
         })
         .catch((e) => {
-          console.error(e);
-          setLoading(false);
+          if (e instanceof CartError) {
+            console.error(e.message);
+            setLoading(false);
+          }
         });
     }
   };
@@ -172,10 +190,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const fetchCart = async () => {
-      const cartData = await getCartService();
-      setCart(cartData);
-      setLoading(false);
+    const fetchCart = () => {
+      getCartService()
+        .then((cartData) => {
+          setCart(cartData);
+          setLoading(false);
+        })
+        .catch((e) => {
+          if (e instanceof CartError) {
+            console.error(e.message);
+            setLoading(false);
+          }
+        });
     };
 
     fetchCart();

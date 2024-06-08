@@ -2,6 +2,7 @@ import { createAuthFlow } from '@services/ClientBuilder.ts';
 import type {
   Cart,
   DiscountCodeReference,
+  ErrorResponse,
   MyCartAddDiscountCodeAction,
   MyCartAddLineItemAction,
   MyCartChangeLineItemQuantityAction,
@@ -9,22 +10,14 @@ import type {
   MyCartRemoveLineItemAction,
   MyCartUpdateAction,
 } from '@commercetools/platform-sdk';
-// import { extend } from 'lodash';
 
 export class CartError extends Error {
   statusCode: number | undefined;
+  errorObj: ErrorResponse;
 
-  constructor(message: string, statusCode?: number | undefined) {
-    super(message);
-    this.statusCode = statusCode;
-  }
-}
-
-export class CartIsNullError extends Error {
-  statusCode: number | undefined;
-
-  constructor(message: string) {
-    super(message);
+  constructor(errorObj: ErrorResponse) {
+    super(errorObj.message);
+    this.errorObj = errorObj;
   }
 }
 
@@ -53,19 +46,23 @@ interface ChangeCartServiceParams {
  */
 export const createCartService = async (cart: Cart | null, currency: string = 'USD'): Promise<Cart> => {
   if (!cart) {
-    const responseCart = await createAuthFlow()
-      .me()
-      .carts()
-      .post({
-        body: {
-          currency: currency,
-        },
-      })
-      .execute();
-    if (responseCart.statusCode === 201) {
-      return responseCart.body;
-    } else {
-      throw new CartError('Cart is not created.', responseCart.statusCode);
+    try {
+      const responseCart = await createAuthFlow()
+        .me()
+        .carts()
+        .post({
+          body: {
+            currency: currency,
+          },
+        })
+        .execute();
+      if (responseCart.statusCode === 201) {
+        return responseCart.body;
+      } else {
+        throw new Error('Something is bad in createCartService');
+      }
+    } catch (e) {
+      throw new CartError(e as ErrorResponse);
     }
   } else {
     return cart;
@@ -77,11 +74,15 @@ export const createCartService = async (cart: Cart | null, currency: string = 'U
  * @returns new cart wrapped in Promise | null if something wrong
  */
 export const getCartService = async (): Promise<Cart> => {
-  const responseCart = await createAuthFlow().me().activeCart().get().execute();
-  if (responseCart.statusCode === 200) {
-    return responseCart.body;
-  } else {
-    throw new CartError('Cart not found', responseCart.statusCode);
+  try {
+    const responseCart = await createAuthFlow().me().activeCart().get().execute();
+    if (responseCart.statusCode === 200) {
+      return responseCart.body;
+    } else {
+      throw new Error('Something is bad in getCartService');
+    }
+  } catch (e) {
+    throw new CartError(e as ErrorResponse);
   }
 };
 
@@ -92,19 +93,23 @@ export const getCartService = async (): Promise<Cart> => {
  */
 export const deleteCartService = async (cart: Cart | null): Promise<Cart> => {
   if (cart) {
-    const responseCart = await createAuthFlow()
-      .me()
-      .carts()
-      .withId({ ID: cart.id })
-      .delete({ queryArgs: { version: cart.version } })
-      .execute();
-    if (responseCart.statusCode === 200) {
-      return responseCart.body;
-    } else {
-      throw new CartError('Removing is fail.', responseCart.statusCode);
+    try {
+      const responseCart = await createAuthFlow()
+        .me()
+        .carts()
+        .withId({ ID: cart.id })
+        .delete({ queryArgs: { version: cart.version } })
+        .execute();
+      if (responseCart.statusCode === 200) {
+        return responseCart.body;
+      } else {
+        throw new Error('Something is bad in getCartService');
+      }
+    } catch (e) {
+      throw new CartError(e as ErrorResponse);
     }
   } else {
-    throw new CartIsNullError('Cart is null');
+    throw new Error('Cart is null!');
   }
 };
 
@@ -116,24 +121,28 @@ export const deleteCartService = async (cart: Cart | null): Promise<Cart> => {
  */
 const changeCartService = async (actions: MyCartUpdateAction[], cart: Cart): Promise<Cart> => {
   if (cart) {
-    const responseCart = await createAuthFlow()
-      .me()
-      .carts()
-      .withId({ ID: cart.id })
-      .post({
-        body: {
-          version: cart.version,
-          actions: actions,
-        },
-      })
-      .execute();
-    if (responseCart.statusCode === 200) {
-      return responseCart.body; // ? Here we receive an updated basket object, which we write to the storage
-    } else {
-      throw new CartError('No changes to the shopping cart occurred', responseCart.statusCode);
+    try {
+      const responseCart = await createAuthFlow()
+        .me()
+        .carts()
+        .withId({ ID: cart.id })
+        .post({
+          body: {
+            version: cart.version,
+            actions: actions,
+          },
+        })
+        .execute();
+      if (responseCart.statusCode === 200) {
+        return responseCart.body; // ? Here we receive an updated basket object, which we write to the storage
+      } else {
+        throw new Error('No changes to the shopping cart occurred');
+      }
+    } catch (e) {
+      throw new CartError(e as ErrorResponse);
     }
   } else {
-    throw new CartIsNullError('Cart is null');
+    throw new Error('Cart is null!');
   }
 };
 
