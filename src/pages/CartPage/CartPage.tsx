@@ -29,14 +29,6 @@ function CartPage() {
   // const [promocode, setPromocode] = useState<string | null>(null);
   // // const [prod, setProd] = useState<ProductProjection>(product);
   //
-  // const enterPromoClickHandler = () => {
-  //   console.log('EnterPromo');
-  //   setPromocode('PromocodeIsActive');
-  // };
-  //
-  // const cleanClickHandler = () => {
-  //   console.log('cleanClickHandler');
-  // };
   //
   // const toCatalogClickHandler = () => {
   //   navigate(`/catalog/`);
@@ -60,12 +52,25 @@ function CartPage() {
   //   console.log(value, ' >>> ', id);
   // };
 
+  const enterPromoClickHandler = () => {
+    console.log('EnterPromo');
+    setPromocode('PromocodeIsActive');
+  };
+
+  const cleanClickHandler = () => {
+    console.log('cleanClickHandler');
+  };
+
   const buyClickHandler = () => {
     console.log('buyClickHandler');
   };
 
   const removeClickHandler = (id: string) => {
     console.log('REMOVE ITEM: ', id);
+  };
+
+  const toCatalogClickHandler = () => {
+    navigate('/catalog/');
   };
 
   const inputChangeHandler = (id: string, value: 1 | 99 | null) => {
