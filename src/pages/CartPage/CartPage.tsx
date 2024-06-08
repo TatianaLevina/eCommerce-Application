@@ -25,18 +25,40 @@ function CartPage() {
     setText(value.target.value);
   };
 
-  const enterPromoClickHandler = () => {
-    console.log('EnterPromo');
-    setPromocode('PromocodeIsActive');
-  };
+  // const navigate = useNavigate();
+  // const [promocode, setPromocode] = useState<string | null>(null);
+  // // const [prod, setProd] = useState<ProductProjection>(product);
+  //
+  // const enterPromoClickHandler = () => {
+  //   console.log('EnterPromo');
+  //   setPromocode('PromocodeIsActive');
+  // };
+  //
+  // const cleanClickHandler = () => {
+  //   console.log('cleanClickHandler');
+  // };
+  //
+  // const toCatalogClickHandler = () => {
+  //   navigate(`/catalog/`);
+  // };
+  //
+  // const buyClickHandler = () => {
+  //   console.log('buyClickHandler');
+  // };
 
-  const cleanClickHandler = () => {
-    console.log('cleanClickHandler');
-  };
+  // const removeClickHandler = (id: string) => {
+  //   console.log('REMOVE ITEM: ', id);
+  //   createCartService(id, 'USD');
+  // };
 
-  const toCatalogClickHandler = () => {
-    navigate(`/catalog/`);
-  };
+  // const inputChangeHandler = (id: string, value: 1 | 99 | null) => {
+  //   if (!value) {
+  //     console.log('value is null, return');
+  //     return;
+  //   }
+  //   getCartService(id).then((res) => console.log(res));
+  //   console.log(value, ' >>> ', id);
+  // };
 
   const buyClickHandler = () => {
     console.log('buyClickHandler');
