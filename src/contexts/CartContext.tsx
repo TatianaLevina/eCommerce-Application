@@ -22,6 +22,7 @@ interface CartContextType {
   checkIsProdInCart: (productId: string) => boolean;
   addItemToCart: (productId: string) => void;
   removeItemFromCart: (lineItemId: string) => void;
+  removeItemFromCartByProductId: (productId: string) => void;
   addCodeToCart: (code: string) => void;
   removeCodeFromCart: (discountCode: DiscountCodeReference) => void;
   setItemQuantity: (lineItemId: string, quantity: number) => void;
@@ -36,12 +37,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const createCart = () => {
-    console.log('Creating...');
+    console.log('Creating the cart...');
     setLoading(true);
     createCartService(cart, 'USD')
       .then((result) => {
         setCart(result);
-        console.log('create: ', result);
         setLoading(false);
       })
       .catch((e) => {
@@ -57,7 +57,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     getCartService()
       .then((result) => {
         setCart(result);
-        console.log('get: ', result);
       })
       .catch((e) => {
         if (e instanceof CartError) {
@@ -75,7 +74,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         if (result) {
           setCart(null);
         }
-        console.log('delete: ', result);
         setLoading(false);
       })
       .catch((e) => {
@@ -88,14 +86,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const checkIsProdInCart = (productId: string) => {
     const result: boolean = cart?.lineItems.find((x) => x.productId === productId) ? true : false;
-    console.log(result);
     return result;
   };
 
-  const getProductsCount = () => {
-    console.log(cart?.lineItems.length);
-    return cart?.lineItems.length;
-  };
+  const getProductsCount = () => cart?.lineItems.length;
 
   const addItemToCart = (productId: string) => {
     if (cart) {
@@ -104,7 +98,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         .then((result) => {
           setCart(result ? result : null);
           setLoading(false);
-          console.log(result);
         })
         .catch((e) => {
           if (e instanceof CartError) {
@@ -122,7 +115,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         .then((result) => {
           setCart(result ? result : null);
           setLoading(false);
-          console.log(result);
         })
         .catch((e) => {
           if (e instanceof CartError) {
@@ -133,13 +125,19 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const removeItemFromCartByProductId = (productId: string) => {
+    const lineItemId = _getItemLineIdByProductId(productId);
+    if (lineItemId) {
+      removeItemFromCart(lineItemId);
+    }
+  };
+
   const addCodeToCart = (code: string) => {
     if (cart) {
       addDiscountCodeService({ code: code }, cart)
         .then((result) => {
           setCart(result ? result : null);
           setLoading(false);
-          console.log(result);
         })
         .catch((e) => {
           if (e instanceof CartError) {
@@ -156,7 +154,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         .then((result) => {
           setCart(result ? result : null);
           setLoading(false);
-          console.log(result);
         })
         .catch((e) => {
           if (e instanceof CartError) {
@@ -174,7 +171,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         .then((result) => {
           setCart(result ? result : null);
           setLoading(false);
-          console.log(result);
         })
         .catch((e) => {
           if (e instanceof CartError) {
@@ -188,6 +184,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const getItemQuantity = (lineItemId: string) => {
     return cart?.lineItems.find((item) => item.id === lineItemId)?.quantity;
   };
+
+  const _getItemLineIdByProductId = (productId: string) => cart?.lineItems.find((x) => x.productId === productId)?.id;
 
   useEffect(() => {
     const fetchCart = () => {
@@ -218,6 +216,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         checkIsProdInCart,
         addItemToCart,
         removeItemFromCart,
+        removeItemFromCartByProductId,
         addCodeToCart,
         removeCodeFromCart,
         setItemQuantity,

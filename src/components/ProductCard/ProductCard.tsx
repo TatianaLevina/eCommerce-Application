@@ -1,9 +1,11 @@
 import type React from 'react';
-import { Card } from 'antd';
+import { Button, Card } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import type { ProductProjection } from '@commercetools/platform-sdk';
 import '@components/ProductCard/ProductCard.scss';
 import ImageCustom from '../ImageCustom/ImageCustom';
+import { useCart } from '@/contexts/CartContext';
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 
 interface ProductCardProps {
   product: ProductProjection;
@@ -13,12 +15,23 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, formatPrice }) => {
   const navigate = useNavigate();
+  const { checkIsProdInCart, addItemToCart, removeItemFromCartByProductId } = useCart();
   const price = product.masterVariant.prices?.find((x) => x.value.currencyCode === 'USD');
   const discountedPrice = price?.discounted?.value.centAmount;
   const imageUrl = product.masterVariant.images?.[0]?.url || 'default-image-url';
 
-  const handleCardClick = () => {
-    navigate(`/catalog/${categorySlug}/product/${product.id}`);
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if ((e.target as HTMLElement).closest('.primary-custom-color')?.tagName !== 'BUTTON') {
+      navigate(`/catalog/${categorySlug}/product/${product.id}`);
+    }
+  };
+
+  const clickAddToCartHandler = () => {
+    addItemToCart(product.id);
+  };
+
+  const clickRemoveFromCartHandler = () => {
+    removeItemFromCartByProductId(product.id);
   };
 
   return (
@@ -27,7 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
       title={product.name['en-US']}
       bordered={false}
       className="product-card zooming"
-      onClick={handleCardClick}
+      onClick={(e) => handleCardClick(e)}
     >
       {discountedPrice && (
         <div className="product-card__discount-msg">
@@ -50,6 +63,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
           </p>
         )}
       </div>
+      {!checkIsProdInCart(product.id) ? (
+        <Button className="primary-custom-color" onClick={clickAddToCartHandler}>
+          <PlusOutlined />
+        </Button>
+      ) : (
+        <Button className="primary-custom-color" onClick={clickRemoveFromCartHandler}>
+          <MinusOutlined />
+        </Button>
+      )}
     </Card>
   );
 };
