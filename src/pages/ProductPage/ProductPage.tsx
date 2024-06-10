@@ -10,10 +10,12 @@ import '@pages/ProductPage/ProductPage.scss';
 import type { Product } from '@commercetools/platform-sdk';
 import { DownOutlined, HomeOutlined } from '@ant-design/icons';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
+import { useCart } from '@/contexts/CartContext';
 
 const { Title, Paragraph } = Typography;
 
 const ProductPage: React.FC = () => {
+  const { checkIsProdInCart, addItemToCart, removeItemFromCartByProductId } = useCart();
   const { productId } = useParams<{ productId: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -81,10 +83,6 @@ const ProductPage: React.FC = () => {
     navigate(-1);
   };
 
-  const addClickHandler = () => {
-    console.log(`Add product ${product.id} to cart`);
-  };
-
   const carouselClickHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const el: HTMLElement = e.target as HTMLElement;
     const target: HTMLElement | null = el.closest('.product-page__product-carousel');
@@ -96,6 +94,14 @@ const ProductPage: React.FC = () => {
 
   const toggleModal = (target: boolean) => {
     setOpen(target);
+  };
+
+  const clickAddToCartHandler = () => {
+    addItemToCart(product.id);
+  };
+
+  const clickRemoveFromCartHandler = () => {
+    removeItemFromCartByProductId(product.id);
   };
 
   return (
@@ -173,9 +179,15 @@ const ProductPage: React.FC = () => {
           <Button className="custom-color" onClick={backClickHandler}>
             Back
           </Button>
-          <Button className="primary-custom-color" onClick={addClickHandler} type="primary">
-            Add to cart
-          </Button>
+          {!checkIsProdInCart(product.id) ? (
+            <Button className="primary-custom-color" onClick={clickAddToCartHandler}>
+              Add to Cart
+            </Button>
+          ) : (
+            <Button className="primary-custom-color" onClick={clickRemoveFromCartHandler}>
+              Remove from Cart
+            </Button>
+          )}
         </div>
       </div>
     </>
