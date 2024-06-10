@@ -1,3 +1,4 @@
+import { CartProvider } from '@/contexts/CartContext';
 import AppLayout from '@components/AppLayout/AppLayout';
 import { AuthProvider } from '@contexts/AuthContext';
 import { render, act } from '@testing-library/react';
@@ -22,9 +23,11 @@ describe('AppLayaut component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <AppLayout>
-              <div></div>
-            </AppLayout>
+            <CartProvider>
+              <AppLayout>
+                <div></div>
+              </AppLayout>
+            </CartProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -41,9 +44,11 @@ describe('AppLayaut component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <AppLayout>
-              <div></div>
-            </AppLayout>
+            <CartProvider>
+              <AppLayout>
+                <div></div>
+              </AppLayout>
+            </CartProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -60,9 +65,11 @@ describe('AppLayaut component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <AppLayout>
-              <div></div>
-            </AppLayout>
+            <CartProvider>
+              <AppLayout>
+                <div></div>
+              </AppLayout>
+            </CartProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -79,9 +86,11 @@ describe('AppLayaut component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <AppLayout>
-              <div className="test">test</div>
-            </AppLayout>
+            <CartProvider>
+              <AppLayout>
+                <div className="test">test</div>
+              </AppLayout>
+            </CartProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,

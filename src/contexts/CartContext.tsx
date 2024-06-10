@@ -89,7 +89,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     return result;
   };
 
-  const getProductsCount = () => cart?.lineItems.length;
+  const getProductsCount = () => {
+    console.log(
+      'Count items in cart: ',
+      cart?.lineItems.map((item) => item.quantity).reduce((acc, item) => (acc += item), 0),
+    );
+
+    return cart?.lineItems.map((item) => item.quantity).reduce((acc, item) => (acc += item), 0);
+  };
 
   const addItemToCart = (productId: string) => {
     if (cart) {
