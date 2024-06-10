@@ -20,17 +20,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
   const discountedPrice = price?.discounted?.value.centAmount;
   const imageUrl = product.masterVariant.images?.[0]?.url || 'default-image-url';
 
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if ((e.target as HTMLElement).closest('.primary-custom-color')?.tagName !== 'BUTTON') {
-      navigate(`/catalog/${categorySlug}/product/${product.id}`);
-    }
+  const handleCardClick = () => {
+    navigate(`/catalog/${categorySlug}/product/${product.id}`);
   };
 
-  const clickAddToCartHandler = () => {
+  const clickAddToCartHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.stopPropagation();
     addItemToCart(product.id);
   };
 
-  const clickRemoveFromCartHandler = () => {
+  const clickRemoveFromCartHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.stopPropagation();
     removeItemFromCartByProductId(product.id);
   };
 
