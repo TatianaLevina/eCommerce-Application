@@ -10,11 +10,14 @@ import LOGO from '../../images/logo.svg';
 import useMobile from '@/hooks/useMobile';
 import { useDrawerState } from '@/contexts/DrawerStateContext';
 import '@components/AppHeader/AppHeader.scss';
+import { useCart } from '@/contexts/CartContext';
 
 const { Header } = Layout;
 // const { Search } = Input;
 
 const AppHeader = () => {
+  const { cart, getProductsCount } = useCart();
+
   const { user, signOut } = useAuth();
 
   // to delete next line after cross-checking !!!!!
@@ -49,9 +52,13 @@ const AppHeader = () => {
             </Link>
             <Link to="/cart">
               <Space size="middle">
-                <Badge count={5}>
+                {cart && getProductsCount() ? (
+                  <Badge count={getProductsCount()}>
+                    <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />
+                  </Badge>
+                ) : (
                   <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />
-                </Badge>
+                )}
               </Space>
             </Link>
             <Space className={'box_primary'} onClick={() => setCollapsed(!isCollapsed)}>
@@ -85,9 +92,13 @@ const AppHeader = () => {
               </Link>
               <Link to="/cart">
                 <Space size="middle">
-                  <Badge count={5}>
+                  {cart && getProductsCount() ? (
+                    <Badge count={getProductsCount()}>
+                      <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />
+                    </Badge>
+                  ) : (
                     <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />
-                  </Badge>
+                  )}
                 </Space>
               </Link>
               {user ? (
