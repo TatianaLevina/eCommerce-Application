@@ -40,7 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
       title={product.name['en-US']}
       bordered={false}
       className="product-card zooming"
-      onClick={(e) => handleCardClick(e)}
+      onClick={handleCardClick}
     >
       {discountedPrice && (
         <div className="product-card__discount-msg">
