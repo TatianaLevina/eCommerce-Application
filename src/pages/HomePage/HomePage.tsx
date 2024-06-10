@@ -10,28 +10,7 @@ import type { ReactElement } from 'react';
 const HomePage: React.FC = () => {
   const { discountCodes } = useDiscounts();
 
-  const banners: ReactElement[] = [
-    //   <>
-    //     <div className="home__img-wrapper">
-    //       <img src={IMAGES.image1} className="custom-img" alt="Sweet Home" />
-    //     </div>
-    //   </>,
-    //   <>
-    //     <div className="home__img-wrapper">
-    //       <img src={IMAGES.image2} className="custom-img" alt="Sweet Home" />
-    //     </div>
-    //   </>,
-    //   <>
-    //     <div className="home__img-wrapper">
-    //       <img src={IMAGES.image3} className="custom-img" alt="Sweet Home" />
-    //     </div>
-    //   </>,
-    //   <>
-    //     <div className="home__img-wrapper">
-    //       <img src={IMAGES.image3} className="custom-img" alt="Sweet Home" />
-    //     </div>
-    //   </>,
-  ];
+  const banners: ReactElement[] = [];
   discountCodes.forEach((code: DiscountCode, idx: number) => {
     banners.push(
       <>
@@ -42,8 +21,13 @@ const HomePage: React.FC = () => {
   return (
     <>
       <h1 className="custom-title">Welcome to our Sweet Home</h1>
-      <Carousel draggable arrows>
+      <Carousel draggable autoplay>
         {...banners}
+        <>
+          <div className="home__img-wrapper">
+            <img src={IMAGES[3]} className="custom-img" alt="Sweet Home" />
+          </div>
+        </>
       </Carousel>
     </>
   );
