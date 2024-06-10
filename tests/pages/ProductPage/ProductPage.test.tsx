@@ -4,6 +4,7 @@ import { AuthProvider } from '@contexts/AuthContext';
 import ProductPage from '@pages/ProductPage/ProductPage';
 import { CategoryProvider } from '@contexts/CategoriesContext';
 import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext';
+import { CartProvider } from '@/contexts/CartContext';
 
 describe('ProductPage tests', () => {
   describe('Render element', () => {
@@ -25,9 +26,11 @@ describe('ProductPage tests', () => {
         render(
           <AuthProvider>
             <CategoryProvider>
-              <BreadcrumbsProvider>
-                <ProductPage />
-              </BreadcrumbsProvider>
+              <CartProvider>
+                <BreadcrumbsProvider>
+                  <ProductPage />
+                </BreadcrumbsProvider>
+              </CartProvider>
             </CategoryProvider>
           </AuthProvider>,
           {
