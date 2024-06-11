@@ -11,3 +11,13 @@
 .flex-wrapper {
   width: 100%;
 }
+
+.box_primary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
