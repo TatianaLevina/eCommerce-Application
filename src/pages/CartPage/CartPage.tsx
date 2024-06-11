@@ -45,11 +45,16 @@ const CartPage: React.FC = () => {
     clearCart();
   };
 
-  const applyPromoCodeHandler = () => {
+  const applyPromoCodeHandler = async () => {
     if (promoCode) {
-      addDiscountCode(promoCode);
+      await addDiscountCode(promoCode);
+      setPromoCode('');
     }
   };
+
+  const totalPrice = calculateTotalPrice();
+  const discount = cart?.discountOnTotalPrice?.discountedAmount.centAmount || 0;
+  const discountedPrice = totalPrice - discount;
 
   return (
     <div className="cart">
@@ -79,8 +84,18 @@ const CartPage: React.FC = () => {
             <div className="cart__bottom-box">
               <div className="cart__bottom-part">
                 <p className="cart__total base-text">
-                  Total Price: {formatPrice(calculateTotalPrice())} {cart?.totalPrice.currencyCode}
+                  Total Price: {formatPrice(totalPrice)} {cart?.totalPrice.currencyCode}
                 </p>
+                {discount > 0 && (
+                  <>
+                    <p className="cart__discount base-text">
+                      Discount: {formatPrice(discount)} {cart?.totalPrice.currencyCode}
+                    </p>
+                    <p className="cart__discounted base-text">
+                      Discounted Price: {formatPrice(discountedPrice)} {cart?.totalPrice.currencyCode}
+                    </p>
+                  </>
+                )}
                 <Button className="primary-custom-color" onClick={() => alert('Proceed to checkout')}>
                   Buy!
                 </Button>
