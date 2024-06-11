@@ -1,3 +1,4 @@
+import { useCart } from '@/contexts/CartContext';
 import { checkDiscountCodeExists } from '@/services/DiscountsService';
 import { Button, Form, Input, notification } from 'antd';
 import type React from 'react';
@@ -17,6 +18,7 @@ const PromoCode: React.FC = () => {
       duration: 5,
     });
   };
+  const { addDiscountCode } = useCart();
 
   const onFinish = async ({ promoCode }: PromoCodeFormValues) => {
     if (!promoCode) {
@@ -30,8 +32,7 @@ const PromoCode: React.FC = () => {
       showError(`Unknown PROMO CODE: ${promoCode}`);
       return;
     }
-    // TODO: add promo code to CART
-    console.log(promoCode, isExist);
+    await addDiscountCode(promoCode);
   };
 
   const onFinishFailed = (): void => {
