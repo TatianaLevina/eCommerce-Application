@@ -1,4 +1,5 @@
 import { AuthProvider } from '@contexts/AuthContext';
+import { CartProvider } from '@contexts/CartContext';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import ProductCard from '@components/ProductCard/ProductCard';
@@ -22,36 +23,38 @@ describe('ProductCard component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <ProductCard
-              product={{
-                id: 'string',
-                version: 5,
-                createdAt: 'string',
-                lastModifiedAt: 'string',
-                productType: {
-                  typeId: 'product-type',
+            <CartProvider>
+              <ProductCard
+                product={{
                   id: 'string',
-                },
-                name: { 'en-US': 'TestProduct' },
-                slug: { 'en-US': 'Test' },
-                categories: [
-                  {
-                    typeId: 'category',
+                  version: 5,
+                  createdAt: 'string',
+                  lastModifiedAt: 'string',
+                  productType: {
+                    typeId: 'product-type',
                     id: 'string',
                   },
-                ],
-                masterVariant: {
-                  id: 2,
-                },
-                variants: [
-                  {
+                  name: { 'en-US': 'TestProduct' },
+                  slug: { 'en-US': 'Test' },
+                  categories: [
+                    {
+                      typeId: 'category',
+                      id: 'string',
+                    },
+                  ],
+                  masterVariant: {
                     id: 2,
                   },
-                ],
-              }}
-              categorySlug={'test'}
-              formatPrice={(x) => x.toFixed(2)}
-            />
+                  variants: [
+                    {
+                      id: 2,
+                    },
+                  ],
+                }}
+                categorySlug={'test'}
+                formatPrice={(x) => x.toFixed(2)}
+              />
+            </CartProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -60,7 +63,7 @@ describe('ProductCard component tests', () => {
         );
       });
 
-      const el = container?.querySelector('product-card');
+      const el = container?.querySelector('.product-card');
       expect(el).toBeDefined();
     });
   });
