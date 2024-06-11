@@ -12,6 +12,7 @@ import {
   addDiscountCodeService,
 } from '@services/CartService';
 import { useAuth } from '@contexts/AuthContext';
+import { notification, Modal } from 'antd';
 
 interface CartState {
   cart: Cart | null;
@@ -75,6 +76,22 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     loading: true,
   });
 
+  const [api, contextHolder] = notification.useNotification();
+
+  const showSuccess = (message: string): void => {
+    api.success({
+      message: message,
+      duration: 3,
+    });
+  };
+
+  const showError = (msg: string): void => {
+    Modal.error({
+      title: 'Error!',
+      content: msg,
+    });
+  };
+
   useEffect(() => {
     const fetchCart = async () => {
       dispatch({ type: 'SET_LOADING', payload: true });
@@ -86,6 +103,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         dispatch({ type: 'SET_CART', payload: cart });
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to load cart' });
+        showError('Failed to load cart');
       }
     };
 
@@ -104,9 +122,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (cart) {
           const updatedCart = await addLineItemsService(sku, quantity, cart);
           dispatch({ type: 'SET_CART', payload: updatedCart });
+          showSuccess('Item added to cart successfully');
         }
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to add item to cart' });
+        showError('Failed to add item to cart');
       }
     },
     [state.cart],
@@ -119,8 +139,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         const updatedCart = await removeLineItemsService(lineItemId, state.cart);
         dispatch({ type: 'SET_CART', payload: updatedCart });
+        showSuccess('Item removed from cart successfully');
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to remove item from cart' });
+        showError('Failed to remove item from cart');
       }
     },
     [state.cart],
@@ -133,8 +155,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         const updatedCart = await setQuantityService(lineItemId, quantity, state.cart);
         dispatch({ type: 'SET_CART', payload: updatedCart });
+        showSuccess('Item quantity updated successfully');
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to update item quantity' });
+        showError('Failed to update item quantity');
       }
     },
     [state.cart],
@@ -146,8 +170,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       await clearCartService(state.cart.id, state.cart.version);
       dispatch({ type: 'CLEAR_CART' });
+      showSuccess('Shopping cart cleared successfully');
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: 'Failed to clear cart' });
+      showError('Failed to clear cart');
     }
   }, [state.cart]);
 
@@ -158,8 +184,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         const updatedCart = await addDiscountCodeService({ code }, state.cart);
         dispatch({ type: 'SET_CART', payload: updatedCart });
+        showSuccess('Discount code applied successfully');
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to apply discount code' });
+        showError('Failed to apply discount code');
       }
     },
     [state.cart],
@@ -181,6 +209,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         getCartItemCount,
       }}
     >
+      {contextHolder}
       {children}
     </CartContext.Provider>
   );
