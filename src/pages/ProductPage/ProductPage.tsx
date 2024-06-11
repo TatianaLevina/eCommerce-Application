@@ -2,10 +2,10 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Spin, Typography, Button, Modal, Carousel, Dropdown } from 'antd';
-import { getSingleProductService } from '@services/ProductsService.ts';
-import { useCategory } from '@contexts/CategoriesContext.tsx';
-import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
-import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
+import { getSingleProductService } from '@services/ProductsService';
+import { useCategory } from '@contexts/CategoriesContext';
+import { useBreadcrumbs } from '@contexts/BreadcrumbsContext';
+import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 import '@pages/ProductPage/ProductPage.scss';
 import type { Product } from '@commercetools/platform-sdk';
 import { DownOutlined, HomeOutlined } from '@ant-design/icons';
@@ -15,7 +15,11 @@ import { useCart } from '@/contexts/CartContext';
 const { Title, Paragraph } = Typography;
 
 const ProductPage: React.FC = () => {
-  const { checkIsProdInCart, addItemToCart, removeItemFromCartByProductId } = useCart();
+  const {
+    state: { cart },
+    addToCart,
+    removeFromCart,
+  } = useCart();
   const { productId } = useParams<{ productId: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -96,13 +100,20 @@ const ProductPage: React.FC = () => {
     setOpen(target);
   };
 
-  const clickAddToCartHandler = () => {
-    addItemToCart(product.id);
+  const clickAddToCartHandler = async () => {
+    if (masterVariant.sku) {
+      await addToCart(masterVariant.sku, 1);
+    }
   };
 
-  const clickRemoveFromCartHandler = () => {
-    removeItemFromCartByProductId(product.id);
+  const clickRemoveFromCartHandler = async () => {
+    const lineItemId = cart?.lineItems.find((item) => item.productId === product.id)?.id;
+    if (lineItemId) {
+      await removeFromCart(lineItemId);
+    }
   };
+
+  const isInCart = cart?.lineItems.some((item) => item.productId === product.id);
 
   return (
     <>
@@ -127,7 +138,7 @@ const ProductPage: React.FC = () => {
           ))}
         </Carousel>
       </Modal>
-      <div className="product-page" onClick={(e) => carouselClickHandler(e)}>
+      <div className="product-page" onClick={carouselClickHandler}>
         <Title className="custom-title">{name['en-US']}</Title>
         <div className="product-page__image-wrapper">
           <div className="product-page__carusel-box">
@@ -179,7 +190,7 @@ const ProductPage: React.FC = () => {
           <Button className="custom-color" onClick={backClickHandler}>
             Back
           </Button>
-          {!checkIsProdInCart(product.id) ? (
+          {!isInCart ? (
             <Button className="primary-custom-color" onClick={clickAddToCartHandler}>
               Add to Cart
             </Button>
