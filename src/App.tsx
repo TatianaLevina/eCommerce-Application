@@ -14,8 +14,8 @@ function App() {
       <AuthProvider>
         <CategoryProvider>
           <CartProvider>
-            <BreadcrumbsProvider>
-              <DiscountsProvider>
+            <DiscountsProvider>
+              <BreadcrumbsProvider>
                 <Routes>
                   {routes.map(({ path, element: Element, protected: protectionType, children }) => (
                     <Route
@@ -37,8 +37,8 @@ function App() {
                     </Route>
                   ))}
                 </Routes>
-              </DiscountsProvider>
-            </BreadcrumbsProvider>
+              </BreadcrumbsProvider>
+            </DiscountsProvider>
           </CartProvider>
         </CategoryProvider>
       </AuthProvider>
