@@ -23,11 +23,6 @@ const HomePage: React.FC = () => {
       <h1 className="custom-title">Welcome to our Sweet Home</h1>
       <Carousel draggable autoplay>
         {...banners}
-        <>
-          <div className="home__img-wrapper">
-            <img src={IMAGES[3]} className="custom-img" alt="Sweet Home" />
-          </div>
-        </>
       </Carousel>
     </>
   );
