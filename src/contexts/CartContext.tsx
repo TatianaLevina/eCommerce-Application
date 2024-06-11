@@ -13,6 +13,7 @@ import {
 } from '@services/CartService';
 import { useAuth } from '@contexts/AuthContext';
 import { notification, Modal } from 'antd';
+import { debounce } from 'lodash';
 
 interface CartState {
   cart: Cart | null;
@@ -81,7 +82,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const showSuccess = (message: string): void => {
     api.success({
       message: message,
-      duration: 3,
+      duration: 1,
     });
   };
 
@@ -148,18 +149,25 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     [state.cart],
   );
 
-  const updateCartItemQuantity = useCallback(
-    async (lineItemId: string, quantity: number) => {
-      if (!state.cart) return;
-      dispatch({ type: 'SET_LOADING', payload: true });
+  const debouncedUpdateCartItemQuantity = useCallback(
+    debounce(async (lineItemId: string, quantity: number, cart: Cart) => {
       try {
-        const updatedCart = await setQuantityService(lineItemId, quantity, state.cart);
+        const updatedCart = await setQuantityService(lineItemId, quantity, cart);
         dispatch({ type: 'SET_CART', payload: updatedCart });
         showSuccess('Item quantity updated successfully');
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to update item quantity' });
         showError('Failed to update item quantity');
       }
+    }, 300),
+    [],
+  );
+
+  const updateCartItemQuantity = useCallback(
+    async (lineItemId: string, quantity: number) => {
+      if (!state.cart) return;
+      dispatch({ type: 'SET_LOADING', payload: true });
+      debouncedUpdateCartItemQuantity(lineItemId, quantity, state.cart);
     },
     [state.cart],
   );
