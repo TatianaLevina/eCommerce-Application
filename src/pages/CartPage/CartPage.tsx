@@ -1,11 +1,11 @@
 import type React from 'react';
-import { useState } from 'react';
-import { Button, Input } from 'antd';
+import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '@contexts/CartContext';
 import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
 import { formatPrice } from '@/utils/Utilities';
+import PromoCode from '@/components/PromoCode/PromoCode';
 
 const CartPage: React.FC = () => {
   const {
@@ -13,10 +13,8 @@ const CartPage: React.FC = () => {
     removeFromCart,
     updateCartItemQuantity,
     clearCart,
-    addDiscountCode,
   } = useCart();
 
-  const [promoCode, setPromoCode] = useState('');
   const navigate = useNavigate();
 
   const removeClickHandler = (id: string) => {
@@ -43,13 +41,6 @@ const CartPage: React.FC = () => {
 
   const clearCartHandler = () => {
     clearCart();
-  };
-
-  const applyPromoCodeHandler = async () => {
-    if (promoCode) {
-      await addDiscountCode(promoCode);
-      setPromoCode('');
-    }
   };
 
   const totalPrice = calculateTotalPrice();
@@ -81,6 +72,7 @@ const CartPage: React.FC = () => {
         </div>
         {cart && cart.lineItems.length > 0 && (
           <>
+            <PromoCode />
             <div className="cart__bottom-box">
               <div className="cart__bottom-part">
                 <p className="cart__total base-text">
@@ -100,17 +92,6 @@ const CartPage: React.FC = () => {
                   Buy!
                 </Button>
               </div>
-            </div>
-            <div className="cart__promo-box">
-              <Input
-                placeholder="Enter promo code"
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
-                style={{ width: '200px', marginRight: '10px' }}
-              />
-              <Button className="primary-custom-color" onClick={applyPromoCodeHandler}>
-                Apply Promo Code
-              </Button>
             </div>
             <Button className="danger-custom-color" onClick={clearCartHandler}>
               Clear Shopping Cart
