@@ -5,7 +5,6 @@ import routes from '@router/routerConfig';
 import ProtectedRoute from '@router/ProtectedRoute';
 import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
 import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext.tsx';
-import { CartProvider } from './contexts/CartContext';
 import { DiscountsProvider } from './contexts/DiscountsContext';
 
 function App() {
@@ -13,7 +12,6 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <CategoryProvider>
-          <CartProvider>
             <DiscountsProvider>
               <BreadcrumbsProvider>
                 <Routes>
@@ -39,7 +37,6 @@ function App() {
                 </Routes>
               </BreadcrumbsProvider>
             </DiscountsProvider>
-          </CartProvider>
         </CategoryProvider>
       </AuthProvider>
     </BrowserRouter>

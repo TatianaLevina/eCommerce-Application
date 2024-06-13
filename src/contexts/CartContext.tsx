@@ -2,8 +2,9 @@ import type React from 'react';
 import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useReducer, useCallback } from 'react';
 import type { Cart } from '@commercetools/platform-sdk';
+import { debounce } from 'lodash';
+import { notification, Modal } from 'antd';
 import {
-  getCartService,
   createCartService,
   addLineItemsService,
   removeLineItemsService,
@@ -11,9 +12,6 @@ import {
   clearCartService,
   addDiscountCodeService,
 } from '@services/CartService';
-import { useAuth } from '@contexts/AuthContext';
-import { notification, Modal } from 'antd';
-import { debounce } from 'lodash';
 
 interface CartState {
   cart: Cart | null;
@@ -29,6 +27,7 @@ interface CartContextType {
   clearCart: () => Promise<void>;
   addDiscountCode: (code: string) => Promise<void>;
   getCartItemCount: () => number;
+  setCart: (cart: Cart | null) => void;
 }
 
 interface SetCartAction {
@@ -69,12 +68,14 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   }
 };
 
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { user } = useAuth();
+export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | null }> = ({
+  children,
+  initialCart,
+}) => {
   const [state, dispatch] = useReducer(cartReducer, {
-    cart: null,
+    cart: initialCart, // Set the initial cart state from props
     error: null,
-    loading: true,
+    loading: false,
   });
 
   const [api, contextHolder] = notification.useNotification();
@@ -94,22 +95,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   useEffect(() => {
-    const fetchCart = async () => {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      try {
-        let cart = await getCartService();
-        if (!cart) {
-          cart = await createCartService('USD');
-        }
-        dispatch({ type: 'SET_CART', payload: cart });
-      } catch (error) {
-        dispatch({ type: 'SET_ERROR', payload: 'Failed to load cart' });
-        showError('Failed to load cart');
-      }
-    };
-
-    fetchCart();
-  }, [user]);
+    // Update the cart state whenever initialCart changes
+    dispatch({ type: 'SET_CART', payload: initialCart });
+  }, [initialCart]);
 
   const addToCart = useCallback(
     async (sku: string, quantity: number) => {
@@ -205,6 +193,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return state.cart?.lineItems.reduce((count, item) => count + item.quantity, 0) || 0;
   };
 
+  const setCart = (cart: Cart | null) => {
+    dispatch({ type: 'SET_CART', payload: cart });
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -215,6 +207,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         clearCart,
         addDiscountCode,
         getCartItemCount,
+        setCart, // Pass setCart in the context value
       }}
     >
       {contextHolder}
