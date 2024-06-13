@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import '@components/CountInput/CountInput.scss';
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import '@components/CountInput/CountInput.scss';
 
-interface CountInputProps {
-  className?: string;
-  style?: React.CSSProperties;
-  onChange: (value: number) => Promise<number | undefined>;
-  maxValue: number;
-  minValue: number;
-}
+import type CountInputProps from '@components/CountInput/CountInput.interface';
 
 const CountInput: React.FC<CountInputProps> = (props: CountInputProps) => {
   const { className, style, onChange, maxValue, minValue } = props;

@@ -1,18 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { Button, Form /*, InputNumber*/ } from 'antd';
+import { Button, Form } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import type { LineItem } from '@commercetools/platform-sdk';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
 import { formatPrice } from '@/utils/Utilities';
 import '@components/CartItem/CartItem.scss';
-import CountInput from '../CountInput/CountInput';
-// import { values } from 'lodash';
-
-interface CartItemProps {
-  product: LineItem;
-  removeClickHandler: (id: string) => void;
-  inputChangeHandler: (id: string, value: number) => Promise<number | undefined>;
-}
+import CountInput from '@components/CountInput/CountInput';
+import type CartItemProps from '@components/CartItem/cartItem.interface';
 
 const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputChangeHandler }) => {
   const [loading, setLoading] = useState(false);
@@ -21,34 +14,22 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
   const discountedPrice = product.price.discounted?.value.centAmount;
   const imageUrl = product.variant.images?.[0]?.url || 'default-image-url';
 
-  // const handleInputChange = useCallback(
-  //   (value: number | null) => {
-  //     if (value !== null) {
-  //       setLoading(true);
-  //       inputChangeHandler(product.id, value);
-  //       setLoading(false);
-  //     }
-  //   },
-  //   [inputChangeHandler, product.id],
-  // );
-
-  const handleRemoveClick = useCallback(() => {
-    setLoading(true);
-    removeClickHandler(product.id);
-    setLoading(false);
-  }, [removeClickHandler, product.id]);
-
-  const handleInputChange =
-    //  useCallback(
+  const handleInputChange = useCallback(
     (value: number) => {
       setLoading(true);
       return inputChangeHandler(product.id, value).then((res) => {
         setLoading(false);
         return res;
       });
-    };
-  // [inputChangeHandler, product.id],
-  // );
+    },
+    [inputChangeHandler, product.id],
+  );
+
+  const handleRemoveClick = useCallback(() => {
+    setLoading(true);
+    removeClickHandler(product.id);
+    setLoading(false);
+  }, [removeClickHandler, product.id]);
 
   return (
     <div className="cart-item" id={product.id}>
