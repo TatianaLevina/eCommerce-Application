@@ -3,6 +3,7 @@ import { CartProvider } from '@contexts/CartContext';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import ProductCard from '@components/ProductCard/ProductCard';
+import { CartProvider } from '@/contexts/CartContext';
 
 describe('ProductCard component tests', () => {
   describe('Render element', () => {
