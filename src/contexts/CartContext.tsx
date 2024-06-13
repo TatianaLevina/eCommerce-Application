@@ -23,7 +23,7 @@ interface CartContextType {
   state: CartState;
   addToCart: (sku: string, quantity: number) => Promise<void>;
   removeFromCart: (lineItemId: string) => Promise<void>;
-  updateCartItemQuantity: (lineItemId: string, quantity: number) => Promise<void>;
+  updateCartItemQuantity: (lineItemId: string, quantity: number) => Promise<number | undefined>;
   clearCart: () => Promise<void>;
   addDiscountCode: (code: string) => Promise<void>;
   getCartItemCount: () => number;
@@ -143,6 +143,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
         const updatedCart = await setQuantityService(lineItemId, quantity, cart);
         dispatch({ type: 'SET_CART', payload: updatedCart });
         showSuccess('Item quantity updated successfully');
+        return updatedCart.totalLineItemQuantity;
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to update item quantity' });
         showError('Failed to update item quantity');
@@ -155,7 +156,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
     async (lineItemId: string, quantity: number) => {
       if (!state.cart) return;
       dispatch({ type: 'SET_LOADING', payload: true });
-      debouncedUpdateCartItemQuantity(lineItemId, quantity, state.cart);
+      return debouncedUpdateCartItemQuantity(lineItemId, quantity, state.cart);
     },
     [state.cart],
   );
