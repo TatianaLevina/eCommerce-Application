@@ -1,8 +1,7 @@
-import { CartProvider } from '@/contexts/CartContext';
-import { AuthProvider } from '@contexts/AuthContext';
-import CartPage from '@pages/CartPage/CartPage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from '@contexts/AuthContext';
+import CartPage from '@pages/CartPage/CartPage';
 
 describe('CartPage tests', () => {
   describe('Render element', () => {
@@ -23,9 +22,7 @@ describe('CartPage tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
-              <CartPage />
-            </CartProvider>
+            <CartPage />
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -42,9 +39,7 @@ describe('CartPage tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
-              <CartPage />
-            </CartProvider>
+            <CartPage />
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -57,21 +52,21 @@ describe('CartPage tests', () => {
       expect(el).toBeInstanceOf(HTMLElement);
     });
 
-    // test('contains inputs', () => {
-    //   act(() => {
-    //     render(
-    //       <AuthProvider>
-    //         <CartPage />
-    //       </AuthProvider>,
-    //       {
-    //         wrapper: BrowserRouter,
-    //         container: container!,
-    //       },
-    //     );
-    //   });
+    test('Contains h1 tag with Cart text', () => {
+      act(() => {
+        render(
+          <AuthProvider>
+            <CartPage />
+          </AuthProvider>,
+          {
+            wrapper: BrowserRouter,
+            container: container!,
+          },
+        );
+      });
 
-    //   const els = container?.querySelectorAll('input');
-    //   expect(els?.length).toBe(11);
-    // });
+      const el = container?.querySelector('.custom-title');
+      expect(el?.textContent).toBe('Cart');
+    });
   });
 });
