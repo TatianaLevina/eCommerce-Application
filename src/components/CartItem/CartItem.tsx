@@ -1,16 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { Button, Form, InputNumber } from 'antd';
+import { Button, Form } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import type { LineItem } from '@commercetools/platform-sdk';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
 import { formatPrice } from '@/utils/Utilities';
 import '@components/CartItem/CartItem.scss';
-
-interface CartItemProps {
-  product: LineItem;
-  removeClickHandler: (id: string) => void;
-  inputChangeHandler: (id: string, value: number) => void;
-}
+import CountInput from '@components/CountInput/CountInput';
+import type CartItemProps from '@components/CartItem/cartItem.interface';
 
 const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputChangeHandler }) => {
   const [loading, setLoading] = useState(false);
@@ -20,12 +15,12 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
   const imageUrl = product.variant.images?.[0]?.url || 'default-image-url';
 
   const handleInputChange = useCallback(
-    (value: number | null) => {
-      if (value !== null) {
-        setLoading(true);
-        inputChangeHandler(product.id, value);
+    (value: number) => {
+      setLoading(true);
+      return inputChangeHandler(product.id, value).then((res) => {
         setLoading(false);
-      }
+        return res;
+      });
     },
     [inputChangeHandler, product.id],
   );
@@ -46,7 +41,8 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
       </div>
       <div className="cart-item__right">
         <Form.Item label="Count" className="cart-item__input no-margin-block">
-          <InputNumber defaultValue={product.quantity} min={1} max={99} onChange={handleInputChange} />
+          <CountInput onChange={handleInputChange} minValue={1} maxValue={99}></CountInput>
+          {/* <InputNumber defaultValue={product.quantity} min={1} max={99} onChange={handleInputChange} /> */}
         </Form.Item>
         <div className="cart-item__price-box">
           <p

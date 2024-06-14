@@ -22,7 +22,7 @@ const CartPage: React.FC = () => {
   };
 
   const inputChangeHandler = (id: string, value: number) => {
-    updateCartItemQuantity(id, value);
+    return updateCartItemQuantity(id, value);
   };
 
   const calculateTotalPrice = () => {

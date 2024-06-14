@@ -1,9 +1,9 @@
-import type React from 'react';
-import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useReducer, useCallback } from 'react';
-import type { Cart } from '@commercetools/platform-sdk';
 import { debounce } from 'lodash';
 import { notification, Modal } from 'antd';
+import type { Cart } from '@commercetools/platform-sdk';
+import type React from 'react';
+import type { ReactNode } from 'react';
 import {
   createCartService,
   addLineItemsService,
@@ -12,44 +12,8 @@ import {
   clearCartService,
   addDiscountCodeService,
 } from '@services/CartService';
-
-interface CartState {
-  cart: Cart | null;
-  error: string | null;
-  loading: boolean;
-}
-
-interface CartContextType {
-  state: CartState;
-  addToCart: (sku: string, quantity: number) => Promise<void>;
-  removeFromCart: (lineItemId: string) => Promise<void>;
-  updateCartItemQuantity: (lineItemId: string, quantity: number) => Promise<void>;
-  clearCart: () => Promise<void>;
-  addDiscountCode: (code: string) => Promise<void>;
-  getCartItemCount: () => number;
-  setCart: (cart: Cart | null) => void;
-}
-
-interface SetCartAction {
-  type: 'SET_CART';
-  payload: Cart | null;
-}
-
-interface SetLoadingAction {
-  type: 'SET_LOADING';
-  payload: boolean;
-}
-
-interface SetErrorAction {
-  type: 'SET_ERROR';
-  payload: string;
-}
-
-interface ClearCartAction {
-  type: 'CLEAR_CART';
-}
-
-type CartAction = SetCartAction | SetLoadingAction | SetErrorAction | ClearCartAction;
+import type { CartContextType, CartState } from './Context.interface';
+import type { CartAction } from './Context.types';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -143,6 +107,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
         const updatedCart = await setQuantityService(lineItemId, quantity, cart);
         dispatch({ type: 'SET_CART', payload: updatedCart });
         showSuccess('Item quantity updated successfully');
+        return updatedCart.totalLineItemQuantity;
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to update item quantity' });
         showError('Failed to update item quantity');
@@ -155,7 +120,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
     async (lineItemId: string, quantity: number) => {
       if (!state.cart) return;
       dispatch({ type: 'SET_LOADING', payload: true });
-      debouncedUpdateCartItemQuantity(lineItemId, quantity, state.cart);
+      return debouncedUpdateCartItemQuantity(lineItemId, quantity, state.cart);
     },
     [state.cart],
   );
