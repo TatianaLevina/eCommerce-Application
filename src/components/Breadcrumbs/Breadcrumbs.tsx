@@ -10,15 +10,19 @@ const Breadcrumbs: React.FC = () => {
   const { items } = useBreadcrumbs();
   const { categories } = useCategory();
   const navigate = useNavigate();
-
-  const handleMenuClick = ({ key }: { key: string }) => {
-    navigate(`/catalog/${key}`);
-  };
-
-  const categoriesMenuItems = categories?.map((category) => ({
+  const categoriesMenuItems:
+    | {
+        key: string;
+        label: string;
+      }[]
+    | undefined = categories?.map((category) => ({
     key: category.slug['en-US'],
     label: category.name['en-US'],
   }));
+
+  const handleMenuClick = ({ key }: { key: string }): void => {
+    navigate(`/catalog/${key}`);
+  };
 
   const categoriesMenu: MenuProps = {
     items: categoriesMenuItems,
