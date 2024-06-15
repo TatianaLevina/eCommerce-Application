@@ -1,21 +1,15 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Card, Spin, Flex } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { Card, Spin, Flex } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
 import '@pages/CatalogPage/CatalogMainPage.scss';
-import { HomeOutlined } from '@ant-design/icons';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
-
-interface CategoryWithImage {
-  id: string;
-  name: string;
-  slug: string;
-  imageUrl: string;
-}
+import type { CategoryWithImage } from './CategoryWithImage.interface';
 
 const CatalogMainPage: React.FC = () => {
   const { categories, loading } = useCategory();
@@ -56,7 +50,7 @@ const CatalogMainPage: React.FC = () => {
     setItems([{ href: '/', title: <HomeOutlined /> }, { title: 'Catalog' }]);
   }, [categories, setItems]);
 
-  const clickCardHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const clickCardHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
     const el: HTMLElement = e.target as HTMLElement;
     const target: HTMLElement | null = el.closest('.category-card');
 

@@ -8,6 +8,7 @@ import AddressBook from '@/components/AddressBook/AddressBook';
 import AccountSettings from '@/components/AccountSettings/AccountSettings';
 import useMobile from '@/hooks/useMobile';
 import './ProfilePage.scss';
+import type { ItemType } from 'antd/es/menu/hooks/useItems';
 
 const { Content, Sider } = Layout;
 
@@ -28,6 +29,7 @@ const subMenuItemsDesktop: MenuProps['items'] = [
     label: 'Account Settings',
   },
 ];
+
 const subMenuItemsMobile: MenuProps['items'] = [
   {
     key: 'info',
@@ -42,7 +44,8 @@ const subMenuItemsMobile: MenuProps['items'] = [
     icon: <SettingOutlined />,
   },
 ];
-const getItemComponent = (key: string) => {
+
+const getItemComponent = (key: string): JSX.Element | undefined => {
   switch (key) {
     case 'info':
       return <PersonalInfo />;
@@ -58,12 +61,14 @@ const getItemComponent = (key: string) => {
 const ProfilePage: React.FC = () => {
   const isMobile = useMobile();
   const [item, setItem] = useState('info');
-  const itemsChange = () => {
+
+  const itemsChange = (): ItemType[] => {
     if (isMobile) {
       return subMenuItemsMobile;
     }
     return subMenuItemsDesktop;
   };
+
   return (
     <>
       <Layout style={{ padding: '24px 0', background: '#fff', borderRadius: '8px' }}>
@@ -84,4 +89,5 @@ const ProfilePage: React.FC = () => {
     </>
   );
 };
+
 export default ProfilePage;

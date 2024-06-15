@@ -146,7 +146,7 @@ const CategoryPage: React.FC = () => {
     setItems,
   ]);
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number): void => {
     navigate(`${location.pathname}?page=${page}`);
   };
 
@@ -154,7 +154,7 @@ const CategoryPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
-  const resetFilters = () => {
+  const resetFilters = (): void => {
     setSearchText('');
     setSortOrder('');
     setPriceFrom(undefined);
@@ -163,7 +163,7 @@ const CategoryPage: React.FC = () => {
     setManufacturerFilter([]);
   };
 
-  const toggleDrawer = () => {
+  const toggleDrawer = (): void => {
     setDrawerOpen(!drawerOpen);
   };
 

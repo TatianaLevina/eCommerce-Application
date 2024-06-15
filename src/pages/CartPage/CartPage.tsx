@@ -17,15 +17,15 @@ const CartPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const removeClickHandler = (id: string) => {
+  const removeClickHandler = (id: string): void => {
     removeFromCart(id);
   };
 
-  const inputChangeHandler = (id: string, value: number) => {
+  const inputChangeHandler = (id: string, value: number): Promise<number | undefined> => {
     return updateCartItemQuantity(id, value);
   };
 
-  const calculateTotalPrice = () => {
+  const calculateTotalPrice = (): number => {
     return (
       cart?.lineItems.reduce((total, item) => {
         const price = item.price.value.centAmount;
@@ -35,11 +35,11 @@ const CartPage: React.FC = () => {
     );
   };
 
-  const toCatalogClickHandler = () => {
+  const toCatalogClickHandler = (): void => {
     navigate('/catalog');
   };
 
-  const clearCartHandler = () => {
+  const clearCartHandler = (): void => {
     clearCart();
   };
 

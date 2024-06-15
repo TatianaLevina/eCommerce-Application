@@ -1,5 +1,4 @@
 import type React from 'react';
-// import { Typography } from 'antd';
 import { Carousel } from 'antd';
 import IMAGES from '@/images/Images';
 import DiscountBanner from '@/components/DiscountBanner/DiscountBanner';
