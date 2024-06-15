@@ -23,7 +23,7 @@ describe('AppHeader component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
+            <CartProvider initialCart={null}>
               <AppHeader />
             </CartProvider>
           </AuthProvider>,
@@ -42,7 +42,7 @@ describe('AppHeader component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
+            <CartProvider initialCart={null}>
               <AppHeader />
             </CartProvider>
           </AuthProvider>,
@@ -61,7 +61,7 @@ describe('AppHeader component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
+            <CartProvider initialCart={null}>
               <AppHeader />
             </CartProvider>
           </AuthProvider>,
