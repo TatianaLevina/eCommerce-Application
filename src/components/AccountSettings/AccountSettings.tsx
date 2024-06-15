@@ -1,27 +1,27 @@
 import type React from 'react';
 import { Button, Flex, Form, Input, Modal, Typography, notification } from 'antd';
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 import { EditOutlined, LockOutlined } from '@ant-design/icons';
-import validateConstant from '@/data/validateConstants';
-import PasswordConfirmationModal from '../PasswordConfirmation/PasswordConfirmation';
-
-const { Title } = Typography;
+import { useAuth } from '@contexts/AuthContext';
+import validateConstant from '@data/validateConstants';
+import PasswordConfirmationModal from '@components/PasswordConfirmation/PasswordConfirmation';
+import type { Passwords } from './Passwords.interface';
 
 const AccountSettings: React.FC = () => {
+  const { Title } = Typography;
   const [form] = Form.useForm();
   const [editMode, setEditMode] = useState(false);
   const { user } = useAuth();
   const [openPasswordConfirmationModal, setOpenPasswordConfirmationModal] = useState(false);
   const [userNewPassword, setUserNewPassword] = useState('');
-
   const [api, contextHolder] = notification.useNotification();
-  function showSuccess(): void {
+
+  const showSuccess = (): void => {
     api.success({
       message: 'All changes are saved',
       duration: 3,
     });
-  }
+  };
 
   const showError = (msg: string): void => {
     Modal.error({
@@ -30,12 +30,7 @@ const AccountSettings: React.FC = () => {
     });
   };
 
-  interface Passwords {
-    newPassword: string;
-    confirmPassword: string;
-  }
-
-  const onFinish = (values: Passwords) => {
+  const onFinish = (values: Passwords): void => {
     setEditMode(false);
     form.resetFields();
 
