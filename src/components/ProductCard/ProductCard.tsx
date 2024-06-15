@@ -2,16 +2,10 @@ import type React from 'react';
 import { useMemo } from 'react';
 import { Card, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import type { ProductProjection } from '@commercetools/platform-sdk';
 import '@components/ProductCard/ProductCard.scss';
 import ImageCustom from '../ImageCustom/ImageCustom';
 import { useCart } from '@contexts/CartContext';
-
-interface ProductCardProps {
-  product: ProductProjection;
-  categorySlug: string; // Pass category slug as prop
-  formatPrice: (centAmount: number) => string;
-}
+import type { ProductCardProps } from './ProductCardProps.interface';
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, formatPrice }) => {
   const navigate = useNavigate();
@@ -19,17 +13,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
   const price = product.masterVariant.prices?.find((x) => x.value.currencyCode === 'USD');
   const discountedPrice = price?.discounted?.value.centAmount;
   const imageUrl = product.masterVariant.images?.[0]?.url || 'default-image-url';
-
   const isInCart = useMemo(
     () => state?.cart?.lineItems.some((item) => item.productId === product.id),
     [state?.cart?.lineItems],
   );
 
-  const handleCardClick = () => {
+  const handleCardClick = (): void => {
     navigate(`/catalog/${categorySlug}/product/${product.id}`);
   };
 
-  const handleCartAction = async (e: React.MouseEvent) => {
+  const handleCartAction = async (e: React.MouseEvent): Promise<void> => {
     e.stopPropagation();
     if (isInCart) {
       const lineItemId = state?.cart?.lineItems.find((item) => item.productId === product.id)?.id;
