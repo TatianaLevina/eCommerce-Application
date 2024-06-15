@@ -5,25 +5,23 @@ import type { DiscountCode, DiscountCodeInfo } from '@commercetools/platform-sdk
 import { Button, Form, Input, notification } from 'antd';
 import type React from 'react';
 import { useState } from 'react';
-
-interface PromoCodeFormValues {
-  promoCode: string;
-}
+import type { PromoCodeFormValues } from './PromoCodeFormValues';
 
 const PromoCode: React.FC = () => {
   const [isDisabled, setDisabled] = useState(false);
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
-  const showError = (message: string) => {
+  const { discountCodes } = useDiscounts();
+  const { state, addDiscountCode } = useCart();
+
+  const showError = (message: string): void => {
     api.error({
       message,
       duration: 5,
     });
   };
-  const { discountCodes } = useDiscounts();
-  const { state, addDiscountCode } = useCart();
 
-  const onFinish = async ({ promoCode }: PromoCodeFormValues) => {
+  const onFinish = async ({ promoCode }: PromoCodeFormValues): Promise<void> => {
     if (!promoCode || state.cart === null) {
       return;
     }
@@ -36,6 +34,7 @@ const PromoCode: React.FC = () => {
       showError(`Unknown PROMO CODE: ${promoCode}`);
       return;
     }
+
     const { id: discountCodeId } = discountCodes.find((code: DiscountCode) => {
       return code.code === promoCode;
     }) as DiscountCode;
@@ -66,4 +65,5 @@ const PromoCode: React.FC = () => {
     </>
   );
 };
+
 export default PromoCode;
