@@ -5,6 +5,7 @@ export const getDiscountCodes = async (): Promise<DiscountCode[]> => {
   const response = await createAuthFlow().discountCodes().get().execute();
   return response.body.results;
 };
+
 export const checkDiscountCodeExists = async (code: string) => {
   try {
     const response = await createAuthFlow()

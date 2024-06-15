@@ -35,19 +35,6 @@ export const getCartService = async (): Promise<Cart | null> => {
   return null;
 };
 
-// export const deleteCartService = async (cartId: string, version: number): Promise<Cart | null> => {
-//   const responseCart = await createAuthFlow()
-//     .me()
-//     .carts()
-//     .withId({ ID: cartId })
-//     .delete({ queryArgs: { version } })
-//     .execute();
-//   if (responseCart.statusCode === 200) {
-//     return responseCart.body;
-//   }
-//   return null;
-// };
-
 const changeCartService = async (actions: MyCartUpdateAction[], cart: Cart): Promise<Cart> => {
   const responseCart = await createAuthFlow()
     .me()
@@ -106,23 +93,3 @@ export const addDiscountCodeService = async ({ code }: { code: string }, cart: C
   ];
   return await changeCartService(actions, cart);
 };
-
-// /**
-//  * creates a cart change object with the deletion of the promo code and calls the main change method
-//  * @param param0 a ChangeCartServiceParams object containing the link to promocode (from cart)
-//  * @param cart cart from storage
-//  * @returns new cart wrapped in Promise | null if something wrong
-//  */
-// export const removeDiscountCodeService = async (
-//   { discountCode }: ChangeCartServiceParams,
-//   cart: Cart,
-// ): Promise<Cart> => {
-//   const actions: MyCartUpdateAction[] = [];
-//   const action: MyCartRemoveDiscountCodeAction = {
-//     action: CartUpdateActions.removeDiscount,
-//     discountCode: discountCode!,
-//   };
-//   actions.push(action);
-//
-// return await changeCartService(actions, cart);
-// };
