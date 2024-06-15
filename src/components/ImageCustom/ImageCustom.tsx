@@ -5,7 +5,7 @@ import { useState } from 'react';
 const ImageCustom: React.FC<ImgProps> = ({ src, alt, className, style }: ImgProps) => {
   const [hidden, setHidden] = useState(true);
 
-  const onImageLoaded = () => {
+  const onImageLoaded = (): void => {
     setHidden(false);
   };
 
