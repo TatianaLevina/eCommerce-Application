@@ -1,28 +1,19 @@
+import type React from 'react';
+import { Link } from 'react-router-dom';
 import { Avatar, Button, Drawer, Flex, Divider } from 'antd';
 import type { DrawerStyles } from 'antd/es/drawer/DrawerPanel';
-import type React from 'react';
-import { DrawerStateContext } from '@contexts/DrawerStateContext';
 import { UserOutlined } from '@ant-design/icons';
+import { DrawerStateContext } from '@contexts/DrawerStateContext';
 import useMobile from '@hooks/useMobile';
-import { Link } from 'react-router-dom';
 import { useAuth } from '@contexts/AuthContext';
 
 const AppDrawer: React.FC = () => {
   const { user, signOut } = useAuth();
-  const handleLogout = () => {
-    signOut();
-  };
-
   const isMobile = useMobile();
-
   const justifyOptions = ['flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly'];
-
   const alignOptions = ['flex-start', 'center', 'flex-end'];
-
   const drawerStyles: DrawerStyles = {
-    mask: {
-      // backdropFilter: 'blur(10px)',
-    },
+    mask: {},
     content: {
       fontSize: '20px',
       boxShadow: '-10px 0 10px #666',
@@ -30,6 +21,10 @@ const AppDrawer: React.FC = () => {
     header: {},
     body: {},
     footer: {},
+  };
+
+  const handleLogout = (): void => {
+    signOut();
   };
 
   return (
