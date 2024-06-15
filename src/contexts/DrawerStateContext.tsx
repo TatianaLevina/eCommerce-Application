@@ -1,11 +1,7 @@
 import type React from 'react';
 import type { ReactNode } from 'react';
 import { createContext, useContext, useState } from 'react';
-
-interface DrawerState {
-  isCollapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
-}
+import type { DrawerState } from './Context.interface';
 
 export const DrawerStateContext = createContext<DrawerState>({
   isCollapsed: true,
@@ -23,5 +19,6 @@ export const useDrawerState = (): DrawerState => {
   if (!state) {
     throw new Error('useSidebarMenuState must be used within an SidebarMenuStateProvider');
   }
+
   return state;
 };
