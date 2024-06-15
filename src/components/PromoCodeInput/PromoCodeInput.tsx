@@ -8,7 +8,7 @@ const PromoCodeInput: React.FC = () => {
   const [promoCode, setPromoCode] = useState('');
   const { addDiscountCode } = useCart();
 
-  const applyPromoCodeHandler = () => {
+  const applyPromoCodeHandler = (): void => {
     if (promoCode) {
       addDiscountCode(promoCode);
     }
