@@ -58,6 +58,8 @@ export const createAuthFlow = () => {
 
 export const createPasswordAuthFlow = (user: UserAuthOptions) => {
   invalidateToken();
+  ctpClientInstance = null;
+
   const passwordAuthMiddlewareOptions: PasswordAuthMiddlewareOptions = {
     host: import.meta.env.VITE_CTP_AUTH_URL,
     projectKey: projectKey,
@@ -81,4 +83,8 @@ export const createPasswordAuthFlow = (user: UserAuthOptions) => {
   return createApiBuilderFromCtpClient(newCtpClient).withProjectKey({
     projectKey: projectKey,
   });
+};
+
+export const resetClientInstance = () => {
+  ctpClientInstance = null;
 };

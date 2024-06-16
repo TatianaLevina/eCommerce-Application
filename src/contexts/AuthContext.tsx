@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import type { Customer, CustomerDraft, MyCustomerSignin, Cart } from '@commercetools/platform-sdk';
 
 import { signInCustomer, signUpCustomer } from '@services/CustomerService';
-import { createAuthFlow, createPasswordAuthFlow } from '@services/ClientBuilder';
+import { createAuthFlow, createPasswordAuthFlow, resetClientInstance } from '@services/ClientBuilder';
 import { getCartService, createCartService } from '@services/CartService';
 import { CartProvider } from '@contexts/CartContext';
 import { invalidateToken } from '@services/TokenCache';
@@ -85,6 +85,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('token');
     setInitialCart(null);
     invalidateToken();
+    resetClientInstance();
     await createAuthFlow().categories().get().execute();
   };
 
