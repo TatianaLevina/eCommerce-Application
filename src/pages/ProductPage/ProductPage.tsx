@@ -123,7 +123,7 @@ const ProductPage: React.FC = () => {
         onOk={() => toggleModal(false)}
         onCancel={() => toggleModal(false)}
         footer=""
-        width={'70vw'}
+        style={{ maxWidth: '90vw', maxHeight: '90vh' }}
       >
         <Carousel draggable arrows infinite={false}>
           {images?.map((img, idx) => (
