@@ -1,4 +1,5 @@
 import { render, act } from '@testing-library/react';
+
 import { AuthProvider } from '@/contexts/AuthContext';
 import PromoCodeInput from '@/components/PromoCodeInput/PromoCodeInput';
 

@@ -2,7 +2,9 @@ import type React from 'react';
 import { HomeOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
+import type { ItemType } from 'antd/es/menu/hooks/useItems';
 import { useState } from 'react';
+
 import PersonalInfo from '@/components/PersonalInfo/PersonalInfo';
 import AddressBook from '@/components/AddressBook/AddressBook';
 import AccountSettings from '@/components/AccountSettings/AccountSettings';
@@ -28,6 +30,7 @@ const subMenuItemsDesktop: MenuProps['items'] = [
     label: 'Account Settings',
   },
 ];
+
 const subMenuItemsMobile: MenuProps['items'] = [
   {
     key: 'info',
@@ -42,7 +45,8 @@ const subMenuItemsMobile: MenuProps['items'] = [
     icon: <SettingOutlined />,
   },
 ];
-const getItemComponent = (key: string) => {
+
+const getItemComponent = (key: string): JSX.Element | undefined => {
   switch (key) {
     case 'info':
       return <PersonalInfo />;
@@ -58,12 +62,14 @@ const getItemComponent = (key: string) => {
 const ProfilePage: React.FC = () => {
   const isMobile = useMobile();
   const [item, setItem] = useState('info');
-  const itemsChange = () => {
+
+  const itemsChange = (): ItemType[] => {
     if (isMobile) {
       return subMenuItemsMobile;
     }
     return subMenuItemsDesktop;
   };
+
   return (
     <>
       <Layout style={{ padding: '24px 0', background: '#fff', borderRadius: '8px' }}>
@@ -84,4 +90,5 @@ const ProfilePage: React.FC = () => {
     </>
   );
 };
+
 export default ProfilePage;

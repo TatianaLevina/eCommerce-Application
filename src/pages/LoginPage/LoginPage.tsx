@@ -1,15 +1,12 @@
 import type React from 'react';
 import { useState } from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Flex, Form, Input, Modal, Spin } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
+import { Button, Flex, Form, Input, Modal, Spin } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+
 import { SignUpError, useAuth } from '@contexts/AuthContext';
 import validateConstant from '@data/validateConstants';
-
-export type FieldType = {
-  email?: string;
-  password?: string;
-};
+import type { FieldType } from './FieldType.type';
 
 const LoginPage: React.FC = () => {
   const { signIn } = useAuth();

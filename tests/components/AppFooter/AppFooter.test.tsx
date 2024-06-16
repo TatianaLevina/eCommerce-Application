@@ -1,5 +1,6 @@
-import AppFooter from '@components/AppFooter/AppFooter';
 import { render, act } from '@testing-library/react';
+
+import AppFooter from '@components/AppFooter/AppFooter';
 
 describe('AppFooter tests', () => {
   describe('Render element', () => {

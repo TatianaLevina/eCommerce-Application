@@ -1,6 +1,7 @@
+import { render, act } from '@testing-library/react';
+
 import AddressForm from '@/components/AddressForm/AddressForm';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { render, act } from '@testing-library/react';
 
 describe('AddressForm tests', () => {
   describe('Render element', () => {

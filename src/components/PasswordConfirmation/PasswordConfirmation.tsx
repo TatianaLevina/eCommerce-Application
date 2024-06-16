@@ -1,18 +1,13 @@
-import validateConstant from '@/data/validateConstants';
-import { Modal, Button, Form, Input, Spin } from 'antd';
 import type React from 'react';
+import { useState } from 'react';
+import { Modal, Button, Form, Input, Spin } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { changeUserPassword } from '@services/CustomerService';
-import { useState } from 'react';
+import validateConstant from '@/data/validateConstants';
 import { invalidateToken } from '@/services/TokenCache';
-
-export interface PasswordConfirmModalProps {
-  open: boolean;
-  onPasswordModalCancel: () => void;
-  onPasswordModalConfirm: () => void;
-  newPassword: string;
-}
+import type { PasswordConfirmModalProps } from './PasswordConfirmModalProps.interface';
 
 const PasswordConfirmationModal: React.FC<PasswordConfirmModalProps> = ({
   open,
@@ -24,11 +19,10 @@ const PasswordConfirmationModal: React.FC<PasswordConfirmModalProps> = ({
   const { user, signIn } = useAuth();
   const [confirmInProgress, setConfirmInProgress] = useState(false);
 
-  const passwordConfirm = async () => {
+  const passwordConfirm = async (): Promise<void> => {
     setConfirmInProgress(true);
     try {
       const value = await form.validateFields();
-
       const response = await changeUserPassword(user!.id, user!.version, value.password, newPassword);
       invalidateToken();
       await signIn(response.body.email, newPassword);
@@ -48,6 +42,7 @@ const PasswordConfirmationModal: React.FC<PasswordConfirmModalProps> = ({
       setConfirmInProgress(false);
     }
   };
+
   return (
     <>
       <Spin spinning={confirmInProgress} fullscreen />

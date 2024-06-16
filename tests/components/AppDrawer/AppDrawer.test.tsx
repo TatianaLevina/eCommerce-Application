@@ -1,6 +1,7 @@
+import { render, act } from '@testing-library/react';
+
 import AppDrawer from '@/components/AppDrawer/AppDrawer';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { render, act } from '@testing-library/react';
 
 describe('AppDrawer tests', () => {
   describe('Render element', () => {

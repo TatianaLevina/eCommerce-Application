@@ -1,5 +1,6 @@
 import { render, act } from '@testing-library/react';
 import type { LineItem } from '@commercetools/platform-sdk';
+
 import CartItem from '@/components/CartItem/CartItem';
 import { AuthProvider } from '@/contexts/AuthContext';
 

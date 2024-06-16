@@ -2,19 +2,20 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Spin, Typography, Button, Modal, Carousel, Dropdown } from 'antd';
+import { DownOutlined, HomeOutlined } from '@ant-design/icons';
+import type { Product } from '@commercetools/platform-sdk';
+
 import { getSingleProductService } from '@services/ProductsService';
 import { useCategory } from '@contexts/CategoriesContext';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
-import '@pages/ProductPage/ProductPage.scss';
-import type { Product } from '@commercetools/platform-sdk';
-import { DownOutlined, HomeOutlined } from '@ant-design/icons';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
 import { useCart } from '@/contexts/CartContext';
-
-const { Title, Paragraph } = Typography;
+import { formatPrice } from '@/utils/Utilities';
+import '@pages/ProductPage/ProductPage.scss';
 
 const ProductPage: React.FC = () => {
+  const { Title, Paragraph } = Typography;
   const {
     state: { cart },
     addToCart,
@@ -73,8 +74,6 @@ const ProductPage: React.FC = () => {
     return <div>Product not found</div>;
   }
 
-  const formatPrice = (centAmount: number) => (centAmount / 100).toFixed(2);
-
   const currentData = product.masterData.current;
   const { name, description, metaDescription, masterVariant } = currentData;
   const { images, prices, attributes } = masterVariant;
@@ -83,11 +82,11 @@ const ProductPage: React.FC = () => {
   const designer = attributes?.find((x) => x.name === 'designer')?.value;
   const material = attributes?.find((x) => x.name === 'material')?.value.label['en-US'];
 
-  const backClickHandler = () => {
+  const backClickHandler = (): void => {
     navigate(-1);
   };
 
-  const carouselClickHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const carouselClickHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
     const el: HTMLElement = e.target as HTMLElement;
     const target: HTMLElement | null = el.closest('.product-page__product-carousel');
 
@@ -96,24 +95,24 @@ const ProductPage: React.FC = () => {
     }
   };
 
-  const toggleModal = (target: boolean) => {
+  const toggleModal = (target: boolean): void => {
     setOpen(target);
   };
 
-  const clickAddToCartHandler = async () => {
+  const clickAddToCartHandler = async (): Promise<void> => {
     if (masterVariant.sku) {
       await addToCart(masterVariant.sku, 1);
     }
   };
 
-  const clickRemoveFromCartHandler = async () => {
+  const clickRemoveFromCartHandler = async (): Promise<void> => {
     const lineItemId = cart?.lineItems.find((item) => item.productId === product.id)?.id;
     if (lineItemId) {
       await removeFromCart(lineItemId);
     }
   };
 
-  const isInCart = cart?.lineItems.some((item) => item.productId === product.id);
+  const isInCart: boolean | undefined = cart?.lineItems.some((item) => item.productId === product.id);
 
   return (
     <>

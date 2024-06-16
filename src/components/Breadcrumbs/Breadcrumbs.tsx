@@ -1,8 +1,9 @@
 import type React from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Dropdown } from 'antd';
+
 import { DownOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 
@@ -10,15 +11,19 @@ const Breadcrumbs: React.FC = () => {
   const { items } = useBreadcrumbs();
   const { categories } = useCategory();
   const navigate = useNavigate();
-
-  const handleMenuClick = ({ key }: { key: string }) => {
-    navigate(`/catalog/${key}`);
-  };
-
-  const categoriesMenuItems = categories?.map((category) => ({
+  const categoriesMenuItems:
+    | {
+        key: string;
+        label: string;
+      }[]
+    | undefined = categories?.map((category) => ({
     key: category.slug['en-US'],
     label: category.name['en-US'],
   }));
+
+  const handleMenuClick = ({ key }: { key: string }): void => {
+    navigate(`/catalog/${key}`);
+  };
 
   const categoriesMenu: MenuProps = {
     items: categoriesMenuItems,

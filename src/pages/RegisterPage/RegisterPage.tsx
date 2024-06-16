@@ -3,56 +3,14 @@ import { useState } from 'react';
 import { Form, Button, Input, DatePicker, Checkbox, Typography, Flex, Select, Spin, Modal } from 'antd';
 import dayjs from 'dayjs';
 import { Link, useNavigate } from 'react-router-dom';
-import { SignUpError, useAuth } from '@contexts/AuthContext.tsx';
-import type { BaseAddress } from '@commercetools/platform-sdk';
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
+
+import { SignUpError, useAuth } from '@contexts/AuthContext.tsx';
 import countries from '@data/countries.json';
 import validateConstant from '@data/validateConstants';
+import type { Option, Address, FormValues, UserInfo } from './RegisterPage.interface';
 
 const { Title } = Typography;
-
-interface Address {
-  streetName: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
-
-interface UserInfo {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  dateOfBirth?: string;
-  addresses: BaseAddress[];
-  billingAddresses: number[];
-  shippingAddresses: number[];
-  defaultShippingAddress: number | undefined;
-  defaultBillingAddress: number | undefined;
-}
-
-interface FormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  birthdate?: dayjs.Dayjs;
-  billingStreet: string;
-  billingCity: string;
-  billingPostalCode: string;
-  billingCountry: string;
-  billingAsDefault?: boolean;
-  shippingStreet?: string;
-  shippingCity?: string;
-  shippingPostalCode?: string;
-  shippingCountry?: string;
-  shippingAsDefault?: boolean;
-}
-
-export interface Option {
-  value: string;
-  label: string;
-}
 
 export const options: Option[] = countries.map((c) => {
   return { value: c.Code, label: c.Name };
@@ -66,12 +24,12 @@ export const RegisterPage: React.FC = () => {
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
-  function showError(msg: string): void {
+  const showError = (msg: string): void => {
     Modal.error({
       title: 'Error!',
       content: msg,
     });
-  }
+  };
 
   const validateAge = (val: dayjs.Dayjs | undefined): boolean => {
     return +new Date(Date.now() - dayjs(val).toDate().getTime()).getFullYear() - 1970 >= validateConstant.AgeLimit;

@@ -4,6 +4,7 @@ import { notification, Modal } from 'antd';
 import type { Cart } from '@commercetools/platform-sdk';
 import type React from 'react';
 import type { ReactNode } from 'react';
+
 import {
   createCartService,
   addLineItemsService,
@@ -37,7 +38,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
   initialCart,
 }) => {
   const [state, dispatch] = useReducer(cartReducer, {
-    cart: initialCart, // Set the initial cart state from props
+    cart: initialCart,
     error: null,
     loading: false,
   });
@@ -59,7 +60,6 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
   };
 
   useEffect(() => {
-    // Update the cart state whenever initialCart changes
     dispatch({ type: 'SET_CART', payload: initialCart });
   }, [initialCart]);
 
@@ -69,7 +69,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
       try {
         let cart = state.cart;
         if (!cart) {
-          cart = await createCartService('USD'); // Create a new cart if none exists
+          cart = await createCartService('USD');
           dispatch({ type: 'SET_CART', payload: cart });
         }
         if (cart) {
@@ -154,11 +154,11 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
     [state.cart],
   );
 
-  const getCartItemCount = () => {
+  const getCartItemCount = (): number => {
     return state.cart?.lineItems.reduce((count, item) => count + item.quantity, 0) || 0;
   };
 
-  const setCart = (cart: Cart | null) => {
+  const setCart = (cart: Cart | null): void => {
     dispatch({ type: 'SET_CART', payload: cart });
   };
 
@@ -172,7 +172,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
         clearCart,
         addDiscountCode,
         getCartItemCount,
-        setCart, // Pass setCart in the context value
+        setCart,
       }}
     >
       {contextHolder}

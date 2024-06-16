@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Form } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
+
 import ImageCustom from '@components/ImageCustom/ImageCustom';
 import { formatPrice } from '@/utils/Utilities';
 import '@components/CartItem/CartItem.scss';
@@ -9,12 +10,11 @@ import type CartItemProps from '@components/CartItem/cartItem.interface';
 
 const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputChangeHandler }) => {
   const [loading, setLoading] = useState(false);
-
   const price = product.price.value.centAmount;
   const discountedPrice = product.price.discounted?.value.centAmount;
   const imageUrl = product.variant.images?.[0]?.url || 'default-image-url';
 
-  const handleInputChange = useCallback(
+  const handleInputChange: (value: number) => Promise<number | undefined> = useCallback(
     (value: number) => {
       setLoading(true);
       return inputChangeHandler(product.id, value).then((res) => {
@@ -25,7 +25,7 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
     [inputChangeHandler, product.id],
   );
 
-  const handleRemoveClick = useCallback(() => {
+  const handleRemoveClick: () => void = useCallback(() => {
     setLoading(true);
     removeClickHandler(product.id);
     setLoading(false);
@@ -42,7 +42,6 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
       <div className="cart-item__right">
         <Form.Item label="Count" className="cart-item__input no-margin-block">
           <CountInput onChange={handleInputChange} minValue={1} maxValue={99}></CountInput>
-          {/* <InputNumber defaultValue={product.quantity} min={1} max={99} onChange={handleInputChange} /> */}
         </Form.Item>
         <div className="cart-item__price-box">
           <p

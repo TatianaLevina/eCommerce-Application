@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Spin, Pagination } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import type { ProductProjection } from '@commercetools/platform-sdk';
+
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
@@ -146,7 +147,7 @@ const CategoryPage: React.FC = () => {
     setItems,
   ]);
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number): void => {
     navigate(`${location.pathname}?page=${page}`);
   };
 
@@ -154,7 +155,7 @@ const CategoryPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
-  const resetFilters = () => {
+  const resetFilters = (): void => {
     setSearchText('');
     setSortOrder('');
     setPriceFrom(undefined);
@@ -163,7 +164,7 @@ const CategoryPage: React.FC = () => {
     setManufacturerFilter([]);
   };
 
-  const toggleDrawer = () => {
+  const toggleDrawer = (): void => {
     setDrawerOpen(!drawerOpen);
   };
 

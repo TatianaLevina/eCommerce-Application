@@ -1,6 +1,7 @@
+import { render, act } from '@testing-library/react';
+
 import AddressCard from '@/components/AddressCard/AddressCard';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { render, act } from '@testing-library/react';
 
 describe('AddressCard tests', () => {
   describe('Render element', () => {

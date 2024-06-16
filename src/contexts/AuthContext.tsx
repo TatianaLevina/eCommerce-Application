@@ -2,18 +2,12 @@ import type React from 'react';
 import type { ReactNode } from 'react';
 import { createContext, useContext, useState } from 'react';
 import type { Customer, CustomerDraft, MyCustomerSignin, Cart } from '@commercetools/platform-sdk';
+
 import { signInCustomer, signUpCustomer } from '@services/CustomerService';
 import { createPasswordAuthFlow } from '@services/ClientBuilder';
 import { getCartService, createCartService } from '@services/CartService';
 import { CartProvider } from '@contexts/CartContext'; // Import the CartProvider
-
-interface AuthContextType {
-  user: Customer | null;
-  updateUser: (user: Customer) => void;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (customerData: CustomerDraft) => Promise<void>;
-  signOut: () => void;
-}
+import type { AuthContextType } from './Context.interface';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -95,5 +89,6 @@ export const useAuth = (): AuthContextType => {
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
+
   return context;
 };

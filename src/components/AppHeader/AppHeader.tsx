@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Layout } from 'antd';
-import { Button, Flex } from 'antd';
+import { Button, Flex, Avatar, Badge, Space, Layout } from 'antd';
 import { UserOutlined, ShoppingCartOutlined, UnorderedListOutlined, MenuOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Space } from 'antd';
+
 import useMobile from '@/hooks/useMobile';
 import { useDrawerState } from '@/contexts/DrawerStateContext';
 import { useAuth } from '@contexts/AuthContext';
@@ -10,9 +9,8 @@ import { useCart } from '@/contexts/CartContext';
 import '@components/AppHeader/AppHeader.scss';
 import LOGO from '../../images/logo.svg';
 
-const { Header } = Layout;
-
 const AppHeader = () => {
+  const { Header } = Layout;
   const {
     state: { cart },
     getCartItemCount,
@@ -23,7 +21,7 @@ const AppHeader = () => {
   const justifyOptions = ['flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly'];
   const alignOptions = ['flex-start', 'center', 'flex-end'];
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     signOut();
   };
 
