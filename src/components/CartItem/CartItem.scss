@@ -51,7 +51,7 @@
     flex-flow: column;
     align-items: flex-end;
     justify-content: center;
-    gap: 5px;
+    gap: 10px;
   }
 
   &__price {
@@ -60,14 +60,14 @@
       font-weight: 500;
     }
     &_invalid {
-      color: #2f7c6946;
+      color: rgba(102, 102, 102, 0.8);
       text-decoration: line-through;
     }
   }
 
   &__total {
     font-size: 18px !important;
-    color: #2f7c69;
+    color: rgba(0, 0, 0, 0.93);
     font-weight: 500;
   }
 
