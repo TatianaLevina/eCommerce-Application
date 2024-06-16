@@ -1,11 +1,11 @@
 import type React from 'react';
 import type { ReactNode } from 'react';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import type { Customer, CustomerDraft, MyCustomerSignin, Cart } from '@commercetools/platform-sdk';
 import { signInCustomer, signUpCustomer } from '@services/CustomerService';
-import { createPasswordAuthFlow } from '@services/ClientBuilder';
+import { createAuthFlow, createPasswordAuthFlow } from '@services/ClientBuilder';
 import { getCartService, createCartService } from '@services/CartService';
-import { CartProvider } from '@contexts/CartContext'; // Import the CartProvider
+import { CartProvider } from '@contexts/CartContext';
 
 interface AuthContextType {
   user: Customer | null;
@@ -39,6 +39,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.setItem('user', JSON.stringify(user));
   };
 
+  useEffect(() => {
+    const fetchCartOnInit = async () => {
+      const cart = await getCartService();
+      setInitialCart(cart);
+    };
+    fetchCartOnInit();
+  }, []);
+
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
       const userData: MyCustomerSignin = { email, password };
@@ -48,12 +56,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         await createPasswordAuthFlow({ username: email, password: password }).me().get().execute();
         localStorage.setItem('user', JSON.stringify(result.body.customer));
 
-        // Fetch or create the cart after login
-        let cart = await getCartService();
-        if (!cart) {
-          cart = await createCartService('USD');
+        if (!initialCart) {
+          let cart = await getCartService();
+          if (!cart) {
+            cart = await createCartService('USD');
+          }
+          setInitialCart(cart);
         }
-        setInitialCart(cart);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -66,7 +75,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const result = await signUpCustomer(customerData);
       if (result.body.customer) {
-        // Automatically sign in the user after successful sign-up
         await signIn(customerData.email, customerData.password!);
       }
     } catch (error) {
@@ -76,11 +84,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const signOut = (): void => {
+  const signOut = async (): Promise<void> => {
     setUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     setInitialCart(null);
+    await createAuthFlow().categories().get().execute();
   };
 
   return (
