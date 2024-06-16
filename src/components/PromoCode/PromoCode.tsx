@@ -1,11 +1,12 @@
+import type React from 'react';
+import { useState } from 'react';
+import { Button, Form, Input, notification } from 'antd';
+import type { DiscountCode, DiscountCodeInfo } from '@commercetools/platform-sdk';
+
 import { useCart } from '@/contexts/CartContext';
 import { useDiscounts } from '@/contexts/DiscountsContext';
 import { checkDiscountCodeExists } from '@/services/DiscountsService';
-import type { DiscountCode, DiscountCodeInfo } from '@commercetools/platform-sdk';
-import { Button, Form, Input, notification } from 'antd';
-import type React from 'react';
-import { useState } from 'react';
-import type { PromoCodeFormValues } from './PromoCodeFormValues';
+import type { PromoCodeFormValues } from './PromoCodeFormValues.interface';
 
 const PromoCode: React.FC = () => {
   const [isDisabled, setDisabled] = useState(false);

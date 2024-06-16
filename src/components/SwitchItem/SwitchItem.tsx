@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Flex, Switch, Typography } from 'antd';
-import type { SwitchItemProps } from './SwitchItemProps';
+
+import type { SwitchItemProps } from './SwitchItemProps.interface';
 
 const SwitchItem: React.FC<SwitchItemProps> = ({ text, ...props }: SwitchItemProps) => {
   const { Text } = Typography;

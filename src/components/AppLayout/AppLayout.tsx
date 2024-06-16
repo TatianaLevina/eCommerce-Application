@@ -1,11 +1,12 @@
 import type React from 'react';
+import { Layout } from 'antd';
+
 import AppHeader from '@components/AppHeader/AppHeader';
 import AppFooter from '@components/AppFooter/AppFooter';
-import { Layout } from 'antd';
 import { DrawerStateProvider } from '@contexts/DrawerStateContext';
 import SidebarMenu from '@components/AppDrawer/AppDrawer';
 import '@components/AppLayout/AppLayout.scss';
-import type { LayoutProps } from './LayoutProps';
+import type { LayoutProps } from './LayoutProps.interface';
 
 const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   const { Content } = Layout;

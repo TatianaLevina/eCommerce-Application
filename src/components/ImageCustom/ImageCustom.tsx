@@ -1,6 +1,7 @@
+import { useState } from 'react';
+
 import type ImgProps from '@components/ImageCustom/ImgProps.interface';
 import Preloader from '@components/Preloader/Preloader';
-import { useState } from 'react';
 
 const ImageCustom: React.FC<ImgProps> = ({ src, alt, className, style }: ImgProps) => {
   const [hidden, setHidden] = useState(true);

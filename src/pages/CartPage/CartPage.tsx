@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+
 import { useCart } from '@contexts/CartContext';
 import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';

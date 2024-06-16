@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { Form, Button, Input, DatePicker, Checkbox, Typography, Flex, Select, Spin, Modal } from 'antd';
 import dayjs from 'dayjs';
 import { Link, useNavigate } from 'react-router-dom';
-import { SignUpError, useAuth } from '@contexts/AuthContext.tsx';
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
+
+import { SignUpError, useAuth } from '@contexts/AuthContext.tsx';
 import countries from '@data/countries.json';
 import validateConstant from '@data/validateConstants';
 import type { Option, Address, FormValues, UserInfo } from './RegisterPage.interface';

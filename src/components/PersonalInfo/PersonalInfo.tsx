@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Button, DatePicker, Flex, Form, Input, Modal, Spin, Typography, notification } from 'antd';
 import { EditOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+
 import { useAuth } from '@/contexts/AuthContext';
 import validateConstant from '@/data/validateConstants';
-import { updateUserInfo, type UserGeneralInfo } from '@/services/CustomerService';
+import { updateUserInfo } from '@/services/CustomerService';
+import type { UserGeneralInfo } from '@/services/Service.interface';
 
 const PersonalInfo: React.FC = () => {
   const { Title } = Typography;

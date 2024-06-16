@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Spin, Pagination } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import type { ProductProjection } from '@commercetools/platform-sdk';
+
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';

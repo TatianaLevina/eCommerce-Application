@@ -1,7 +1,8 @@
-import { getDiscountCodes } from '@/services/DiscountsService';
-import type { DiscountCode } from '@commercetools/platform-sdk';
-import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+import type { DiscountCode } from '@commercetools/platform-sdk';
+
+import { getDiscountCodes } from '@/services/DiscountsService';
 import type { DiscountsContextType } from './Context.interface';
 
 const DiscountsContext = createContext<DiscountsContextType>({

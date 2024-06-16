@@ -1,5 +1,6 @@
 import type React from 'react';
 import { Flex, Typography } from 'antd';
+
 import './DiscountBanner.scss';
 import type { DiscountBannerProps } from './DiscountBannerProps.interface';
 

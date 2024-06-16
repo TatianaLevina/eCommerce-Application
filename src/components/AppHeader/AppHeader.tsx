@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Layout } from 'antd';
-import { Button, Flex } from 'antd';
+import { Button, Flex, Avatar, Badge, Space, Layout } from 'antd';
 import { UserOutlined, ShoppingCartOutlined, UnorderedListOutlined, MenuOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Space } from 'antd';
+
 import useMobile from '@/hooks/useMobile';
 import { useDrawerState } from '@/contexts/DrawerStateContext';
 import { useAuth } from '@contexts/AuthContext';

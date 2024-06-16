@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Spin, Flex } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
+
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';

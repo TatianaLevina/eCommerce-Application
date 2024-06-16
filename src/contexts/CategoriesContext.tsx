@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getCategoriesService } from '@services/CategoryService.ts';
 import type { Category } from '@commercetools/platform-sdk';
+
+import { getCategoriesService } from '@services/CategoryService.ts';
 import type { CategoryContextType } from './Context.interface';
 
 const CategoryContext = createContext<CategoryContextType | undefined>(undefined);

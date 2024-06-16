@@ -1,4 +1,5 @@
 import type React from 'react';
+
 import '@components/Preloader/Preloader.scss';
 
 const Preloader: React.FC<{ isHide: boolean | undefined; style: React.CSSProperties }> = ({ isHide, style }) => {

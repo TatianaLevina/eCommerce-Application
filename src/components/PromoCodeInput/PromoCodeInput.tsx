@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import { Input, Button } from 'antd';
+
 import { useCart } from '@contexts/CartContext';
 import './PromoCodeInput.scss';
 

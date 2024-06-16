@@ -2,13 +2,14 @@ import type React from 'react';
 import { HomeOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
+import type { ItemType } from 'antd/es/menu/hooks/useItems';
 import { useState } from 'react';
+
 import PersonalInfo from '@/components/PersonalInfo/PersonalInfo';
 import AddressBook from '@/components/AddressBook/AddressBook';
 import AccountSettings from '@/components/AccountSettings/AccountSettings';
 import useMobile from '@/hooks/useMobile';
 import './ProfilePage.scss';
-import type { ItemType } from 'antd/es/menu/hooks/useItems';
 
 const { Content, Sider } = Layout;
 

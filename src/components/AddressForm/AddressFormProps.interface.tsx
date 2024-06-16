@@ -1,5 +1,6 @@
-import type { AddressInfo } from '@/services/CustomerService';
 import type { FormInstance } from 'antd';
+
+import type { AddressInfo } from '@/services/Service.interface';
 
 export interface AddressFormProps {
   addressInfo: AddressInfo;

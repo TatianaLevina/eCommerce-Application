@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Input, Select, Button, Drawer, Typography } from 'antd';
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
+
 import '@components/Filters/Filters.scss';
 import type { FiltersProps } from './Filter.interface';
 

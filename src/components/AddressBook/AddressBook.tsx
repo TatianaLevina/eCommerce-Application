@@ -3,11 +3,12 @@ import { useState } from 'react';
 import type { FormInstance } from 'antd';
 import { Button, Flex, List, Modal, Spin, Typography, notification } from 'antd';
 import type { BaseAddress } from '@commercetools/platform-sdk';
+
 import { useAuth } from '@contexts/AuthContext';
-import type { AddressInfo } from '@services/CustomerService';
 import { addAddress } from '@services/CustomerService';
 import AddressForm from '@components/AddressForm/AddressForm';
 import AddressCard from '@components/AddressCard/AddressCard';
+import type { AddressInfo } from '@/services/Service.interface';
 
 const AddressBook: React.FC = () => {
   const { Title } = Typography;

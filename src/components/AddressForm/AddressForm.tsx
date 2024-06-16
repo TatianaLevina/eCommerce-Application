@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import type React from 'react';
 import { Flex, Form, Input, Select, Switch } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
+
 import validateConstant from '@data/validateConstants';
 import { options } from '@pages/RegisterPage/RegisterPage';
 import type { AddressFormProps } from './AddressFormProps.interface';

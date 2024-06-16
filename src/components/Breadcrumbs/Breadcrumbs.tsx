@@ -1,8 +1,9 @@
 import type React from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Dropdown } from 'antd';
+
 import { DownOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 

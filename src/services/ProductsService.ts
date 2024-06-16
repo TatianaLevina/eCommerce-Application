@@ -1,4 +1,5 @@
 import type { ClientResponse, Product, ProductProjectionPagedSearchResponse } from '@commercetools/platform-sdk';
+
 import { createAuthFlow } from '@services/ClientBuilder.ts';
 import type { QueryArgs } from './Service.type';
 

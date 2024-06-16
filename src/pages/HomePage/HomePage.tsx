@@ -1,10 +1,11 @@
 import type React from 'react';
+import type { ReactElement } from 'react';
+import type { DiscountCode } from '@commercetools/platform-sdk';
 import { Carousel } from 'antd';
+
 import IMAGES from '@/images/Images';
 import DiscountBanner from '@/components/DiscountBanner/DiscountBanner';
 import { useDiscounts } from '@/contexts/DiscountsContext';
-import type { DiscountCode } from '@commercetools/platform-sdk';
-import type { ReactElement } from 'react';
 
 const HomePage: React.FC = () => {
   const { discountCodes } = useDiscounts();

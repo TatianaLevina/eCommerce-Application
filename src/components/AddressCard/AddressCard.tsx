@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import { EditOutlined, DeleteOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import { Card, Spin, notification } from 'antd';
 import type { FormInstance } from 'antd';
-import type { AddressInfo } from '@services/CustomerService';
+
 import { removeAddress, updateAddress } from '@services/CustomerService';
 import { useAuth } from '@contexts/AuthContext';
 import AddressForm from '@components/AddressForm/AddressForm';
+import type { AddressInfo } from '@/services/Service.interface';
 
 const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
   const [editMode, setEditMode] = useState(false);

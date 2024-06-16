@@ -2,6 +2,7 @@ import type React from 'react';
 import { useState } from 'react';
 import { Modal, Button, Form, Input, Spin } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { changeUserPassword } from '@services/CustomerService';
 import validateConstant from '@/data/validateConstants';

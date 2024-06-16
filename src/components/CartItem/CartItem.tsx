@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Form } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
+
 import ImageCustom from '@components/ImageCustom/ImageCustom';
 import { formatPrice } from '@/utils/Utilities';
 import '@components/CartItem/CartItem.scss';

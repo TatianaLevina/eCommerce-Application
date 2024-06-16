@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Spin, Typography, Button, Modal, Carousel, Dropdown } from 'antd';
 import { DownOutlined, HomeOutlined } from '@ant-design/icons';
 import type { Product } from '@commercetools/platform-sdk';
+
 import { getSingleProductService } from '@services/ProductsService';
 import { useCategory } from '@contexts/CategoriesContext';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext';

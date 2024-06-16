@@ -4,6 +4,7 @@ import { notification, Modal } from 'antd';
 import type { Cart } from '@commercetools/platform-sdk';
 import type React from 'react';
 import type { ReactNode } from 'react';
+
 import {
   createCartService,
   addLineItemsService,
