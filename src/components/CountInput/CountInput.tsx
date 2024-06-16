@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
 
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
@@ -6,15 +6,21 @@ import '@components/CountInput/CountInput.scss';
 import type CountInputProps from '@components/CountInput/CountInput.interface';
 
 const CountInput: React.FC<CountInputProps> = (props: CountInputProps) => {
-  const { className, style, onChange, maxValue, minValue } = props;
+  const { className, style, onChange, maxValue, minValue, initialValue } = props;
   const [disabled, setDisabled] = useState(false);
-  const [value, setValue] = useState('1');
-  const [disabledDecrement, setDisabledDecrement] = useState(+value <= minValue);
-  const [disabledIncrement, setdIsabledIncrement] = useState(+value >= maxValue);
+  const [value, setValue] = useState<string>(initialValue.toString());
+  const [disabledDecrement, setDisabledDecrement] = useState(initialValue <= minValue);
+  const [disabledIncrement, setDisabledIncrement] = useState(initialValue >= maxValue);
 
-  const switchOnOffButtons = (value: number): void => {
-    setDisabledDecrement(+value <= minValue);
-    setdIsabledIncrement(+value >= maxValue);
+  useEffect(() => {
+    setValue(initialValue.toString());
+    setDisabledDecrement(initialValue <= minValue);
+    setDisabledIncrement(initialValue >= maxValue);
+  }, [initialValue, minValue, maxValue]);
+
+  const switchOnOffButtons = (value: number) => {
+    setDisabledDecrement(value <= minValue);
+    setDisabledIncrement(value >= maxValue);
   };
 
   const changeValue = (value: number): void => {
@@ -41,7 +47,7 @@ const CountInput: React.FC<CountInputProps> = (props: CountInputProps) => {
       <Button
         disabled={disabled || disabledDecrement}
         onClick={decrementValue}
-        className="custom-color count-input__button count-input__button_dectement"
+        className="custom-color count-input__button count-input__button_decrement"
       >
         <MinusOutlined />
       </Button>

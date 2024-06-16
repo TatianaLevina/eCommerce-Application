@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import { useCart } from '@contexts/CartContext';
@@ -7,6 +7,7 @@ import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
 import { formatPrice } from '@/utils/Utilities';
 import PromoCode from '@/components/PromoCode/PromoCode';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 
 const CartPage: React.FC = () => {
   const {
@@ -40,8 +41,17 @@ const CartPage: React.FC = () => {
     navigate('/catalog');
   };
 
-  const clearCartHandler = (): void => {
-    clearCart();
+  const clearCartHandler = () => {
+    Modal.confirm({
+      title: 'Clear Shopping Cart',
+      content: 'Are you sure you want to clear your shopping cart?',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        clearCart();
+      },
+    });
   };
 
   const totalPrice = calculateTotalPrice();
@@ -64,9 +74,12 @@ const CartPage: React.FC = () => {
             ))
           ) : (
             <div className="cart__empty">
-              <p>Cart is empty</p>
+              <ShoppingCartOutlined style={{ fontSize: '64px', color: '#2f7c69' }} />
+              <p className="cart__empty-message">Your shopping cart is currently empty</p>
+              <p className="cart__empty-submessage">Looks like you have not added anything to your cart yet.</p>
+              <p className="cart__empty-suggestion">Start browsing our collection!</p>
               <Button className="primary-custom-color" onClick={toCatalogClickHandler}>
-                To Catalog
+                Start Shopping
               </Button>
             </div>
           )}

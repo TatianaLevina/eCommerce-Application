@@ -14,13 +14,11 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
   const discountedPrice = product.price.discounted?.value.centAmount;
   const imageUrl = product.variant.images?.[0]?.url || 'default-image-url';
 
-  const handleInputChange: (value: number) => Promise<number | undefined> = useCallback(
-    (value: number) => {
+  const handleInputChange = useCallback(
+    async (value: number): Promise<void> => {
       setLoading(true);
-      return inputChangeHandler(product.id, value).then((res) => {
-        setLoading(false);
-        return res;
-      });
+      await inputChangeHandler(product.id, value);
+      setLoading(false);
     },
     [inputChangeHandler, product.id],
   );
@@ -41,7 +39,7 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
       </div>
       <div className="cart-item__right">
         <Form.Item label="Count" className="cart-item__input no-margin-block">
-          <CountInput onChange={handleInputChange} minValue={1} maxValue={99}></CountInput>
+          <CountInput onChange={handleInputChange} minValue={1} maxValue={99} initialValue={product.quantity} />
         </Form.Item>
         <div className="cart-item__price-box">
           <p

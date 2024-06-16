@@ -1,15 +1,21 @@
+import type React from 'react';
 import { render, act } from '@testing-library/react';
 
 import { AuthProvider } from '@/contexts/AuthContext';
 import CountInput from '@/components/CountInput/CountInput';
+import type { ReactNode } from 'react';
+
+const AuthProviderWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
+  return <AuthProvider>{children}</AuthProvider>;
+};
 
 describe('CountInput tests', () => {
   describe('Render element', () => {
     let container: HTMLElement | null = null;
 
-    const mockPromiseFm = (value: number): Promise<number | undefined> => {
+    const mockPromiseFm = (): Promise<void> => {
       return new Promise((res) => {
-        res(value);
+        res();
       });
     };
 
@@ -26,9 +32,9 @@ describe('CountInput tests', () => {
 
     test('Should be defined', () => {
       act(() => {
-        render(<CountInput onChange={mockPromiseFm} maxValue={1} minValue={9} />, {
+        render(<CountInput onChange={mockPromiseFm} maxValue={99} minValue={1} initialValue={1} />, {
           container: container!,
-          wrapper: AuthProvider,
+          wrapper: AuthProviderWrapper,
         });
       });
 
@@ -38,9 +44,9 @@ describe('CountInput tests', () => {
 
     test('Contains HTMLElement button', () => {
       act(() => {
-        render(<CountInput onChange={mockPromiseFm} maxValue={1} minValue={9} />, {
+        render(<CountInput onChange={mockPromiseFm} maxValue={99} minValue={1} initialValue={1} />, {
           container: container!,
-          wrapper: AuthProvider,
+          wrapper: AuthProviderWrapper,
         });
       });
 
@@ -50,9 +56,9 @@ describe('CountInput tests', () => {
 
     test('Contains all buttons', () => {
       act(() => {
-        render(<CountInput onChange={mockPromiseFm} maxValue={1} minValue={9} />, {
+        render(<CountInput onChange={mockPromiseFm} maxValue={99} minValue={1} initialValue={1} />, {
           container: container!,
-          wrapper: AuthProvider,
+          wrapper: AuthProviderWrapper,
         });
       });
 
