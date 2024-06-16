@@ -1,7 +1,8 @@
-import { AuthProvider } from '@contexts/AuthContext';
-import RegisterPage from '@pages/RegisterPage/RegisterPage';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+
+import { AuthProvider } from '@contexts/AuthContext';
+import RegisterPage from '@pages/RegisterPage/RegisterPage';
 
 describe('RegisterPage tests', () => {
   describe('Render element', () => {

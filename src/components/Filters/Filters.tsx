@@ -3,29 +3,9 @@ import { useEffect, useState, useCallback } from 'react';
 import { Input, Select, Button, Drawer, Typography } from 'antd';
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
+
 import '@components/Filters/Filters.scss';
-import { type AllFilters } from '@components/Filters/Filter.type';
-
-const { Option } = Select;
-
-interface FiltersProps {
-  searchText: string;
-  setSearchText: (value: string) => void;
-  sortOrder: string;
-  setSortOrder: (value: string) => void;
-  priceFrom: number | undefined;
-  setPriceFrom: (value: number | undefined) => void;
-  priceTo: number | undefined;
-  setPriceTo: (value: number | undefined) => void;
-  resetFilters: () => void;
-  manufacturer: string[];
-  setManufacturer: (value: string[]) => void;
-  material: string[];
-  setMaterial: (value: string[]) => void;
-  allFilters: AllFilters;
-  drawerOpen: boolean;
-  toggleDrawer: () => void;
-}
+import type { FiltersProps } from './Filter.interface';
 
 const Filters: React.FC<FiltersProps> = ({
   searchText,
@@ -45,6 +25,7 @@ const Filters: React.FC<FiltersProps> = ({
   drawerOpen,
   toggleDrawer,
 }) => {
+  const { Option } = Select;
   const [tempPriceFrom, setTempPriceFrom] = useState<number | undefined>(priceFrom);
   const [tempPriceTo, setTempPriceTo] = useState<number | undefined>(priceTo);
   const [tempManufacturer, setTempManufacturer] = useState<string[]>(manufacturer);
@@ -103,22 +84,22 @@ const Filters: React.FC<FiltersProps> = ({
     [setMaterial],
   );
 
-  const handlePriceFromChange = (value: number | undefined) => {
+  const handlePriceFromChange = (value: number | undefined): void => {
     setTempPriceFrom(value);
     debouncedSetPriceFrom(value);
   };
 
-  const handlePriceToChange = (value: number | undefined) => {
+  const handlePriceToChange = (value: number | undefined): void => {
     setTempPriceTo(value);
     debouncedSetPriceTo(value);
   };
 
-  const handleChangeManufacturer = (value: string[]) => {
+  const handleChangeManufacturer = (value: string[]): void => {
     setTempManufacturer(value);
     debouncedSetManufacturer(value);
   };
 
-  const handleChangeMaterial = (value: string[]) => {
+  const handleChangeMaterial = (value: string[]): void => {
     setTempMaterial(value);
     debouncedSetMaterial(value);
   };

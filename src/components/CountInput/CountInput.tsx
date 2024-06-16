@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
+
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import '@components/CountInput/CountInput.scss';
 import type CountInputProps from '@components/CountInput/CountInput.interface';
@@ -22,7 +23,7 @@ const CountInput: React.FC<CountInputProps> = (props: CountInputProps) => {
     setDisabledIncrement(value >= maxValue);
   };
 
-  const changeValue = (value: number) => {
+  const changeValue = (value: number): void => {
     setDisabled(true);
     if (onChange) {
       onChange(value).then(() => {
@@ -33,11 +34,11 @@ const CountInput: React.FC<CountInputProps> = (props: CountInputProps) => {
     }
   };
 
-  const incrementValue = () => {
+  const incrementValue = (): void => {
     changeValue(+value + 1);
   };
 
-  const decrementValue = () => {
+  const decrementValue = (): void => {
     changeValue(+value - 1);
   };
 

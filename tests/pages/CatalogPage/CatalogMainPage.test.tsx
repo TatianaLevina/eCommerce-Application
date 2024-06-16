@@ -1,6 +1,6 @@
 import { render, act } from '@testing-library/react';
-
 import { BrowserRouter } from 'react-router-dom';
+
 import { AuthProvider } from '@contexts/AuthContext';
 import CatalogMainPage from '@pages/CatalogPage/CatalogMainPage.tsx';
 import { CategoryProvider } from '@contexts/CategoriesContext.tsx';

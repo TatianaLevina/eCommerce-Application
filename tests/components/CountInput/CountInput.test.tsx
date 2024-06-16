@@ -1,5 +1,6 @@
 import type React from 'react';
 import { render, act } from '@testing-library/react';
+
 import { AuthProvider } from '@/contexts/AuthContext';
 import CountInput from '@/components/CountInput/CountInput';
 import type { ReactNode } from 'react';

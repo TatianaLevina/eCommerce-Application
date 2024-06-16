@@ -1,5 +1,6 @@
 import { render, act } from '@testing-library/react';
 import type { DiscountCode } from '@commercetools/platform-sdk';
+
 import DiscountBanner from '@/components/DiscountBanner/DiscountBanner';
 
 describe('DiscountBanner tests', () => {

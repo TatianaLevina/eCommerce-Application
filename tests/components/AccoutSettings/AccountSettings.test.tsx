@@ -1,6 +1,7 @@
+import { render, act } from '@testing-library/react';
+
 import AccountSettings from '@/components/AccountSettings/AccountSettings';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { render, act } from '@testing-library/react';
 
 describe('AppFooter tests', () => {
   describe('Render element', () => {

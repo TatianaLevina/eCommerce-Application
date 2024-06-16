@@ -1,5 +1,6 @@
-import App from '@/App';
 import { render, act } from '@testing-library/react';
+
+import App from '@/App';
 
 describe('App', () => {
   let container: HTMLElement | null = null;

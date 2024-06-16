@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Form } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
+
 import ImageCustom from '@components/ImageCustom/ImageCustom';
 import { formatPrice } from '@/utils/Utilities';
 import '@components/CartItem/CartItem.scss';
@@ -9,7 +10,6 @@ import type CartItemProps from '@components/CartItem/cartItem.interface';
 
 const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputChangeHandler }) => {
   const [loading, setLoading] = useState(false);
-
   const price = product.price.value.centAmount;
   const discountedPrice = product.price.discounted?.value.centAmount;
   const imageUrl = product.variant.images?.[0]?.url || 'default-image-url';
@@ -23,7 +23,7 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
     [inputChangeHandler, product.id],
   );
 
-  const handleRemoveClick = useCallback(() => {
+  const handleRemoveClick: () => void = useCallback(() => {
     setLoading(true);
     removeClickHandler(product.id);
     setLoading(false);

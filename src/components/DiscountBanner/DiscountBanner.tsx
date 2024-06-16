@@ -1,25 +1,22 @@
 import type React from 'react';
-import type { DiscountCode } from '@commercetools/platform-sdk';
 import { Flex, Typography } from 'antd';
+
 import './DiscountBanner.scss';
-
-const { Title } = Typography;
-
-export interface DiscountBannerProps {
-  discountCode: DiscountCode;
-  image: string;
-}
+import type { DiscountBannerProps } from './DiscountBannerProps.interface';
 
 const DiscountBanner: React.FC<DiscountBannerProps> = ({ discountCode, image }) => {
+  const { Title } = Typography;
   let fromDay = null;
   let untilDay = null;
+  const description = discountCode.description!['en-US'];
+
   if (discountCode.validFrom) {
     fromDay = new Date(discountCode.validFrom).toLocaleDateString();
   }
+
   if (discountCode.validUntil) {
     untilDay = new Date(discountCode.validUntil).toLocaleDateString();
   }
-  const description = discountCode.description!['en-US'];
 
   return (
     <>
@@ -47,4 +44,5 @@ const DiscountBanner: React.FC<DiscountBannerProps> = ({ discountCode, image }) 
     </>
   );
 };
+
 export default DiscountBanner;

@@ -8,6 +8,7 @@ export const getCategoriesService = async (): Promise<Category[] | null> => {
     if (responseCategory.statusCode === 200) {
       return responseCategory.body.results;
     }
+
     return null;
   } catch (e) {
     console.error('getCategoriesService', e);
@@ -24,6 +25,7 @@ export const getCategoriesService = async (): Promise<Category[] | null> => {
         console.error('getCategoriesService retry failed', retryError);
       }
     }
+
     return null;
   }
 };

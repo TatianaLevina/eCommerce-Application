@@ -1,14 +1,10 @@
 import type React from 'react';
+
 import '@components/Preloader/Preloader.scss';
 
 const Preloader: React.FC<{ isHide: boolean | undefined; style: React.CSSProperties }> = ({ isHide, style }) => {
-  const renderDots = (): JSX.Element[] => {
-    const result: JSX.Element[] = [];
-    for (let i = 0; i < 6; i++) {
-      result.push(<div key={i} className="clock__dots" />);
-    }
-    return result;
-  };
+  const renderDots = (): JSX.Element[] =>
+    new Array(6).fill('*').map((_, idx) => <div key={idx} className="clock__dots" />);
 
   return (
     <div hidden={isHide} className="preloader" style={style}>

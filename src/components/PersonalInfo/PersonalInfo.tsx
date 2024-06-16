@@ -1,39 +1,47 @@
 import type React from 'react';
-import { Button, DatePicker, Flex, Form, Input, Modal, Spin, Typography, notification } from 'antd';
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import dayjs from 'dayjs';
-import validateConstant from '@/data/validateConstants';
+import { Button, DatePicker, Flex, Form, Input, Modal, Spin, Typography, notification } from 'antd';
 import { EditOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { updateUserInfo, type UserGeneralInfo } from '@/services/CustomerService';
+import dayjs from 'dayjs';
 
-const { Title } = Typography;
+import { useAuth } from '@/contexts/AuthContext';
+import validateConstant from '@/data/validateConstants';
+import { updateUserInfo } from '@/services/CustomerService';
+import type { UserGeneralInfo } from '@/services/Service.interface';
 
 const PersonalInfo: React.FC = () => {
+  const { Title } = Typography;
   const [form] = Form.useForm();
   const [editMode, setEditMode] = useState(false);
   const [updateInProgress, setUpdateInProgress] = useState(false);
   const { user, updateUser } = useAuth();
+  const [api, contextHolder] = notification.useNotification();
+  const initValuesGeneralInfo: UserGeneralInfo = {
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    birthDate: user?.dateOfBirth !== undefined ? dayjs(user!.dateOfBirth, validateConstant.dateFormat) : undefined,
+    email: user?.email,
+  };
 
-  function showError(msg: string): void {
+  const showError = (msg: string): void => {
     Modal.error({
       title: 'Error!',
       content: msg,
     });
-  }
-  const [api, contextHolder] = notification.useNotification();
-  function showSuccess(): void {
+  };
+
+  const showSuccess = (): void => {
     api.success({
       message: 'All changes are saved',
       duration: 3,
     });
-  }
+  };
 
   const validateAge = (val: dayjs.Dayjs | undefined): boolean => {
     return +new Date(Date.now() - dayjs(val).toDate().getTime()).getFullYear() - 1970 >= validateConstant.AgeLimit;
   };
 
-  const onFinish = async (values: UserGeneralInfo) => {
+  const onFinish = async (values: UserGeneralInfo): Promise<void> => {
     setEditMode(false);
     if (values.birthDate && !validateAge(values.birthDate)) {
       setEditMode(true);
@@ -52,6 +60,7 @@ const PersonalInfo: React.FC = () => {
       showSuccess();
       return;
     }
+
     setUpdateInProgress(true);
     try {
       const response = await updateUserInfo(user!.id, user!.version, updateValues);
@@ -64,15 +73,9 @@ const PersonalInfo: React.FC = () => {
       setUpdateInProgress(false);
     }
   };
+
   const onFinishFailed = (): void => {
     showError('Fill in required fields!');
-  };
-
-  const initValuesGeneralInfo: UserGeneralInfo = {
-    firstName: user?.firstName,
-    lastName: user?.lastName,
-    birthDate: user?.dateOfBirth !== undefined ? dayjs(user!.dateOfBirth, validateConstant.dateFormat) : undefined,
-    email: user?.email,
   };
 
   return (
@@ -216,4 +219,5 @@ const PersonalInfo: React.FC = () => {
     </>
   );
 };
+
 export default PersonalInfo;

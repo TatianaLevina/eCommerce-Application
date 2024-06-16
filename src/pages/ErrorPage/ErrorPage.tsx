@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Button, Flex } from 'antd';
 import { Link } from 'react-router-dom';
+
 import NOTFOUND from '@images/not-found-page.svg';
 
 const ErrorPage: React.FC = () => {

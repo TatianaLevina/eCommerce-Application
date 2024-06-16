@@ -1,4 +1,5 @@
 import { render, act } from '@testing-library/react';
+
 import ImageCustom from '@/components/ImageCustom/ImageCustom';
 
 describe('ImageCustom tests', () => {
