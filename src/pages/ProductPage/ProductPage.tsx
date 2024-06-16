@@ -123,13 +123,13 @@ const ProductPage: React.FC = () => {
         onOk={() => toggleModal(false)}
         onCancel={() => toggleModal(false)}
         footer=""
-        width={'90vw'}
+        style={{ maxWidth: '90vw', maxHeight: '90vh' }}
       >
         <Carousel draggable arrows infinite={false}>
           {images?.map((img, idx) => (
             <div key={idx}>
               <ImageCustom
-                style={{ display: 'block', width: '90%', cursor: 'pointer' }}
+                style={{ display: 'block', width: '100%', cursor: 'pointer' }}
                 src={img.url}
                 alt={name['en-US']}
               ></ImageCustom>

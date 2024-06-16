@@ -5,6 +5,7 @@
   background: none;
   max-width: 1420px;
   margin: 0 auto;
+  padding-top: 100px;
 
   &__content {
     flex: 1;
@@ -26,6 +27,8 @@
     padding: 24px;
     border-radius: 10px;
     width: 100%;
+    display: flex;
+    flex-flow: column;
 
     @media screen and (max-width: 410px) {
       padding: 24px 10px;
