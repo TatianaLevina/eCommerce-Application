@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { formatPrice } from '@utils/Utilities';
+import { formatPrice } from '@utils/formatPrice.ts';
 
 describe('Utils', () => {
   test('should be definded', () => {

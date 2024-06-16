@@ -6,17 +6,10 @@ import type { DiscountBannerProps } from './DiscountBannerProps.interface';
 
 const DiscountBanner: React.FC<DiscountBannerProps> = ({ discountCode, image }) => {
   const { Title } = Typography;
-  let fromDay = null;
-  let untilDay = null;
-  const description = discountCode.description!['en-US'];
 
-  if (discountCode.validFrom) {
-    fromDay = new Date(discountCode.validFrom).toLocaleDateString();
-  }
-
-  if (discountCode.validUntil) {
-    untilDay = new Date(discountCode.validUntil).toLocaleDateString();
-  }
+  const fromDay = discountCode.validFrom ? new Date(discountCode.validFrom).toLocaleDateString() : 'N/A';
+  const untilDay = discountCode.validUntil ? new Date(discountCode.validUntil).toLocaleDateString() : 'N/A';
+  const description = discountCode.description?.['en-US'] || 'No description available';
 
   return (
     <>

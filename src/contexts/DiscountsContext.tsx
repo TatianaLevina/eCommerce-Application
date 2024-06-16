@@ -31,6 +31,5 @@ export const DiscountsProvider = ({ children }: { children: ReactNode }): JSX.El
 };
 
 export const useDiscounts = (): DiscountsContextType => {
-  const context = useContext(DiscountsContext);
-  return context;
+  return useContext(DiscountsContext);
 };

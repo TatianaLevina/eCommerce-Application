@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '@contexts/CartContext';
 import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
-import { formatPrice } from '@/utils/Utilities';
 import PromoCode from '@/components/PromoCode/PromoCode';
 import { ShoppingCartOutlined } from '@ant-design/icons';
+import { formatPrice } from '@utils/formatPrice.ts';
 
 const CartPage: React.FC = () => {
   const {
