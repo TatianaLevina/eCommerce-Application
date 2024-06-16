@@ -1,12 +1,9 @@
 import { render, act } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 
-import { AuthProvider } from '@contexts/AuthContext';
-import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
-import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext.tsx';
-import CatalogPage from '@pages/CatalogPage/CatalogPage';
+import { AuthProvider } from '@/contexts/AuthContext';
+import PasswordConfirmationModal from '@/components/PasswordConfirmation/PasswordConfirmation';
 
-describe('CatalogPage tests', () => {
+describe('PasswordConfirmation tests', () => {
   describe('Render element', () => {
     let container: HTMLElement | null = null;
 
@@ -24,16 +21,15 @@ describe('CatalogPage tests', () => {
     test('Should be defined', () => {
       act(() => {
         render(
-          <AuthProvider>
-            <CategoryProvider>
-              <BreadcrumbsProvider>
-                <CatalogPage />
-              </BreadcrumbsProvider>
-            </CategoryProvider>
-          </AuthProvider>,
+          <PasswordConfirmationModal
+            open={true}
+            onPasswordModalCancel={() => {}}
+            onPasswordModalConfirm={() => {}}
+            newPassword={'test'}
+          />,
           {
-            wrapper: BrowserRouter,
             container: container!,
+            wrapper: AuthProvider,
           },
         );
       });

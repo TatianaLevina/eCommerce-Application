@@ -1,8 +1,8 @@
-import { CartProvider } from '@/contexts/CartContext';
+import { BrowserRouter } from 'react-router-dom';
+import { render, act } from '@testing-library/react';
+
 import AppLayout from '@components/AppLayout/AppLayout';
 import { AuthProvider } from '@contexts/AuthContext';
-import { render, act } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 
 describe('AppLayaut component tests', () => {
   describe('Render element', () => {
@@ -23,11 +23,9 @@ describe('AppLayaut component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
-              <AppLayout>
-                <div></div>
-              </AppLayout>
-            </CartProvider>
+            <AppLayout>
+              <div></div>
+            </AppLayout>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -44,11 +42,9 @@ describe('AppLayaut component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
-              <AppLayout>
-                <div></div>
-              </AppLayout>
-            </CartProvider>
+            <AppLayout>
+              <div></div>
+            </AppLayout>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -65,11 +61,9 @@ describe('AppLayaut component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
-              <AppLayout>
-                <div></div>
-              </AppLayout>
-            </CartProvider>
+            <AppLayout>
+              <div></div>
+            </AppLayout>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -86,11 +80,9 @@ describe('AppLayaut component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <CartProvider>
-              <AppLayout>
-                <div className="test">test</div>
-              </AppLayout>
-            </CartProvider>
+            <AppLayout>
+              <div className="test">test</div>
+            </AppLayout>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,

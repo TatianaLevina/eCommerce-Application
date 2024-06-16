@@ -1,8 +1,9 @@
 import { render, act } from '@testing-library/react';
 
-import AppFooter from '@components/AppFooter/AppFooter';
+import { AuthProvider } from '@/contexts/AuthContext';
+import PersonalInfo from '@/components/PersonalInfo/PersonalInfo';
 
-describe('AppFooter tests', () => {
+describe('PersonalInfo tests', () => {
   describe('Render element', () => {
     let container: HTMLElement | null = null;
 
@@ -17,37 +18,40 @@ describe('AppFooter tests', () => {
       container = null;
     });
 
-    test('Should footer be defined', () => {
+    test('Should be defined', () => {
       act(() => {
-        render(<AppFooter />, {
+        render(<PersonalInfo />, {
           container: container!,
+          wrapper: AuthProvider,
         });
       });
 
-      const el = container?.querySelector('footer');
+      const el = container?.querySelector('div');
       expect(el).toBeDefined();
     });
 
-    test('Contains HTMLElement footer', () => {
+    test('Contains HTMLElement button', () => {
       act(() => {
-        render(<AppFooter />, {
+        render(<PersonalInfo />, {
           container: container!,
+          wrapper: AuthProvider,
         });
       });
 
-      const el = container?.querySelector('footer');
+      const el = container?.querySelector('button');
       expect(el).toBeInstanceOf(HTMLElement);
     });
 
-    test('Contains footer text content', () => {
+    test('Contains all buttons', () => {
       act(() => {
-        render(<AppFooter />, {
+        render(<PersonalInfo />, {
           container: container!,
+          wrapper: AuthProvider,
         });
       });
 
-      const els = container?.querySelector('footer');
-      expect(els?.textContent).toBe('Home Sweet Home © 2024 Created by CodeCrafters');
+      const els = container?.querySelectorAll('button');
+      expect(els?.length).toBe(1);
     });
   });
 });
