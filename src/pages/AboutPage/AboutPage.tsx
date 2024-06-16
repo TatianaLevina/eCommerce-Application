@@ -72,6 +72,12 @@ const AboutPage: React.FC = () => {
                 a design engineer📐 and mechanical engineer🛠 (AutoCAD, SOLIDWORKS). In my free time, I study and
                 develop myself.
               </Text>
+              <Text>
+                I&#39;m certain that effective communication is paramount. Regular meetings, code reviews, and shared
+                documentation that everyone is on the same page and working towards a common goal. It&#39;s why,
+                together with the team, we adhere to these beliefs and try to constantly be in touch and resolve issues
+                in a timely manner.
+              </Text>
               <Link href="https://github.com/demetrius81" target="_blank" rel="noreferrer" className="custom-link">
                 You can visit my GitHub
               </Link>
@@ -104,6 +110,10 @@ const AboutPage: React.FC = () => {
               <Text>
                 I believe that it&#39;s my natural curiosity that enables me to tackle challenges effectively and enjoy
                 the process of overcoming them.
+              </Text>
+              <Text>
+                United by a common goal, the team and I found a common language and tools for organizing joint work in a
+                short time, which was reflected in the development of our project.
               </Text>
               <Link href="https://github.com/ynadt" target="_blank" rel="noreferrer" className="custom-link">
                 You can visit my GitHub
