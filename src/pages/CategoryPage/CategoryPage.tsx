@@ -125,8 +125,9 @@ const CategoryPage: React.FC = () => {
               ),
             );
 
-            allfilters ??
+            if (!allfilters) {
               setAllFilters({ manufacturerFilters: filterArrManufacturer, materialFilters: filterArrMaterial });
+            }
           }
         }
       }
@@ -172,6 +173,8 @@ const CategoryPage: React.FC = () => {
     return <Spin spinning={categoryLoading || loading} />;
   }
 
+  const totalPages = Math.ceil(total / itemsPerPage());
+
   return (
     <div className="category-page">
       <Breadcrumbs />
@@ -198,20 +201,17 @@ const CategoryPage: React.FC = () => {
         <div className="product-cards-container">
           {products.length > 0 ? (
             products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                categorySlug={categorySlug} // Pass category slug to ProductCard
-                formatPrice={formatPrice}
-              />
+              <ProductCard key={product.id} product={product} categorySlug={categorySlug} formatPrice={formatPrice} />
             ))
           ) : (
             <p>No products found for this category</p>
           )}
         </div>
-        <div className="pagination-container">
-          <Pagination current={currentPage} pageSize={itemsPerPage()} total={total} onChange={handlePageChange} />
-        </div>
+        {totalPages > 1 && (
+          <div className="pagination-container">
+            <Pagination current={currentPage} pageSize={itemsPerPage()} total={total} onChange={handlePageChange} />
+          </div>
+        )}
       </div>
     </div>
   );
