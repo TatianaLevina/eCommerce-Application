@@ -52,12 +52,11 @@ const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputC
               Discounted price: {formatPrice(discountedPrice)} {product.price.discounted?.value.currencyCode}
             </p>
           )}
+          <p className="cart-item__total base-text no-margin-block">
+            Total for product: {formatPrice(product.quantity * (discountedPrice || price))}{' '}
+            {product.price.value.currencyCode}
+          </p>
         </div>
-
-        <p className="cart-item__total base-text no-margin-block">
-          Total for product: {formatPrice(product.quantity * (discountedPrice || price))}{' '}
-          {product.price.value.currencyCode}
-        </p>
         <Button danger type="text" onClick={handleRemoveClick} loading={loading}>
           <DeleteOutlined />
         </Button>

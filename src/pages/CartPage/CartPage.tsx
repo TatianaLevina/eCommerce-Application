@@ -8,6 +8,7 @@ import '@pages/CartPage/CartPage.scss';
 import PromoCode from '@/components/PromoCode/PromoCode';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { formatPrice } from '@utils/formatPrice.ts';
+import { useState } from 'react';
 
 const CartPage: React.FC = () => {
   const {
@@ -18,6 +19,7 @@ const CartPage: React.FC = () => {
   } = useCart();
 
   const navigate = useNavigate();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const removeClickHandler = (id: string): void => {
     removeFromCart(id);
@@ -52,6 +54,18 @@ const CartPage: React.FC = () => {
         clearCart();
       },
     });
+  };
+
+  const showCheckoutModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const totalPrice = calculateTotalPrice();
@@ -90,19 +104,19 @@ const CartPage: React.FC = () => {
             <div className="cart__bottom-box">
               <div className="cart__bottom-part">
                 <p className="cart__total base-text">
-                  Total Price: {formatPrice(totalPrice)} {cart?.totalPrice.currencyCode}
+                  Price: {formatPrice(totalPrice)} {cart?.totalPrice.currencyCode}
                 </p>
                 {discount > 0 && (
                   <>
                     <p className="cart__discount base-text">
-                      Discount: {formatPrice(discount)} {cart?.totalPrice.currencyCode}
+                      Promocode: - {formatPrice(discount)} {cart?.totalPrice.currencyCode}
                     </p>
                     <p className="cart__discounted base-text">
-                      Discounted Price: {formatPrice(discountedPrice)} {cart?.totalPrice.currencyCode}
+                      Total Price: {formatPrice(discountedPrice)} {cart?.totalPrice.currencyCode}
                     </p>
                   </>
                 )}
-                <Button className="primary-custom-color" onClick={() => alert('Proceed to checkout')}>
+                <Button className="primary-custom-color" onClick={showCheckoutModal}>
                   Buy!
                 </Button>
               </div>
@@ -112,6 +126,9 @@ const CartPage: React.FC = () => {
             </Button>
           </>
         )}
+        <Modal title="Proceed to checkout" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+          <p>Checkout functionality will be implemented later</p>
+        </Modal>
       </div>
     </div>
   );
