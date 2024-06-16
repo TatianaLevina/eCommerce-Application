@@ -3,10 +3,10 @@ import { Button, Form } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
 import ImageCustom from '@components/ImageCustom/ImageCustom';
-import { formatPrice } from '@/utils/Utilities';
 import '@components/CartItem/CartItem.scss';
 import CountInput from '@components/CountInput/CountInput';
 import type CartItemProps from '@components/CartItem/cartItem.interface';
+import { formatPrice } from '@utils/formatPrice.ts';
 
 const CartItem: React.FC<CartItemProps> = ({ product, removeClickHandler, inputChangeHandler }) => {
   const [loading, setLoading] = useState(false);

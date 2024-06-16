@@ -5,8 +5,8 @@ import { Button, Flex, Form, Input, Modal, Spin } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import { SignUpError, useAuth } from '@contexts/AuthContext';
-import validateConstant from '@data/validateConstants';
 import type { FieldType } from './FieldType.type';
+import validateConstant from '@utils/validateConstant.ts';
 
 const LoginPage: React.FC = () => {
   const { signIn } = useAuth();

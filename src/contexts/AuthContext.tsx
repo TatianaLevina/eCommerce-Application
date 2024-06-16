@@ -4,9 +4,10 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import type { Customer, CustomerDraft, MyCustomerSignin, Cart } from '@commercetools/platform-sdk';
 
 import { signInCustomer, signUpCustomer } from '@services/CustomerService';
-import { createAuthFlow, createPasswordAuthFlow } from '@services/ClientBuilder';
+import { createAuthFlow, createPasswordAuthFlow, resetClientInstance } from '@services/ClientBuilder';
 import { getCartService, createCartService } from '@services/CartService';
-import { CartProvider } from '@contexts/CartContext'; // Import the CartProvider
+import { CartProvider } from '@contexts/CartContext';
+import { invalidateToken } from '@services/TokenCache';
 import type { AuthContextType } from './Context.interface';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,7 +27,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [initialCart, setInitialCart] = useState<Cart | null>(null); // Add state for initial cart
+  const [initialCart, setInitialCart] = useState<Cart | null>(null);
 
   const updateUser = (user: Customer) => {
     setUser(user);
@@ -83,12 +84,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     setInitialCart(null);
+    invalidateToken();
+    resetClientInstance();
     await createAuthFlow().categories().get().execute();
   };
 
   return (
     <AuthContext.Provider value={{ user, updateUser, signIn, signUp, signOut }}>
-      <CartProvider initialCart={initialCart}>{children}</CartProvider> {/* Wrap children with CartProvider */}
+      <CartProvider initialCart={initialCart}>{children}</CartProvider>
     </AuthContext.Provider>
   );
 };

@@ -2,10 +2,9 @@ import type React from 'react';
 import { useState } from 'react';
 import { Button, Flex, Form, Input, Modal, Typography, notification } from 'antd';
 import { EditOutlined, LockOutlined } from '@ant-design/icons';
-
 import { useAuth } from '@contexts/AuthContext';
-import validateConstant from '@data/validateConstants';
 import PasswordConfirmationModal from '@components/PasswordConfirmation/PasswordConfirmation';
+import validateConstant from '@utils/validateConstant.ts';
 import type { Passwords } from './Passwords.interface';
 
 const AccountSettings: React.FC = () => {

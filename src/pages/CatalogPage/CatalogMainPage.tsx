@@ -3,13 +3,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Spin, Flex } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
-
 import { useCategory } from '@contexts/CategoriesContext.tsx';
+import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
-import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
-import '@pages/CatalogPage/CatalogMainPage.scss';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
+import '@pages/CatalogPage/CatalogMainPage.scss';
 import type { CategoryWithImage } from './CategoryWithImage.interface';
 
 const CatalogMainPage: React.FC = () => {

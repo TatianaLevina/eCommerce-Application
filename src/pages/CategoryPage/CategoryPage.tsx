@@ -13,7 +13,7 @@ import ProductCard from '@components/ProductCard/ProductCard.tsx';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import '@pages/CategoryPage/CategoryPage.scss';
 import { type AllFilters } from '@components/Filters/Filter.type';
-import { formatPrice } from '@/utils/Utilities';
+import { formatPrice } from '@utils/formatPrice.ts';
 
 const CategoryPage: React.FC = () => {
   const { categories, loading: categoryLoading } = useCategory();
@@ -125,8 +125,9 @@ const CategoryPage: React.FC = () => {
               ),
             );
 
-            allfilters ??
+            if (!allfilters) {
               setAllFilters({ manufacturerFilters: filterArrManufacturer, materialFilters: filterArrMaterial });
+            }
           }
         }
       }
@@ -172,6 +173,8 @@ const CategoryPage: React.FC = () => {
     return <Spin spinning={categoryLoading || loading} />;
   }
 
+  const totalPages = Math.ceil(total / itemsPerPage());
+
   return (
     <div className="category-page">
       <Breadcrumbs />
@@ -198,20 +201,17 @@ const CategoryPage: React.FC = () => {
         <div className="product-cards-container">
           {products.length > 0 ? (
             products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                categorySlug={categorySlug} // Pass category slug to ProductCard
-                formatPrice={formatPrice}
-              />
+              <ProductCard key={product.id} product={product} categorySlug={categorySlug} formatPrice={formatPrice} />
             ))
           ) : (
             <p>No products found for this category</p>
           )}
         </div>
-        <div className="pagination-container">
-          <Pagination current={currentPage} pageSize={itemsPerPage()} total={total} onChange={handlePageChange} />
-        </div>
+        {totalPages > 1 && (
+          <div className="pagination-container">
+            <Pagination current={currentPage} pageSize={itemsPerPage()} total={total} onChange={handlePageChange} />
+          </div>
+        )}
       </div>
     </div>
   );

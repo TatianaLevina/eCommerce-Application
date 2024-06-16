@@ -11,8 +11,8 @@ import { useBreadcrumbs } from '@contexts/BreadcrumbsContext';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs';
 import ImageCustom from '@components/ImageCustom/ImageCustom';
 import { useCart } from '@/contexts/CartContext';
-import { formatPrice } from '@/utils/Utilities';
 import '@pages/ProductPage/ProductPage.scss';
+import { formatPrice } from '@utils/formatPrice.ts';
 
 const ProductPage: React.FC = () => {
   const { Title, Paragraph } = Typography;

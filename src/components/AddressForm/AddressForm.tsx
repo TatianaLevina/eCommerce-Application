@@ -3,10 +3,10 @@ import type React from 'react';
 import { Flex, Form, Input, Select, Switch } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
-import validateConstant from '@data/validateConstants';
 import { options } from '@pages/RegisterPage/RegisterPage';
 import type { AddressFormProps } from './AddressFormProps.interface';
 import SwitchItem from '@components/SwitchItem/SwitchItem';
+import validateConstant from '@utils/validateConstant.ts';
 
 const AddressForm: React.FC<AddressFormProps> = ({ addressInfo: initialValues, onFormInstanceReady, disabled }) => {
   const [form] = Form.useForm();

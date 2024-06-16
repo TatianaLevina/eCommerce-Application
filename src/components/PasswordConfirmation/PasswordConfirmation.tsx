@@ -5,9 +5,9 @@ import { LockOutlined } from '@ant-design/icons';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { changeUserPassword } from '@services/CustomerService';
-import validateConstant from '@/data/validateConstants';
 import { invalidateToken } from '@/services/TokenCache';
 import type { PasswordConfirmModalProps } from './PasswordConfirmModalProps.interface';
+import validateConstant from '@utils/validateConstant.ts';
 
 const PasswordConfirmationModal: React.FC<PasswordConfirmModalProps> = ({
   open,

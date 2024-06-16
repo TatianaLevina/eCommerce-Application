@@ -7,8 +7,8 @@ import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icon
 
 import { SignUpError, useAuth } from '@contexts/AuthContext.tsx';
 import countries from '@data/countries.json';
-import validateConstant from '@data/validateConstants';
 import type { Option, Address, FormValues, UserInfo } from './RegisterPage.interface';
+import validateConstant from '@utils/validateConstant.ts';
 
 const { Title } = Typography;
 

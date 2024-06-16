@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Card, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,12 +19,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
     [state?.cart?.lineItems],
   );
 
+  const [loading, setLoading] = useState(false);
+
   const handleCardClick = (): void => {
     navigate(`/catalog/${categorySlug}/product/${product.id}`);
   };
 
   const handleCartAction = async (e: React.MouseEvent): Promise<void> => {
     e.stopPropagation();
+    setLoading(true);
     if (isInCart) {
       const lineItemId = state?.cart?.lineItems.find((item) => item.productId === product.id)?.id;
       if (lineItemId) {
@@ -35,6 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
         await addToCart(product.masterVariant.sku, 1);
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -67,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, categorySlug, format
           </p>
         )}
       </div>
-      <Button onClick={handleCartAction} disabled={isInCart}>
+      <Button onClick={handleCartAction} loading={loading} disabled={isInCart}>
         {isInCart ? 'In Cart' : 'Add to Cart'}
       </Button>
     </Card>

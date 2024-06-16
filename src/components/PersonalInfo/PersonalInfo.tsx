@@ -5,9 +5,9 @@ import { EditOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 import { useAuth } from '@/contexts/AuthContext';
-import validateConstant from '@/data/validateConstants';
 import { updateUserInfo } from '@/services/CustomerService';
 import type { UserGeneralInfo } from '@/services/Service.interface';
+import validateConstant from '@utils/validateConstant.ts';
 
 const PersonalInfo: React.FC = () => {
   const { Title } = Typography;

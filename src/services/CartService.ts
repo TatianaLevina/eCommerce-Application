@@ -5,7 +5,6 @@ import type {
   MyCartRemoveLineItemAction,
   MyCartChangeLineItemQuantityAction,
 } from '@commercetools/platform-sdk';
-
 import { createAuthFlow } from '@services/ClientBuilder';
 
 export const createCartService = async (currency: string): Promise<Cart | null> => {
@@ -31,7 +30,12 @@ export const getCartService = async (): Promise<Cart | null> => {
       return responseCart.body;
     }
   } catch (error) {
-    console.info('No active cart exists.');
+    const err = error as { statusCode: number; message: string };
+    if (err.statusCode === 404) {
+      console.info('No active cart exists.');
+    } else {
+      console.error('An error occurred while fetching the cart:', err.message);
+    }
   }
   return null;
 };
