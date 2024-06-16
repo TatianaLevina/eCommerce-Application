@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Spin, Typography, Button, Modal, Carousel, Dropdown } from 'antd';
+import { Spin, Typography, Button, Modal, Carousel, Dropdown, Flex, Tag } from 'antd';
 import { DownOutlined, HomeOutlined } from '@ant-design/icons';
 import type { Product } from '@commercetools/platform-sdk';
 
@@ -137,9 +137,8 @@ const ProductPage: React.FC = () => {
         </Carousel>
       </Modal>
       <div className="product-page" onClick={carouselClickHandler}>
-        <Title className="custom-title">{name['en-US']}</Title>
-        <div className="product-page__image-wrapper">
-          <div className="product-page__carusel-box">
+        <Flex wrap gap="middle" justify="center" align="center" style={{ margin: '20px 0' }}>
+          <div className="product-page__carousel-box">
             <Carousel autoplay className="product-page__product-carousel">
               {images?.map((img, idx) => (
                 <div key={idx}>
@@ -152,52 +151,69 @@ const ProductPage: React.FC = () => {
               ))}
             </Carousel>
           </div>
-          <div>
-            {discounted ? (
-              <div className="glow product-page__discount-text">
-                DISCOUNT{' '}
-                <span>
-                  {Math.ceil(
-                    (((prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0) -
-                      discounted!.value.centAmount) /
-                      (prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)) *
-                      100,
-                  )}
-                </span>{' '}
-                % OFF
-              </div>
+          <Flex vertical className="product-page__description-box">
+            <Title style={{ margin: '0 0 10px 0', textAlign: 'left', color: '#376a4f' }}>{name['en-US']}</Title>
+            {description ? (
+              <Paragraph className="base-text">{description['en-US']}</Paragraph>
             ) : (
-              <div />
+              metaDescription && <Paragraph className="base-text">{metaDescription['en-US']}</Paragraph>
             )}
-          </div>
-        </div>
-        {description ? (
-          <Paragraph className="base-text">{description['en-US']}</Paragraph>
-        ) : (
-          metaDescription && <Paragraph className="base-text">{metaDescription['en-US']}</Paragraph>
-        )}
-        {designer && <Paragraph className="base-text">Manufacturer: {designer}</Paragraph>}
-        {material && <Paragraph className="base-text">Material: {material}</Paragraph>}
-        <Paragraph className={`base-text ${discounted ? 'base-text_through' : ''}`}>
-          Price: {formatPrice(prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)} USD
-        </Paragraph>
-        <Paragraph className="base-text_colored">
-          {discounted ? `Discount price: ${formatPrice(discounted.value.centAmount)} USD` : ''}
-        </Paragraph>
-        <div style={{ display: 'flex', gap: 20 }}>
-          <Button className="custom-color" onClick={backClickHandler}>
-            Back
-          </Button>
-          {!isInCart ? (
-            <Button className="primary-custom-color" onClick={clickAddToCartHandler}>
-              Add to Cart
-            </Button>
-          ) : (
-            <Button className="primary-custom-color" onClick={clickRemoveFromCartHandler}>
-              Remove from Cart
-            </Button>
-          )}
-        </div>
+            {designer && (
+              <Paragraph className="base-text">
+                <span style={{ fontWeight: '600', color: '#376a4f' }}>Manufacturer:</span> {designer}
+              </Paragraph>
+            )}
+            {material && (
+              <Paragraph className="base-text">
+                <span style={{ fontWeight: '600', color: '#376a4f' }}>Material:</span> {material}
+              </Paragraph>
+            )}
+            <Flex gap="middle" align="center">
+              {discounted ? (
+                <>
+                  <Paragraph className="base-text_colored" style={{ marginBottom: '16px' }}>
+                    {formatPrice(discounted.value.centAmount)} USD
+                  </Paragraph>
+                  <Paragraph className="base-text base-text_through" style={{ fontSize: '16px', color: 'grey' }}>
+                    {formatPrice(prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)} USD
+                  </Paragraph>
+                  <Tag color="grey" style={{ marginBottom: '16px' }}>
+                    -
+                    <span>
+                      {Math.ceil(
+                        (((prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0) -
+                          discounted!.value.centAmount) /
+                          (prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)) *
+                          100,
+                      )}
+                    </span>
+                    %
+                  </Tag>
+                </>
+              ) : (
+                // <></>
+                <Paragraph className="base-text" style={{ fontSize: '20px', fontWeight: 'bold', color: '#376a4f' }}>
+                  {formatPrice(prices?.find((x) => x.value.currencyCode === 'USD')?.value.centAmount || 0)} USD
+                </Paragraph>
+              )}
+            </Flex>
+
+            <Flex gap="middle" justify="right">
+              {!isInCart ? (
+                <Button className="primary-custom-color" onClick={clickAddToCartHandler}>
+                  Add to Cart
+                </Button>
+              ) : (
+                <Button className="primary-custom-color" onClick={clickRemoveFromCartHandler}>
+                  Remove from Cart
+                </Button>
+              )}
+              <Button className="custom-color" onClick={backClickHandler}>
+                Back
+              </Button>
+            </Flex>
+          </Flex>
+        </Flex>
       </div>
     </>
   );
