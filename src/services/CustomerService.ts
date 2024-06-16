@@ -8,7 +8,7 @@ import type {
 } from '@commercetools/platform-sdk';
 
 import { createAuthFlow } from '@services/ClientBuilder.ts';
-import validateConstant from '@/data/validateConstants';
+import validateConstant from '@/utils/validateConstant';
 import type { AddressInfo, UserGeneralInfo } from './Service.interface';
 
 export const signUpCustomer = ({
