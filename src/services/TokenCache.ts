@@ -3,7 +3,6 @@ import type { TokenStore } from '@commercetools/sdk-client-v2';
 export const tokenCache = {
   set: (cache: TokenStore): void => {
     localStorage.setItem('token', JSON.stringify(cache));
-    return;
   },
   get: () => {
     const cache = localStorage.getItem('token');
