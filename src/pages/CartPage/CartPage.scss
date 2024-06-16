@@ -83,6 +83,24 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    text-align: center;
+
+    .cart__empty-message {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .cart__empty-submessage {
+      font-size: 1.2rem;
+      color: #666;
+      margin: 0;
+    }
+
+    .cart__empty-suggestion {
+      font-size: 1.5rem;
+      color: #2f7c69;
+    }
   }
 
   @media screen and (max-width: 680px) {

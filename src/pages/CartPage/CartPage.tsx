@@ -6,6 +6,7 @@ import CartItem from '@components/CartItem/CartItem';
 import '@pages/CartPage/CartPage.scss';
 import { formatPrice } from '@/utils/Utilities';
 import PromoCode from '@/components/PromoCode/PromoCode';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 
 const CartPage: React.FC = () => {
   const {
@@ -63,9 +64,12 @@ const CartPage: React.FC = () => {
             ))
           ) : (
             <div className="cart__empty">
-              <p>Cart is empty</p>
+              <ShoppingCartOutlined style={{ fontSize: '64px', color: '#2f7c69' }} />
+              <p className="cart__empty-message">Your shopping cart is currently empty</p>
+              <p className="cart__empty-submessage">Looks like you have not added anything to your cart yet.</p>
+              <p className="cart__empty-suggestion">Start browsing our collection!</p>
               <Button className="primary-custom-color" onClick={toCatalogClickHandler}>
-                To Catalog
+                Start Shopping
               </Button>
             </div>
           )}
