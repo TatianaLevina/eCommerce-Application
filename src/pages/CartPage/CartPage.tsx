@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '@contexts/CartContext';
 import CartItem from '@components/CartItem/CartItem';
@@ -41,7 +41,16 @@ const CartPage: React.FC = () => {
   };
 
   const clearCartHandler = () => {
-    clearCart();
+    Modal.confirm({
+      title: 'Clear Shopping Cart',
+      content: 'Are you sure you want to clear your shopping cart?',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        clearCart();
+      },
+    });
   };
 
   const totalPrice = calculateTotalPrice();
