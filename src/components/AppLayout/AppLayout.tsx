@@ -1,6 +1,5 @@
 import type React from 'react';
 import { Layout } from 'antd';
-
 import AppHeader from '@components/AppHeader/AppHeader';
 import AppFooter from '@components/AppFooter/AppFooter';
 import { DrawerStateProvider } from '@contexts/DrawerStateContext';
@@ -15,19 +14,11 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
     <DrawerStateProvider>
       <Layout className="layout">
         <AppHeader />
-        <main>
-          <Layout
-            style={{
-              background: 'none',
-            }}
-          >
-            <Content className="layout__content">
-              <div className="layout__wrapper">{children}</div>
-            </Content>
-            <SidebarMenu />
-          </Layout>
-        </main>
+        <Content className="layout__content">
+          <div className="layout__wrapper">{children}</div>
+        </Content>
         <AppFooter />
+        <SidebarMenu />
       </Layout>
     </DrawerStateProvider>
   );
