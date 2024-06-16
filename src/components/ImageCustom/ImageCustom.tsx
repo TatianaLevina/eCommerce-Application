@@ -13,7 +13,15 @@ const ImageCustom: React.FC<ImgProps> = ({ src, alt, className, style }: ImgProp
   return (
     <>
       <Preloader isHide={!hidden} style={{ width: '100%', position: 'relative' }}></Preloader>
-      <img hidden={hidden} src={src} alt={alt} className={className} style={style} onLoad={onImageLoaded} />
+      <img
+        hidden={hidden}
+        src={src}
+        alt={alt}
+        className={className}
+        style={style}
+        onLoad={onImageLoaded}
+        decoding="async"
+      />
     </>
   );
 };

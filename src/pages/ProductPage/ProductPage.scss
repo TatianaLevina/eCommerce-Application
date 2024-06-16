@@ -40,11 +40,21 @@
 }
 
 .slick-dots {
-  & > li > button {
+  gap: 5px;
+  & > li > button::after {
     background: #2f7c69 !important;
     border-radius: 50%;
   }
+
+  & > li {
+    width: 3px !important;
+  }
+
   .slick-active {
+    width: 12px !important;
+  }
+
+  .slick-active > button::after {
     background: #2f7c69 !important;
     border-radius: 50%;
   }
