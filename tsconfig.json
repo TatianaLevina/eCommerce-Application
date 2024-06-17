@@ -30,6 +30,7 @@
 
     "paths": {
       "@/*": ["./src/*"],
+      "@/assets/*": ["./src/assets/*"],
       "@pages/*": ["./src/pages/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
