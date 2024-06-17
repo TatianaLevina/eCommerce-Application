@@ -38,7 +38,6 @@ const AppDrawer: React.FC = () => {
             placement="right"
             open={!drawerState.isCollapsed}
             onClose={() => drawerState.setCollapsed(true)}
-            getContainer={false}
             footer={
               user ? (
                 <>
