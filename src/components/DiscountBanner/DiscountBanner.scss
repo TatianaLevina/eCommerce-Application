@@ -34,8 +34,12 @@
   margin: 5px 0px !important;
   color: #fff !important;
 
-  @media screen and (max-width: 700px) {
-    font-size: 14px !important;
+  @media screen and (max-width: 800px) {
+    font-size: 0.8rem !important;
+  }
+  @media screen and (max-width: 500px) {
+    margin: 2px 0px;
+    font-size: 0.5rem !important;
   }
 }
 
@@ -44,6 +48,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  max-height: 60vh; // 60% of the viewport height
 }
 
 .custom-img {
