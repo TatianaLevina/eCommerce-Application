@@ -30,6 +30,10 @@ We use <img src="https://vitejs.dev/logo.svg" alt="" style="width: 16px; height:
 
 We use <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" alt="" style="width: 16px; height: 16px;"> [TypeScript](https://www.typescriptlang.org/) to write code because it is exceptionally good for projects and eliminates a whole category of errors at the coding stage. This saves the team time and resources.
 
+We use <img src="https://miro.medium.com/v2/resize:fit:256/1*1UEkOGTIyJfC1t0Bkyyjng.jpeg" alt="" style="width: 16px; height: 16px;"> [Lodash](https://lodash.com/) utility library for convenient work with JavaScript entities.
+
+We use <img src="https://www.svgrepo.com/show/353401/ant-design.svg" alt="" style="width: 16px; height: 16px;"> [Ant Design](https://ant.design/) library of components for faster product release to the market and more flexible settings of project components.
+
 We use the <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sass_Logo_Color.svg/1280px-Sass_Logo_Color.svg.png" alt="" style="width: 16px; height: 16px;"> [SASS](https://sass-lang.com/) preprocessor because it allows us to extend the capabilities of CSS.
 
 We use <img src="https://vitest.dev/logo-shadow.svg" alt="" style="width: 16px; height: 16px;"> [Vitest](https://vitest.dev/) to test the code base. It's easily compatible with the Vite builder, quick to set up, and has excellent documentation.
@@ -73,20 +77,24 @@ This naming convention helps us quickly identify the purpose of each branch and 
 
 ```
 ├── /src
-	├── /assets
 	├── /components
-		├── /Button
-			└── /Button.tsx
+		├── /AccountSettings
+      ├── /AccountSettings.interface.ts
+			└── /AccountSettings.tsx
 		└── /Input
+	├── /contexts
+	├── /data
+	├── /hooks
+		└── /useMobile.ts
+	├── /images
 	├── /pages
 		├── /HomePage
 			└── /HomePage.tsx
 		└── /AboutPage
 			└── /AboutPage.tsx
+	├── /router
+	├── /services
 	├── /utils
-	├── /hooks
-		├── /useFetch.ts
-		└── /useLocalStorage.ts
 	├── /App.tsx
 	└── /main.tsx
 └── /tests
