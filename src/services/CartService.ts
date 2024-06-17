@@ -27,12 +27,14 @@ export const getCartService = async (): Promise<Cart | null> => {
   try {
     const responseCart = await createAuthFlow().me().activeCart().get().execute();
     if (responseCart.statusCode === 200) {
+      localStorage.setItem('cartExists', 'true');
       return responseCart.body;
     }
   } catch (error) {
     const err = error as { statusCode: number; message: string };
     if (err.statusCode === 404) {
       console.info('No active cart exists.');
+      localStorage.removeItem('cartExists');
     } else {
       console.error('An error occurred while fetching the cart:', err.message);
     }

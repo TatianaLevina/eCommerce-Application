@@ -70,6 +70,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
         let cart = state.cart;
         if (!cart) {
           cart = await createCartService('USD');
+          localStorage.setItem('cartExists', 'true');
           dispatch({ type: 'SET_CART', payload: cart });
         }
         if (cart) {
@@ -130,6 +131,7 @@ export const CartProvider: React.FC<{ children: ReactNode; initialCart: Cart | n
     dispatch({ type: 'SET_LOADING', payload: true });
     try {
       await clearCartService(state.cart.id, state.cart.version);
+      localStorage.removeItem('cartExists');
       dispatch({ type: 'CLEAR_CART' });
       showSuccess('Shopping cart cleared successfully');
     } catch (error) {

@@ -36,8 +36,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     const fetchCartOnInit = async () => {
-      const cart = await getCartService();
-      setInitialCart(cart);
+      const cartExists = localStorage.getItem('cartExists') === 'true';
+      if (cartExists) {
+        const cart = await getCartService();
+        setInitialCart(cart);
+      }
     };
     fetchCartOnInit();
   }, []);
@@ -55,6 +58,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           let cart = await getCartService();
           if (!cart) {
             cart = await createCartService('USD');
+            localStorage.setItem('cartExists', 'true');
           }
           setInitialCart(cart);
         }
@@ -83,6 +87,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('cartExists');
     setInitialCart(null);
     invalidateToken();
     resetClientInstance();
