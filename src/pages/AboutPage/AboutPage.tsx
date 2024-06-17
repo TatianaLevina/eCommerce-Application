@@ -1,10 +1,10 @@
 import type React from 'react';
 import { Card, Flex, Image, Typography } from 'antd';
-import LOGORSS from '../../images/its-a-good-job.svg';
-import DZMITRY_FACE from '../../images/Dzmitry_Ryzhov.jpg';
-import YULIYA_FACE from '../../images/Yuliya_Nadtacheyeva.jpg';
-import TATIANA_FACE from '../../images/Tatiana_Levina.jpg';
-import cartIconSrc from '../../assets/rss.svg';
+import LOGORSS from '@images/its-a-good-job.svg';
+import DZMITRY_FACE from '@images/Dzmitry_Ryzhov.jpg';
+import YULIYA_FACE from '@images/Yuliya_Nadtacheyeva.jpg';
+import TATIANA_FACE from '@images/Tatiana_Levina.jpg';
+import cartIconSrc from '@images/rss.svg';
 
 const { Title, Text, Link } = Typography;
 
