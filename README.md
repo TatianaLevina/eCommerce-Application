@@ -8,12 +8,12 @@ An important aspect of our application is that it's responsive 📲, ensuring it
 
 Key pages in the application include:
 
-- Login and Registration pages 🖥️
-- Main page 🏠
+- Sign in and Sign up pages 🖥️
+- Home page 🏠
 - Catalog Product page 📋
 - Detailed Product page 🔎
 - User Profile page 👤
-- Basket page 🛒
+- Cart page 🛒
 - About Us page 🙋‍♂️🙋‍♀️
 
 The application is powered by CommerceTools 🌐, a leading provider of commerce solutions for B2C and B2B enterprises. CommerceTools offers a cloud-native, microservices-based commerce platform that enables brands - to create unique and engaging digital commerce experiences.
@@ -94,6 +94,7 @@ This naming convention helps us quickly identify the purpose of each branch and 
 			└── /AboutPage.tsx
 	├── /router
 	├── /services
+	├── /styles
 	├── /utils
 	├── /App.tsx
 	└── /main.tsx
@@ -113,15 +114,25 @@ This naming convention helps us quickly identify the purpose of each branch and 
 	└── /main.test.tsx
 ```
 
-`assets` - All the images, CSS files, font files, etc. for the project, pretty much anything that isn't code related, will be stored in this folder.
-
 `components` - The folder will contain every component of your entire application. Our components folder is divided into subfolders. These subfolders are really useful because they help organize your components into different sections rather than just being one huge block of components.
 
-`pages` - This folder should contain one folder for each page of our application. Inside these page-specific folders there should be one root file, which is our page, along with all the files that apply only to that page.
+`contexts` - This folder contains application contexts.
+
+`data` - This is a storage of JSON files with data..
+
+`hooks` - This folder contains all the custom hooks for our your project. This is a useful folder that can be used in a project of any size, since almost every project will have multiple custom hooks, so it is very useful to have one place to put them.
+
+`images` - All the images for the project.
+
+`router` - Here is the router and its configuration.
+
+`services` - This is the place where the services for interacting with the external API are located.
+
+`styles` - Here are the styles that we include in main.
 
 `utils` - This folder is intended to store all utility functions such as formatters. This is a fairly simple folder, and all the files in it should be simple as well.
 
-`hooks` - This folder contains all the custom hooks for our your project. This is a useful folder that can be used in a project of any size, since almost every project will have multiple custom hooks, so it is very useful to have one place to put them.
+`pages` - This folder should contain one folder for each page of our application. Inside these page-specific folders there should be one root file, which is our page, along with all the files that apply only to that page.
 
 `tests` - This folder follows the structure of the `/src` folder and contains unit-test files.
 
