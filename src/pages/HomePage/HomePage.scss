@@ -1,19 +1,25 @@
 .home-page {
   &__carousel {
     @media screen and (min-width: 1300px) {
-      width: 1161px;
+      width: 1160px;
     }
+  }
+
+  .ant-carousel {
+    @media screen and (min-width: 1300px) {
+      align-self: center;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .carousel-wrapper {
+    cursor: pointer;
   }
 }
 
 .ant-carousel {
   @media screen and (min-width: 1300px) {
     align-self: center;
-    display: flex;
-    justify-content: center;
   }
-}
-
-.carousel-wrapper {
-  cursor: pointer;
 }
