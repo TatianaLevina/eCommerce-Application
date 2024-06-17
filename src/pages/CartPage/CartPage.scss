@@ -60,7 +60,7 @@
   }
 
   &__total {
-    color: rgba(102, 102, 102, 0.8);
+    color: rgba(102, 102, 102, 0.99);
     margin-block-end: 0;
     margin-block-start: 0;
     font-weight: 600;
@@ -108,8 +108,8 @@
 
   @media screen and (max-width: 680px) {
     &__bottom-box {
-      flex-direction: column-reverse;
-      align-items: flex-end;
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 }

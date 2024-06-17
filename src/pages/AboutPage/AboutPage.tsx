@@ -4,6 +4,7 @@ import LOGORSS from '../../images/its-a-good-job.svg';
 import DZMITRY_FACE from '../../images/Dzmitry_Ryzhov.jpg';
 import YULIYA_FACE from '../../images/Yuliya_Nadtacheyeva.jpg';
 import TATIANA_FACE from '../../images/Tatiana_Levina.jpg';
+import './AboutPage.scss';
 
 const { Title, Text, Link } = Typography;
 
@@ -15,25 +16,13 @@ const AboutPage: React.FC = () => {
         <Card>
           <Flex wrap gap="large">
             <Link href="https://rs.school/" target="_blank" rel="noreferrer">
-              <img src={LOGORSS} alt="RS School" style={{ width: '250px', height: '250px' }} />
+              <img src={LOGORSS} alt="RS School" className="about-page__image" />
             </Link>
-            <Flex gap="small" vertical style={{ maxWidth: '70%' }}>
-              <Title
-                level={3}
-                style={{
-                  color: '#376a4f',
-                  marginTop: 0,
-                }}
-              >
+            <Flex gap="small" vertical className="about-page__content">
+              <Title level={3} className="about-page__title">
                 RS School
               </Title>
-              <Title
-                level={5}
-                style={{
-                  color: '#886b1c',
-                  marginTop: 0,
-                }}
-              >
+              <Title level={5} className="about-page__subtitle">
                 No matter your age, professional employment, or place of residence.
               </Title>
               <Text>
@@ -51,21 +40,15 @@ const AboutPage: React.FC = () => {
         <Card>
           <Flex wrap gap="large">
             <Image width={250} height={250} src={DZMITRY_FACE} />
-            <Flex gap="small" vertical style={{ maxWidth: '70%' }}>
-              <Title
-                level={3}
-                style={{
-                  color: '#376a4f',
-                  marginTop: 0,
-                }}
-              >
+            <Flex gap="small" vertical className="about-page__content">
+              <Title level={3} className="about-page__title">
                 Dzmitry Ryzhov
               </Title>
               <Text>
-                Hi, my name is Dmitry, and I am a FullStack developer✨. (My main programming languages are TypeScript,
-                C#). I am interested in both front-end🖥 and back-end💽 development. I like to learn new things.
-                Experience with TypeScript, HTML, CSS, Scss, Vue.js, React, ASP.NET, PostgreSQL, MySQL, Delphi, Lisp.
-                Some experience in developing microservices🔬.
+                Hi, my name is <strong>Dmitry</strong>, and I am a FullStack developer✨. (My main programming languages
+                are TypeScript, C#). I am interested in both front-end🖥 and back-end💽 development. I like to learn new
+                things. Experience with TypeScript, HTML, CSS, Scss, Vue.js, React, ASP.NET, PostgreSQL, MySQL, Delphi,
+                Lisp. Some experience in developing microservices🔬.
               </Text>
               <Text>
                 In addition, I also have some experience with UI component libraries/frameworks. Well, and experience as
@@ -78,6 +61,15 @@ const AboutPage: React.FC = () => {
                 together with the team, we adhere to these beliefs and try to constantly be in touch and resolve issues
                 in a timely manner.
               </Text>
+              <Text>
+                <strong>During the project, my responsibilities were:</strong>
+                <ul>
+                  <li>Filling CommerceTools with mock data</li>
+                  <li>Tests setup and implementation</li>
+                  <li>Layouts drafts</li>
+                  <li>And many, many other amazing and challenging issues 🚀</li>
+                </ul>
+              </Text>
               <Link href="https://github.com/demetrius81" target="_blank" rel="noreferrer" className="custom-link">
                 You can visit my GitHub
               </Link>
@@ -87,19 +79,13 @@ const AboutPage: React.FC = () => {
         <Card>
           <Flex wrap gap="large">
             <Image width={250} height={250} src={YULIYA_FACE} />
-            <Flex gap="small" vertical style={{ maxWidth: '70%' }}>
-              <Title
-                level={3}
-                style={{
-                  color: '#376a4f',
-                  marginTop: 0,
-                }}
-              >
+            <Flex gap="small" vertical className="about-page__content">
+              <Title level={3} className="about-page__title">
                 Yuliya Nadtacheyeva
               </Title>
               <Text>
-                I am currently pursuing my second university degree, this time in Computer Science, with a
-                specialization in JavaScript and TypeScript.
+                Hello, my name is <strong>Yuliya</strong>. I am currently pursuing my second university degree, this
+                time in Computer Science, with a specialization in JavaScript and TypeScript.
               </Text>
               <Text>
                 Rapidly acquiring essential IT skills, I am proficient in coding, problem-solving, and adapting to new
@@ -115,6 +101,15 @@ const AboutPage: React.FC = () => {
                 United by a common goal, the team and I found a common language and tools for organizing joint work in a
                 short time, which was reflected in the development of our project.
               </Text>
+              <Text>
+                <strong>During the project, my responsibilities were:</strong>
+                <ul>
+                  <li>API integration</li>
+                  <li>Services and contexts for working with customer, cart, etc.</li>
+                  <li>Routing</li>
+                  <li>And many, many other amazing and challenging issues 🚀</li>
+                </ul>
+              </Text>
               <Link href="https://github.com/ynadt" target="_blank" rel="noreferrer" className="custom-link">
                 You can visit my GitHub
               </Link>
@@ -124,28 +119,22 @@ const AboutPage: React.FC = () => {
         <Card>
           <Flex wrap gap="large">
             <Image width={250} height={250} src={TATIANA_FACE} />
-            <Flex gap="small" vertical style={{ maxWidth: '70%' }}>
-              <Title
-                level={3}
-                style={{
-                  color: '#376a4f',
-                  marginTop: 0,
-                }}
-              >
+            <Flex gap="small" vertical className="about-page__content">
+              <Title level={3} className="about-page__title">
                 Tatiana Levina
               </Title>
               <Text>
-                Hey, my name is Tatiana. Currently, I am wearing a front-end developer hat, but also used to do system
-                and business analyst work. I prefer to build fundamental understanding on how things really work and
-                what concepts are lying under the hood. This approach allows me to make big leaps in mastering new
-                frameworks or tools. During this project, I received a good experience with TypeScript, React and antd
-                (library of design components) and would like to continue developing my skills with them.
+                Hey, my name is <strong>Tatiana</strong>. Currently, I am wearing a front-end developer hat, but also
+                used to do system and business analyst work. I prefer to build fundamental understanding on how things
+                really work and what concepts are lying under the hood. This approach allows me to make big leaps in
+                mastering new frameworks or tools. During this project, I received a good experience with TypeScript,
+                React and antd (library of design components) and would like to continue developing my skills with them.
               </Text>
               <Text>
                 One of the biggest challenges was to organize effective team work especially when overlapping things
                 should be implemented. Here are the keys I found for myself:
                 <ul>
-                  <li> Do not try to eat the complex task with one bite: split it into small portions.</li>
+                  <li>Do not try to eat the complex task with one bite: split it into small portions.</li>
                   <li>Make Pull Requests small and focused.</li>
                   <li>
                     Supply comprehensive information on how things should be tested if automatic tests are absent.
@@ -153,7 +142,15 @@ const AboutPage: React.FC = () => {
                   <li>Keep the release branch always stable.</li>
                   <li>If you start to implement a new feature or fix a bug, always make your teammates know that</li>
                 </ul>
-                They sound familiar, aren&#39;t they?
+              </Text>
+              <Text>
+                <strong>During the project, my responsibilities were:</strong>
+                <ul>
+                  <li>User Profile</li>
+                  <li>Promocodes functionality</li>
+                  <li>Header with a menu, About Us Page, 404 Page </li>
+                  <li>And many, many other amazing and challenging issues 🚀</li>
+                </ul>
               </Text>
               <Link href="https://github.com/TatianaLevina" target="_blank" rel="noreferrer" className="custom-link">
                 You can visit my GitHub

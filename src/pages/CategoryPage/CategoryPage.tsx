@@ -152,10 +152,6 @@ const CategoryPage: React.FC = () => {
     navigate(`${location.pathname}?page=${page}`);
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentPage]);
-
   const resetFilters = (): void => {
     setSearchText('');
     setSortOrder('');

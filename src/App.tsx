@@ -6,7 +6,7 @@ import routes from '@router/routerConfig';
 import ProtectedRoute from '@router/ProtectedRoute';
 import { CategoryProvider } from '@contexts/CategoriesContext.tsx';
 import { BreadcrumbsProvider } from '@contexts/BreadcrumbsContext.tsx';
-import { DiscountsProvider } from './contexts/DiscountsContext';
+import { DiscountsProvider } from '@/contexts/DiscountsContext';
 
 function App() {
   return (
