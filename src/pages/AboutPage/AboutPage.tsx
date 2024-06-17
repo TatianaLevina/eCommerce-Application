@@ -1,9 +1,10 @@
 import type React from 'react';
 import { Card, Flex, Image, Typography } from 'antd';
-import LOGORSS from '../../images/its-a-good-job.svg';
-import DZMITRY_FACE from '../../images/Dzmitry_Ryzhov.jpg';
-import YULIYA_FACE from '../../images/Yuliya_Nadtacheyeva.jpg';
-import TATIANA_FACE from '../../images/Tatiana_Levina.jpg';
+import LOGORSS from '@images/its-a-good-job.svg';
+import DZMITRY_FACE from '@images/Dzmitry_Ryzhov.jpg';
+import YULIYA_FACE from '@images/Yuliya_Nadtacheyeva.jpg';
+import TATIANA_FACE from '@images/Tatiana_Levina.jpg';
+import cartIconSrc from '@images/rss.svg';
 import './AboutPage.scss';
 
 const { Title, Text, Link } = Typography;
@@ -20,7 +21,9 @@ const AboutPage: React.FC = () => {
             </Link>
             <Flex gap="small" vertical className="about-page__content">
               <Title level={3} className="about-page__title">
-                RS School
+                <Link href="https://rs.school/" target="_blank" rel="noreferrer">
+                  <img src={cartIconSrc} alt="" width={'200px'} height={'auto'} />
+                </Link>
               </Title>
               <Title level={5} className="about-page__subtitle">
                 No matter your age, professional employment, or place of residence.
