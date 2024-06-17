@@ -4,10 +4,12 @@ import AppHeader from '@components/AppHeader/AppHeader';
 import AppFooter from '@components/AppFooter/AppFooter';
 import { DrawerStateProvider } from '@contexts/DrawerStateContext';
 import SidebarMenu from '@components/AppDrawer/AppDrawer';
+import useScrollToTop from '@hooks/useScrollToTop.ts';
 import '@components/AppLayout/AppLayout.scss';
 import type { LayoutProps } from './LayoutProps.interface';
 
 const AppLayout: React.FC<LayoutProps> = ({ children }) => {
+  useScrollToTop();
   const { Content } = Layout;
 
   return (
