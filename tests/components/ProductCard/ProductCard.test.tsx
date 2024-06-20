@@ -1,6 +1,7 @@
-import { AuthProvider } from '@contexts/AuthContext';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+
+import { AuthProvider } from '@contexts/AuthContext';
 import ProductCard from '@components/ProductCard/ProductCard';
 
 describe('ProductCard component tests', () => {
@@ -60,7 +61,7 @@ describe('ProductCard component tests', () => {
         );
       });
 
-      const el = container?.querySelector('product-card');
+      const el = container?.querySelector('.product-card');
       expect(el).toBeDefined();
     });
   });

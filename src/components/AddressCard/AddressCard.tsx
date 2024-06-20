@@ -1,14 +1,13 @@
 import type React from 'react';
-import { EditOutlined, DeleteOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
-import type { FormInstance } from 'antd';
-import { Card, Spin, notification } from 'antd';
-
 import { useEffect, useState } from 'react';
+import { EditOutlined, DeleteOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
+import { Card, Spin, notification } from 'antd';
+import type { FormInstance } from 'antd';
 
-import AddressForm from '../AddressForm/AddressForm';
-import type { AddressInfo } from '@/services/CustomerService';
-import { removeAddress, updateAddress } from '@/services/CustomerService';
-import { useAuth } from '@/contexts/AuthContext';
+import { removeAddress, updateAddress } from '@services/CustomerService';
+import { useAuth } from '@contexts/AuthContext';
+import AddressForm from '@components/AddressForm/AddressForm';
+import type { AddressInfo } from '@/services/Service.interface';
 
 const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
   const [editMode, setEditMode] = useState(false);
@@ -21,20 +20,21 @@ const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
     addressFormInstance?.setFieldsValue(addressInfo);
   }, [addressFormInstance, addressInfo]);
 
-  const showSuccess = () => {
+  const showSuccess = (): void => {
     api.success({
       message: 'All changes are saved',
       duration: 3,
     });
   };
-  const showError = (message: string) => {
+
+  const showError = (message: string): void => {
     api.error({
       message,
       duration: 5,
     });
   };
 
-  const handleSave = async () => {
+  const handleSave = async (): Promise<void> => {
     setEditMode(!editMode);
     setUpdateInProgress(true);
     try {
@@ -54,7 +54,7 @@ const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
     showSuccess();
   };
 
-  const handleRemove = async () => {
+  const handleRemove = async (): Promise<void> => {
     setUpdateInProgress(true);
     try {
       const response = await removeAddress(user!.id, user!.version, addressInfo.address!.id!);
@@ -70,7 +70,7 @@ const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
     showSuccess();
   };
 
-  const handleCancelEdit = () => {
+  const handleCancelEdit = (): void => {
     addressFormInstance?.resetFields();
     setEditMode(!editMode);
   };
@@ -102,4 +102,5 @@ const AddressCard: React.FC<AddressInfo> = (addressInfo: AddressInfo) => {
     </>
   );
 };
+
 export default AddressCard;

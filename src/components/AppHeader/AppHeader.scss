@@ -2,6 +2,12 @@
   height: 100px;
   display: flex;
   background: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  max-width: 1420px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
 
   @media screen and (max-width: 485px) {
     padding: 0 10px;
@@ -10,4 +16,15 @@
 
 .flex-wrapper {
   width: 100%;
+  max-width: 1420px;
+}
+
+.box_primary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
 }

@@ -1,39 +1,29 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@contexts/AuthContext';
-import { Layout } from 'antd';
-import { Button, Flex } from 'antd';
+import { Link } from 'react-router-dom';
+import { Button, Flex, Avatar, Badge, Space, Layout } from 'antd';
 import { UserOutlined, ShoppingCartOutlined, UnorderedListOutlined, MenuOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Space } from 'antd';
-// import { Input } from 'antd';
-// import type { SearchProps } from 'antd/es/input/Search';
-import LOGO from '../../images/logo.svg';
+
 import useMobile from '@/hooks/useMobile';
 import { useDrawerState } from '@/contexts/DrawerStateContext';
+import { useAuth } from '@contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import '@components/AppHeader/AppHeader.scss';
-
-const { Header } = Layout;
-// const { Search } = Input;
+import LOGO from '../../images/logo.svg';
 
 const AppHeader = () => {
+  const { Header } = Layout;
+  const {
+    state: { cart },
+    getCartItemCount,
+  } = useCart();
   const { user, signOut } = useAuth();
-
-  // to delete next line after cross-checking !!!!!
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    signOut();
-    // to delete next line after cross-checking !!!!!
-    navigate('/');
-  };
-
   const { isCollapsed, setCollapsed } = useDrawerState();
-
   const isMobile = useMobile();
   const justifyOptions = ['flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly'];
-
   const alignOptions = ['flex-start', 'center', 'flex-end'];
 
-  // const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
+  const handleLogout = (): void => {
+    signOut();
+  };
 
   return (
     <Header className="header">
@@ -49,29 +39,21 @@ const AppHeader = () => {
             </Link>
             <Link to="/cart">
               <Space size="middle">
-                <Badge count={5}>
+                {cart && getCartItemCount() ? (
+                  <Badge count={getCartItemCount()}>
+                    <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />
+                  </Badge>
+                ) : (
                   <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />
-                </Badge>
+                )}
               </Space>
             </Link>
-            <Space className={'box_primary'} onClick={() => setCollapsed(!isCollapsed)}>
-              {' '}
-              <MenuOutlined />{' '}
+            <Space className="box_primary" onClick={() => setCollapsed(!isCollapsed)}>
+              <MenuOutlined />
             </Space>
-            {/* <Button
-              type="text"
-              icon={isCollapsed ? <MenuOutlined /> : <MenuOutlined />}
-              onClick={() => setCollapsed(!isCollapsed)}
-              style={{
-                fontSize: '16px',
-                width: 64,
-                height: 64,
-              }}
-            /> */}
           </Flex>
         ) : (
           <>
-            {/* <Search size="middle" placeholder="Product search" onSearch={onSearch} /> */}
             <Flex gap="small" className="flex-wrapper" justify={justifyOptions[2]} align={alignOptions[1]}>
               <Link to="/about">
                 <Button className={'custom-color'} ghost>
@@ -85,9 +67,13 @@ const AppHeader = () => {
               </Link>
               <Link to="/cart">
                 <Space size="middle">
-                  <Badge count={5}>
+                  {cart && getCartItemCount() ? (
+                    <Badge count={getCartItemCount()}>
+                      <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />
+                    </Badge>
+                  ) : (
                     <Avatar shape="square" className={'custom-color'} icon={<ShoppingCartOutlined />} />
-                  </Badge>
+                  )}
                 </Space>
               </Link>
               {user ? (
@@ -97,7 +83,7 @@ const AppHeader = () => {
                   </Link>
                   <Button type="primary" className={'custom-color'} ghost onClick={handleLogout}>
                     Logout
-                  </Button>{' '}
+                  </Button>
                 </>
               ) : (
                 <>

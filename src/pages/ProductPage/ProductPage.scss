@@ -1,12 +1,12 @@
 .product-page {
-  &__product-carusel {
+  &__product-carousel {
     background-color: black;
     max-width: 600px;
   }
 
   &__image-wrapper {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     flex-flow: row wrap;
     gap: 20px;
@@ -18,8 +18,20 @@
     margin-bottom: 20px;
   }
 
-  &__carusel-box {
+  &__carousel-box {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #fff;
     width: 320px;
+  }
+  &__description-box {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    max-width: 60%;
+    @media screen and (max-width: 1000px) {
+      max-width: 100%;
+    }
   }
 }
 
@@ -40,11 +52,21 @@
 }
 
 .slick-dots {
-  & > li > button {
+  gap: 5px;
+  & > li > button::after {
     background: #2f7c69 !important;
     border-radius: 50%;
   }
+
+  & > li {
+    width: 3px !important;
+  }
+
   .slick-active {
+    width: 12px !important;
+  }
+
+  .slick-active > button::after {
     background: #2f7c69 !important;
     border-radius: 50%;
   }

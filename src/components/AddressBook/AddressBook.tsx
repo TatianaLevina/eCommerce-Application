@@ -1,17 +1,22 @@
 import type React from 'react';
+import { useState } from 'react';
 import type { FormInstance } from 'antd';
 import { Button, Flex, List, Modal, Spin, Typography, notification } from 'antd';
-import AddressCard from '../AddressCard/AddressCard';
-import { useAuth } from '@/contexts/AuthContext';
 import type { BaseAddress } from '@commercetools/platform-sdk';
-import { useState } from 'react';
-import AddressForm from '../AddressForm/AddressForm';
-import type { AddressInfo } from '@/services/CustomerService';
-import { addAddress } from '@/services/CustomerService';
-const { Title } = Typography;
+
+import { useAuth } from '@contexts/AuthContext';
+import { addAddress } from '@services/CustomerService';
+import AddressForm from '@components/AddressForm/AddressForm';
+import AddressCard from '@components/AddressCard/AddressCard';
+import type { AddressInfo } from '@/services/Service.interface';
 
 const AddressBook: React.FC = () => {
+  const { Title } = Typography;
   const { user, updateUser } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [saveInProgress, setSaveInProgress] = useState(false);
+  const [newAddressFormInstance, setFormInstance] = useState<FormInstance>();
+  const [api, contextHolder] = notification.useNotification();
   const addressCardsData: AddressInfo[] = user!.addresses.map((address: BaseAddress) => {
     return {
       address,
@@ -21,32 +26,31 @@ const AddressBook: React.FC = () => {
       isDefaultShippingAddress: user!.defaultShippingAddressId === address.id!,
     };
   });
-  const [open, setOpen] = useState(false);
-  const [saveInProgress, setSaveInProgress] = useState(false);
-  const [newAddressFormInstance, setFormInstance] = useState<FormInstance>();
 
-  const showAddAddressModal = () => {
+  const showAddAddressModal = (): void => {
     setOpen(true);
   };
-  const [api, contextHolder] = notification.useNotification();
-  const showSuccess = () => {
+
+  const showSuccess = (): void => {
     api.success({
       message: 'All changes are saved',
       duration: 3,
     });
   };
-  const showError = (message: string) => {
+
+  const showError = (message: string): void => {
     api.error({
       message,
       duration: 5,
     });
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     newAddressFormInstance?.resetFields();
     setOpen(false);
   };
-  const addNewAddress = async () => {
+
+  const addNewAddress = async (): Promise<void> => {
     setSaveInProgress(true);
     try {
       let values: AddressInfo | null = null;
@@ -66,6 +70,7 @@ const AddressBook: React.FC = () => {
       if (error instanceof Error) {
         showError(error.message);
       }
+
       newAddressFormInstance?.resetFields();
       setOpen(false);
       setSaveInProgress(false);
@@ -147,4 +152,5 @@ const AddressBook: React.FC = () => {
     </>
   );
 };
+
 export default AddressBook;

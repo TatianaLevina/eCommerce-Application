@@ -1,6 +1,7 @@
-import { AuthProvider } from '@contexts/AuthContext';
 import { render, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+
+import { AuthProvider } from '@contexts/AuthContext';
 import Filters from '@components/Filters/Filters';
 
 describe('Filters component tests', () => {

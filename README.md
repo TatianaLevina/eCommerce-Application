@@ -8,12 +8,12 @@ An important aspect of our application is that it's responsive 📲, ensuring it
 
 Key pages in the application include:
 
-- Login and Registration pages 🖥️
-- Main page 🏠
+- Sign in and Sign up pages 🖥️
+- Home page 🏠
 - Catalog Product page 📋
 - Detailed Product page 🔎
 - User Profile page 👤
-- Basket page 🛒
+- Cart page 🛒
 - About Us page 🙋‍♂️🙋‍♀️
 
 The application is powered by CommerceTools 🌐, a leading provider of commerce solutions for B2C and B2B enterprises. CommerceTools offers a cloud-native, microservices-based commerce platform that enables brands - to create unique and engaging digital commerce experiences.
@@ -29,6 +29,10 @@ For routing we use the library <img src="https://cdn.freebiesupply.com/logos/lar
 We use <img src="https://vitejs.dev/logo.svg" alt="" style="width: 16px; height: 16px;"> [Vite](https://vitejs.dev/) to set up and build the project, it is a modern, fast and efficient tool.
 
 We use <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" alt="" style="width: 16px; height: 16px;"> [TypeScript](https://www.typescriptlang.org/) to write code because it is exceptionally good for projects and eliminates a whole category of errors at the coding stage. This saves the team time and resources.
+
+We use <img src="https://miro.medium.com/v2/resize:fit:256/1*1UEkOGTIyJfC1t0Bkyyjng.jpeg" alt="" style="width: 16px; height: 16px;"> [Lodash](https://lodash.com/) utility library for convenient work with JavaScript entities.
+
+We use <img src="https://www.svgrepo.com/show/353401/ant-design.svg" alt="" style="width: 16px; height: 16px;"> [Ant Design](https://ant.design/) library of components for faster product release to the market and more flexible settings of project components.
 
 We use the <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sass_Logo_Color.svg/1280px-Sass_Logo_Color.svg.png" alt="" style="width: 16px; height: 16px;"> [SASS](https://sass-lang.com/) preprocessor because it allows us to extend the capabilities of CSS.
 
@@ -73,20 +77,25 @@ This naming convention helps us quickly identify the purpose of each branch and 
 
 ```
 ├── /src
-	├── /assets
 	├── /components
-		├── /Button
-			└── /Button.tsx
+		├── /AccountSettings
+      ├── /AccountSettings.interface.ts
+			└── /AccountSettings.tsx
 		└── /Input
+	├── /contexts
+	├── /data
+	├── /hooks
+		└── /useMobile.ts
+	├── /images
 	├── /pages
 		├── /HomePage
 			└── /HomePage.tsx
 		└── /AboutPage
 			└── /AboutPage.tsx
+	├── /router
+	├── /services
+	├── /styles
 	├── /utils
-	├── /hooks
-		├── /useFetch.ts
-		└── /useLocalStorage.ts
 	├── /App.tsx
 	└── /main.tsx
 └── /tests
@@ -105,15 +114,25 @@ This naming convention helps us quickly identify the purpose of each branch and 
 	└── /main.test.tsx
 ```
 
-`assets` - All the images, CSS files, font files, etc. for the project, pretty much anything that isn't code related, will be stored in this folder.
-
 `components` - The folder will contain every component of your entire application. Our components folder is divided into subfolders. These subfolders are really useful because they help organize your components into different sections rather than just being one huge block of components.
 
-`pages` - This folder should contain one folder for each page of our application. Inside these page-specific folders there should be one root file, which is our page, along with all the files that apply only to that page.
+`contexts` - This folder contains application contexts.
+
+`data` - This is a storage of JSON files with data..
+
+`hooks` - This folder contains all the custom hooks for our your project. This is a useful folder that can be used in a project of any size, since almost every project will have multiple custom hooks, so it is very useful to have one place to put them.
+
+`images` - All the images for the project.
+
+`router` - Here is the router and its configuration.
+
+`services` - This is the place where the services for interacting with the external API are located.
+
+`styles` - Here are the styles that we include in main.
 
 `utils` - This folder is intended to store all utility functions such as formatters. This is a fairly simple folder, and all the files in it should be simple as well.
 
-`hooks` - This folder contains all the custom hooks for our your project. This is a useful folder that can be used in a project of any size, since almost every project will have multiple custom hooks, so it is very useful to have one place to put them.
+`pages` - This folder should contain one folder for each page of our application. Inside these page-specific folders there should be one root file, which is our page, along with all the files that apply only to that page.
 
 `tests` - This folder follows the structure of the `/src` folder and contains unit-test files.
 

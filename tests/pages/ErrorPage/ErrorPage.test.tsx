@@ -1,6 +1,7 @@
 import { render, act } from '@testing-library/react';
-import ErrorPage from '@pages/ErrorPage/ErrorPage';
 import { BrowserRouter } from 'react-router-dom';
+
+import ErrorPage from '@pages/ErrorPage/ErrorPage';
 import { AuthProvider } from '@contexts/AuthContext';
 
 describe('ErrorPage tests', () => {

@@ -1,7 +1,9 @@
+import { BrowserRouter } from 'react-router-dom';
+import { render, act } from '@testing-library/react';
+
 import { AuthProvider } from '@contexts/AuthContext';
 import AppHeader from '@components/AppHeader/AppHeader';
-import { render, act } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { CartProvider } from '@/contexts/CartContext';
 
 describe('AppHeader component tests', () => {
   describe('Render element', () => {
@@ -22,7 +24,9 @@ describe('AppHeader component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <AppHeader />
+            <CartProvider initialCart={null}>
+              <AppHeader />
+            </CartProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -39,7 +43,9 @@ describe('AppHeader component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <AppHeader />
+            <CartProvider initialCart={null}>
+              <AppHeader />
+            </CartProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,
@@ -56,7 +62,9 @@ describe('AppHeader component tests', () => {
       act(() => {
         render(
           <AuthProvider>
-            <AppHeader />
+            <CartProvider initialCart={null}>
+              <AppHeader />
+            </CartProvider>
           </AuthProvider>,
           {
             wrapper: BrowserRouter,

@@ -1,7 +1,15 @@
+import type {
+  ClientResponse,
+  Customer,
+  CustomerDraft,
+  CustomerSignInResult,
+  CustomerUpdateAction,
+  MyCustomerSignin,
+} from '@commercetools/platform-sdk';
+
 import { createAuthFlow } from '@services/ClientBuilder.ts';
-import type { BaseAddress, CustomerDraft, CustomerUpdateAction, MyCustomerSignin } from '@commercetools/platform-sdk';
-import type dayjs from 'dayjs';
-import validateConstant from '@/data/validateConstants';
+import validateConstant from '@/utils/validateConstant';
+import type { AddressInfo, UserGeneralInfo } from './Service.interface';
 
 export const signUpCustomer = ({
   email,
@@ -14,7 +22,7 @@ export const signUpCustomer = ({
   shippingAddresses,
   defaultBillingAddress,
   billingAddresses,
-}: CustomerDraft) =>
+}: CustomerDraft): Promise<ClientResponse<CustomerSignInResult>> =>
   createAuthFlow()
     .customers()
     .post({
@@ -33,7 +41,10 @@ export const signUpCustomer = ({
     })
     .execute();
 
-export const signInCustomer = ({ email, password }: MyCustomerSignin) => {
+export const signInCustomer = ({
+  email,
+  password,
+}: MyCustomerSignin): Promise<ClientResponse<CustomerSignInResult>> => {
   return createAuthFlow()
     .me()
     .login()
@@ -52,7 +63,7 @@ export const changeUserPassword = async (
   userVersion: number,
   currentPassword: string,
   newPassword: string,
-) => {
+): Promise<ClientResponse<Customer>> => {
   return createAuthFlow()
     .customers()
     .password()
@@ -60,14 +71,11 @@ export const changeUserPassword = async (
     .execute();
 };
 
-export interface UserGeneralInfo {
-  firstName?: string;
-  lastName?: string;
-  birthDate?: dayjs.Dayjs;
-  email?: string;
-}
-
-export const updateUserInfo = (userID: string, userVersion: number, info: UserGeneralInfo) => {
+export const updateUserInfo = (
+  userID: string,
+  userVersion: number,
+  info: UserGeneralInfo,
+): Promise<ClientResponse<Customer>> => {
   const actions: CustomerUpdateAction[] = [];
   if (info.firstName !== undefined) {
     actions.push({
@@ -75,12 +83,14 @@ export const updateUserInfo = (userID: string, userVersion: number, info: UserGe
       firstName: info.firstName,
     });
   }
+
   if (info.lastName !== undefined) {
     actions.push({
       action: 'setLastName',
       lastName: info.lastName,
     });
   }
+
   if (info.birthDate !== undefined) {
     if (info.birthDate !== null) {
       actions.push({
@@ -93,6 +103,7 @@ export const updateUserInfo = (userID: string, userVersion: number, info: UserGe
       });
     }
   }
+
   if (info.email !== undefined) {
     actions.push({
       action: 'changeEmail',
@@ -112,15 +123,11 @@ export const updateUserInfo = (userID: string, userVersion: number, info: UserGe
     .execute();
 };
 
-export interface AddressInfo {
-  address?: BaseAddress;
-  isBillingAddress?: boolean;
-  isShippingAddress?: boolean;
-  isDefaultBillingAddress?: boolean;
-  isDefaultShippingAddress?: boolean;
-}
-
-export const addAddress = async (userID: string, userVersion: number, addressInfo: AddressInfo) => {
+export const addAddress = async (
+  userID: string,
+  userVersion: number,
+  addressInfo: AddressInfo,
+): Promise<ClientResponse<Customer>> => {
   const request = createAuthFlow().customers().withId({ ID: userID });
   const response = await request
     .post({
@@ -147,6 +154,7 @@ export const addAddress = async (userID: string, userVersion: number, addressInf
       addressId: address.id,
     });
   }
+
   if (addressInfo.isDefaultShippingAddress) {
     actions.push({
       action: 'setDefaultShippingAddress',
@@ -168,7 +176,12 @@ export const addAddress = async (userID: string, userVersion: number, addressInf
     })
     .execute();
 };
-export const removeAddress = (userID: string, userVersion: number, addressID: string) => {
+
+export const removeAddress = (
+  userID: string,
+  userVersion: number,
+  addressID: string,
+): Promise<ClientResponse<Customer>> => {
   return createAuthFlow()
     .customers()
     .withId({ ID: userID })
@@ -186,7 +199,7 @@ export const updateAddress = async (
   userVersion: number,
   info: AddressInfo,
   updatedInfo: AddressInfo,
-) => {
+): Promise<ClientResponse<Customer>> => {
   const addressID = info.address!.id!;
   const actions: CustomerUpdateAction[] = [
     {
@@ -208,6 +221,7 @@ export const updateAddress = async (
       });
     }
   }
+
   if (info.isDefaultBillingAddress !== updatedInfo.isDefaultBillingAddress) {
     if (updatedInfo.isDefaultBillingAddress) {
       actions.push({
@@ -220,6 +234,7 @@ export const updateAddress = async (
       });
     }
   }
+
   if (info.isShippingAddress !== updatedInfo.isShippingAddress) {
     if (updatedInfo.isShippingAddress) {
       actions.push({
@@ -233,6 +248,7 @@ export const updateAddress = async (
       });
     }
   }
+
   if (info.isDefaultShippingAddress !== updatedInfo.isDefaultShippingAddress) {
     if (updatedInfo.isDefaultShippingAddress) {
       actions.push({
@@ -245,6 +261,7 @@ export const updateAddress = async (
       });
     }
   }
+
   return createAuthFlow()
     .customers()
     .withId({ ID: userID })

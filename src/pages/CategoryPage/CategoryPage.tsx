@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Spin, Pagination } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import type { ProductProjection } from '@commercetools/platform-sdk';
+
 import { getProductsByParamsService } from '@services/ProductsService.ts';
 import { useCategory } from '@contexts/CategoriesContext.tsx';
 import { useBreadcrumbs } from '@contexts/BreadcrumbsContext.tsx';
@@ -12,6 +13,7 @@ import ProductCard from '@components/ProductCard/ProductCard.tsx';
 import Breadcrumbs from '@components/Breadcrumbs/Breadcrumbs.tsx';
 import '@pages/CategoryPage/CategoryPage.scss';
 import { type AllFilters } from '@components/Filters/Filter.type';
+import { formatPrice } from '@utils/formatPrice.ts';
 
 const CategoryPage: React.FC = () => {
   const { categories, loading: categoryLoading } = useCategory();
@@ -123,8 +125,9 @@ const CategoryPage: React.FC = () => {
               ),
             );
 
-            allfilters ??
+            if (!allfilters) {
               setAllFilters({ manufacturerFilters: filterArrManufacturer, materialFilters: filterArrMaterial });
+            }
           }
         }
       }
@@ -145,17 +148,11 @@ const CategoryPage: React.FC = () => {
     setItems,
   ]);
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number): void => {
     navigate(`${location.pathname}?page=${page}`);
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentPage]);
-
-  const formatPrice = (centAmount: number) => (centAmount / 100).toFixed(2);
-
-  const resetFilters = () => {
+  const resetFilters = (): void => {
     setSearchText('');
     setSortOrder('');
     setPriceFrom(undefined);
@@ -164,13 +161,15 @@ const CategoryPage: React.FC = () => {
     setManufacturerFilter([]);
   };
 
-  const toggleDrawer = () => {
+  const toggleDrawer = (): void => {
     setDrawerOpen(!drawerOpen);
   };
 
   if (categoryLoading || loading) {
     return <Spin spinning={categoryLoading || loading} />;
   }
+
+  const totalPages = Math.ceil(total / itemsPerPage());
 
   return (
     <div className="category-page">
@@ -198,20 +197,17 @@ const CategoryPage: React.FC = () => {
         <div className="product-cards-container">
           {products.length > 0 ? (
             products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                categorySlug={categorySlug} // Pass category slug to ProductCard
-                formatPrice={formatPrice}
-              />
+              <ProductCard key={product.id} product={product} categorySlug={categorySlug} formatPrice={formatPrice} />
             ))
           ) : (
             <p>No products found for this category</p>
           )}
         </div>
-        <div className="pagination-container">
-          <Pagination current={currentPage} pageSize={itemsPerPage()} total={total} onChange={handlePageChange} />
-        </div>
+        {totalPages > 1 && (
+          <div className="pagination-container">
+            <Pagination current={currentPage} pageSize={itemsPerPage()} total={total} onChange={handlePageChange} />
+          </div>
+        )}
       </div>
     </div>
   );

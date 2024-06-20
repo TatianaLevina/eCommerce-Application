@@ -1,32 +1,12 @@
-import type React from 'react';
-import validateConstant from '@/data/validateConstants';
-import { options } from '@/pages/RegisterPage/RegisterPage';
-import type { SwitchProps, FormInstance } from 'antd';
-import { Flex, Form, Input, Select, Switch, Typography } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
-import type { AddressInfo } from '@/services/CustomerService';
+import type React from 'react';
+import { Flex, Form, Input, Select, Switch } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
-const { Text } = Typography;
-
-interface SwitchItemProps extends SwitchProps {
-  text: string;
-}
-
-const SwitchItem: React.FC<SwitchItemProps> = ({ text, ...props }: SwitchItemProps) => {
-  return (
-    <Flex gap="small">
-      <Text>{text}</Text>
-      <Switch {...props}></Switch>
-    </Flex>
-  );
-};
-
-export interface AddressFormProps {
-  addressInfo: AddressInfo;
-  onFormInstanceReady: (instance: FormInstance<AddressInfo>) => void;
-  disabled?: boolean;
-}
+import { options } from '@pages/RegisterPage/RegisterPage';
+import type { AddressFormProps } from './AddressFormProps.interface';
+import SwitchItem from '@components/SwitchItem/SwitchItem';
+import validateConstant from '@utils/validateConstant.ts';
 
 const AddressForm: React.FC<AddressFormProps> = ({ addressInfo: initialValues, onFormInstanceReady, disabled }) => {
   const [form] = Form.useForm();
@@ -34,17 +14,8 @@ const AddressForm: React.FC<AddressFormProps> = ({ addressInfo: initialValues, o
     onFormInstanceReady(form);
   }, []);
 
-  // form.setFieldsValue(initialValues);
   return (
-    <Form
-      form={form}
-      requiredMark="optional"
-      // onFinish={onFinish}
-      // onFinishFailed={onFinishFailed}
-      disabled={disabled}
-      layout="vertical"
-      initialValues={initialValues}
-    >
+    <Form form={form} requiredMark="optional" disabled={disabled} layout="vertical" initialValues={initialValues}>
       <Flex gap="small" wrap>
         <Form.Item name="isBillingAddress" valuePropName="checked" className="address__form-item">
           <SwitchItem

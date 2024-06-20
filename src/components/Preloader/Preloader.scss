@@ -1,0 +1,183 @@
+$contrast-color: #c9bf3d;
+$accent-color: #2f7c69;
+$main-color: #fff;
+$danger-color: #a94442;
+$element-color: #2f7c69;
+$circle-size: 80;
+// ----
+@keyframes toRight {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes time {
+  from {
+    transform: translate(61%, 0%) rotate(0);
+  }
+  to {
+    transform: translate(61%, 0%) rotate(360deg);
+  }
+}
+
+@mixin centered {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+
+@keyframes toLeft {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.preloader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $main-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__mesage {
+    color: $element-color;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+  }
+
+  &__img-container {
+    height: ($circle-size + calc($circle-size * 0.04)) + px;
+    width: ($circle-size + calc($circle-size * 0.04)) + px;
+    position: relative;
+  }
+
+  &__item {
+    height: $circle-size + px;
+    width: $circle-size + px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    @include centered;
+    &:after {
+      content: '';
+      height: 100%;
+      width: 100%;
+      display: block;
+      @include centered;
+      border-radius: 50%;
+      border: calc($circle-size * 0.024) + px solid $accent-color;
+      clip-path: inset(0 0 50% 0);
+      z-index: 1;
+      animation: toRight 2s infinite linear;
+    }
+
+    &--mid {
+      height: ($circle-size - calc($circle-size * 0.08)) + px;
+      width: ($circle-size - calc($circle-size * 0.08)) + px;
+
+      &::after {
+        border-color: lighten($accent-color, 20%);
+        border-width: calc($circle-size * 0.016) + px;
+        z-index: 2;
+        animation: toLeft 2s infinite linear 0.3s;
+      }
+    }
+
+    &--inner {
+      height: ($circle-size - calc($circle-size * 0.16)) + px;
+      width: ($circle-size - calc($circle-size * 0.16)) + px;
+      &::after {
+        border-color: lighten($accent-color, 40%);
+        border-width: calc($circle-size * 0.012) + px;
+        z-index: 3;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  &__clock {
+    width: ($circle-size - calc($circle-size * 0.32)) + px;
+    height: ($circle-size - calc($circle-size * 0.32)) + px;
+    @include centered;
+    z-index: 4;
+    left: 0;
+    border-radius: 50%;
+  }
+}
+
+.clock {
+  transform: rotate(-29deg);
+
+  &__center {
+    display: block;
+    height: calc($circle-size * 0.04) + px;
+    width: calc($circle-size * 0.04) + px;
+    background-color: $element-color;
+    border-radius: 50%;
+    @include centered;
+    transform: translate(5px);
+  }
+
+  &__dots {
+    @include centered;
+    z-index: 1;
+    height: calc($circle-size * 0.004) + px;
+    width: 100%;
+    border: {
+      left: 3px solid $element-color;
+      right: 3px solid $element-color;
+    }
+
+    &:nth-of-type(1),
+    &:nth-of-type(4n) {
+      border: {
+        left: 8px solid $element-color;
+        right: 8px solid $element-color;
+      }
+    }
+
+    @for $i from 1 through 12 {
+      &:nth-of-type(#{$i}) {
+        transform: rotate((calc(360 / 12) * $i) + deg);
+      }
+    }
+  }
+
+  &::after,
+  &::before {
+    content: '';
+    display: block;
+    background-color: $element-color;
+    @include centered;
+  }
+
+  &::after {
+    height: calc($circle-size * 0.02) + px;
+    width: 45%;
+    right: 5%;
+    transform-origin: left center;
+    animation: time 12s infinite linear;
+  }
+
+  &::before {
+    height: calc($circle-size * 0.008) + px;
+    width: 45%;
+    right: 5%;
+    transform-origin: left center;
+    animation: time 0.6s infinite linear;
+  }
+}

@@ -1,17 +1,14 @@
-import type { ReactNode } from 'react';
 import type React from 'react';
-import { createContext, useContext, useState } from 'react';
-import { signInCustomer, signUpCustomer } from '@services/CustomerService';
-import type { Customer, CustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
-import { createPasswordAuthFlow } from '@services/ClientBuilder.ts';
+import type { ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import type { Customer, CustomerDraft, MyCustomerSignin, Cart } from '@commercetools/platform-sdk';
 
-interface AuthContextType {
-  user: Customer | null;
-  updateUser: (user: Customer) => void;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (customerData: CustomerDraft) => Promise<void>;
-  signOut: () => void;
-}
+import { signInCustomer, signUpCustomer } from '@services/CustomerService';
+import { createAuthFlow, createPasswordAuthFlow, resetClientInstance } from '@services/ClientBuilder';
+import { getCartService, createCartService } from '@services/CartService';
+import { CartProvider } from '@contexts/CartContext';
+import { invalidateToken } from '@services/TokenCache';
+import type { AuthContextType } from './Context.interface';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -26,17 +23,27 @@ export class SignUpError extends Error {
 }
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-
   const [user, setUser] = useState<Customer | null>(() => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
+  const [initialCart, setInitialCart] = useState<Cart | null>(null);
 
   const updateUser = (user: Customer) => {
     setUser(user);
     localStorage.setItem('user', JSON.stringify(user));
   };
 
+  useEffect(() => {
+    const fetchCartOnInit = async () => {
+      const cartExists = localStorage.getItem('cartExists') === 'true';
+      if (cartExists) {
+        const cart = await getCartService();
+        setInitialCart(cart);
+      }
+    };
+    fetchCartOnInit();
+  }, []);
 
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
@@ -46,6 +53,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUser(result.body.customer);
         await createPasswordAuthFlow({ username: email, password: password }).me().get().execute();
         localStorage.setItem('user', JSON.stringify(result.body.customer));
+
+        if (!initialCart) {
+          let cart = await getCartService();
+          if (!cart) {
+            cart = await createCartService('USD');
+            localStorage.setItem('cartExists', 'true');
+          }
+          setInitialCart(cart);
+        }
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -58,12 +74,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const result = await signUpCustomer(customerData);
       if (result.body.customer) {
-        setUser(result.body.customer);
-        await createPasswordAuthFlow({ username: customerData.email, password: customerData.password! })
-          .me()
-          .get()
-          .execute();
-        localStorage.setItem('user', JSON.stringify(result.body.customer));
+        await signIn(customerData.email, customerData.password!);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -72,12 +83,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const signOut = (): void => {
+  const signOut = async (): Promise<void> => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('cartExists');
+    setInitialCart(null);
+    invalidateToken();
+    resetClientInstance();
+    await createAuthFlow().categories().get().execute();
   };
 
-  return <AuthContext.Provider value={{ user, updateUser, signIn, signUp, signOut }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, updateUser, signIn, signUp, signOut }}>
+      <CartProvider initialCart={initialCart}>{children}</CartProvider>
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = (): AuthContextType => {
@@ -85,5 +106,6 @@ export const useAuth = (): AuthContextType => {
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
+
   return context;
 };
