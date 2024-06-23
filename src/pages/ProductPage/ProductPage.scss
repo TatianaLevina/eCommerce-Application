@@ -1,0 +1,73 @@
+.product-page {
+  &__product-carousel {
+    background-color: black;
+    max-width: 600px;
+  }
+
+  &__image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+    gap: 20px;
+  }
+
+  &__discount-text {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  &__carousel-box {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    width: 320px;
+  }
+  &__description-box {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    max-width: 60%;
+    @media screen and (max-width: 1000px) {
+      max-width: 100%;
+    }
+  }
+}
+
+.slick-arrow::after {
+  width: 20px !important;
+  height: 20px !important;
+  color: #2f7c69 !important;
+  box-sizing: border-box !important;
+  position: absolute !important;
+  top: 6px !important;
+  inset-inline-start: 6px !important;
+  display: inline-block !important;
+  border: 0 solid currentcolor !important;
+  border-inline-width: 4px 0 !important;
+  border-block-width: 4px 0 !important;
+  border-radius: 2px !important;
+  content: '' !important;
+}
+
+.slick-dots {
+  gap: 5px;
+  & > li > button::after {
+    background: #2f7c69 !important;
+    border-radius: 50%;
+  }
+
+  & > li {
+    width: 3px !important;
+  }
+
+  .slick-active {
+    width: 12px !important;
+  }
+
+  .slick-active > button::after {
+    background: #2f7c69 !important;
+    border-radius: 50%;
+  }
+}

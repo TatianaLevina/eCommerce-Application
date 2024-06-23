@@ -1,0 +1,20 @@
+@media (max-width: 700px) {
+  .profile__sider {
+    min-width: 80px !important;
+    max-width: 80px !important;
+  }
+  .address__form-item {
+    margin-bottom: 6px;
+  }
+  .address__form-switch {
+    width: 55px;
+  }
+}
+@media (max-width: 740px) and (min-width: 701px) {
+  .address__form-item {
+    margin-bottom: 6px;
+  }
+  .address__form-switch {
+    width: 55px;
+  }
+}

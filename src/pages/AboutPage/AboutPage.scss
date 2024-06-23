@@ -1,0 +1,22 @@
+.about-page__image {
+  width: 250px;
+  height: 250px;
+}
+
+.about-page__content {
+  max-width: 70%;
+
+  @media screen and (max-width: 1000px) {
+    max-width: 80%;
+  }
+}
+
+.about-page__title {
+  color: #376a4f;
+  margin-top: 0;
+}
+
+.about-page__subtitle {
+  color: #886b1c;
+  margin-top: 0;
+}

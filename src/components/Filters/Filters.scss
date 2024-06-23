@@ -1,0 +1,116 @@
+.filters-sidebar {
+  width: 250px;
+  background: #f0f2f5;
+  padding: 16px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  .price-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+
+    .ant-input {
+      width: 50%;
+    }
+  }
+}
+
+.filters-toggle {
+  display: none;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(47, 124, 105, 0.04);
+    border-radius: 50%;
+    border: 1px solid #2f7c69;
+
+    .filters-toggle__button {
+      border: none;
+      background: transparent;
+      color: white;
+      font-size: 24px;
+      &:hover {
+        background: rgba(47, 124, 105, 0.46);
+      }
+
+      .anticon {
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        color: black;
+      }
+
+      box-shadow: none;
+    }
+  }
+}
+
+.ant-drawer {
+  .ant-drawer-close {
+    color: #2f7c69;
+  }
+}
+
+.filters-inline {
+  display: flex;
+  flex-direction: column;
+  margin: auto auto 16px;
+  max-width: 80%;
+  min-width: 60%;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  &__row {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .ant-input {
+      flex: 1 1 40%;
+    }
+
+    .ant-select {
+      flex: 1 1 40%;
+    }
+  }
+
+  &__filter {
+    flex: 1 0 30%;
+
+    .ant-select {
+      width: 100%;
+    }
+  }
+
+  .price-inputs {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 8px;
+
+    .ant-input {
+      width: 50%;
+      max-width: 100px;
+    }
+  }
+
+  .ant-btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
